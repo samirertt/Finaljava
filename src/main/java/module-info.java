@@ -11,6 +11,16 @@ module group11.group11 {
     requires eu.hansolo.tilesfx;
     requires com.almasb.fxgl.all;
 
+    requires java.sql;
+    requires mysql.connector.j;
+
+    // Open the Controller package to javafx.fxml for reflection
+    opens group11.group11.Controller to javafx.fxml;
+
+    // Export the Controller package if needed elsewhere
+    exports group11.group11.Controller;
+
+    // Keep the main package open and exported as needed
     opens group11.group11 to javafx.fxml;
     exports group11.group11;
 }

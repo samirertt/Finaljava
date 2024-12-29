@@ -10,7 +10,8 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane focusTraversable="true" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1">
+
+<AnchorPane focusTraversable="true" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1 " fx:controller="group11.group11.Controller.Login_page">
    <children>
       <Pane layoutX="447.0" layoutY="60.0" prefHeight="571.0" prefWidth="446.0">
          <children>
@@ -19,14 +20,19 @@
                   <Font name="SansSerif Regular" size="22.0" />
                </font>
             </Label>
-            <TextField layoutX="53.0" layoutY="296.0" prefHeight="24.0" prefWidth="212.0" promptText="Please enter your username.." />
+            <TextField layoutX="53.0" layoutY="296.0" prefHeight="24.0" prefWidth="212.0" promptText="Please enter your username.." fx:id="usernameField"/>
             <Label layoutX="53.0" layoutY="352.0" text="Password">
                <font>
                   <Font name="SansSerif Regular" size="22.0" />
                </font>
             </Label>
-            <PasswordField layoutX="53.0" layoutY="396.0" promptText="Password..." />
-            <Button layoutX="337.0" layoutY="507.0" mnemonicParsing="false" text="Login" />
+            <PasswordField layoutX="53.0" layoutY="396.0" promptText="Password..." fx:id="passwordField"/>
+            <Button layoutX="337.0" layoutY="507.0" mnemonicParsing="false" text="Login" onAction="#handleLoginButton"/>
+            <Label fx:id="errorLabel" layoutX="53.0" layoutY="450.0" prefWidth="340.0" textFill="red">
+               <font>
+                  <Font name="SansSerif Regular" size="16.0" />
+               </font>
+            </Label>
             <Label layoutX="56.0" layoutY="125.0" prefHeight="66.0" prefWidth="165.0" text="Login">
                <font>
                   <Font name="SansSerif Bold" size="50.0" />
