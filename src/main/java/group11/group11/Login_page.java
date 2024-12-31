@@ -5,12 +5,15 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-import java.sql.*;
 
 public class Login_page extends Application {
 
     @Override
     public void start(Stage primaryStage) {
+        startProgram(primaryStage);
+    }
+
+    public void startProgram(Stage primaryStage) {
         try {
             // Load the FXML file
             FXMLLoader loader = new FXMLLoader(getClass().getResource("fxml/loginPage.fxml"));
@@ -27,9 +30,5 @@ public class Login_page extends Application {
             e.printStackTrace();
             System.err.println("Error: Unable to load the FXML file. Ensure the path and controller are correct.");
         }
-    }
-
-    public static void main(String[] args) throws SQLException {
-        launch(args);
     }
 }

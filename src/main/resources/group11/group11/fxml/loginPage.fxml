@@ -10,8 +10,7 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 
-
-<AnchorPane focusTraversable="true" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1 " fx:controller="group11.group11.Controller.Login_page">
+<AnchorPane focusTraversable="true" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="900.0" styleClass="bg-form" stylesheets="@../css/moviePage.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="group11.group11.Controller.loginPageController">
    <children>
       <Pane layoutX="447.0" layoutY="60.0" prefHeight="571.0" prefWidth="446.0">
          <children>
@@ -20,14 +19,14 @@
                   <Font name="SansSerif Regular" size="22.0" />
                </font>
             </Label>
-            <TextField layoutX="53.0" layoutY="296.0" prefHeight="24.0" prefWidth="212.0" promptText="Please enter your username.." fx:id="usernameField"/>
+            <TextField fx:id="usernameField" layoutX="53.0" layoutY="296.0" prefHeight="42.0" prefWidth="265.0" promptText="Please enter your username.." styleClass="textfield" stylesheets="@../css/loginPage.css" />
             <Label layoutX="53.0" layoutY="352.0" text="Password">
                <font>
                   <Font name="SansSerif Regular" size="22.0" />
                </font>
             </Label>
-            <PasswordField layoutX="53.0" layoutY="396.0" promptText="Password..." fx:id="passwordField"/>
-            <Button layoutX="337.0" layoutY="507.0" mnemonicParsing="false" text="Login" onAction="#handleLoginButton"/>
+            <PasswordField fx:id="passwordField" layoutX="53.0" layoutY="396.0" promptText="Password..." styleClass="text-field" stylesheets="@../css/loginPage.css" />
+            <Button layoutX="298.0" layoutY="498.0" mnemonicParsing="false" onAction="#handleLoginButton" styleClass="button-login" stylesheets="@../css/loginPage.css" text="Login" />
             <Label fx:id="errorLabel" layoutX="53.0" layoutY="450.0" prefWidth="340.0" textFill="red">
                <font>
                   <Font name="SansSerif Regular" size="16.0" />
@@ -46,7 +45,7 @@
          </children>
       </Pane>
       <ImageView fitHeight="700.0" fitWidth="446.0" pickOnBounds="true">
-         <Image url="@../images/loginpage.png"/>
+         <Image url="@../images/loginpage.png" />
       </ImageView>
    </children>
 </AnchorPane>

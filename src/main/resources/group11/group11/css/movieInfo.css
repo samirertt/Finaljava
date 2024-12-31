@@ -1,0 +1,82 @@
+
+.page-bg
+{
+    -fx-background-color: linear-gradient(to top right, #62aec5,#e64072);
+}
+
+/* Button Styles */
+.button-edit {
+
+    -fx-background-color: Green;
+    -fx-text-fill:Black; /* Vibrant pink text to complement the background */
+    -fx-font-size: 16px;
+    -fx-font-family: "Arial";
+    -fx-font-weight: bold;
+    -fx-border-radius: 20px;
+    -fx-background-radius: 20px;
+    -fx-cursor: hand;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.15), 4, 0, 0, 2);
+    -fx-padding: 5px 15px;
+    -fx-transition: all 0.3s ease-in-out;
+}
+
+/* Hover Effect */
+.button-edit:hover {
+    -fx-background-color: linear-gradient(to right, #ff80ab, #81d4fa); /* Soft pink to blue gradient */
+    -fx-text-fill: #ffffff; /* Switch text to white for better contrast */
+    -fx-border-color: #ffffff;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.25), 6, 0, 0, 4);
+}
+
+/* Pressed Effect */
+.button-edit:pressed {
+    -fx-background-color: #ff4081; /* Solid pink when pressed */
+    -fx-text-fill: #ffffff;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.2), 2, 0, 0, 1);
+}
+
+/* Disabled State */
+.button-edit:disabled {
+    -fx-background-color: #e1bee7; /* Light lavender for disabled state */
+    -fx-text-fill: #999;
+    -fx-opacity: 0.6;
+    -fx-cursor: default;
+}
+
+.button-delete {
+
+    -fx-background-color: Red;
+    -fx-text-fill:Black; /* Vibrant pink text to complement the background */
+    -fx-font-size: 16px;
+    -fx-font-family: "Arial";
+    -fx-font-weight: bold;
+    -fx-border-radius: 20px;
+    -fx-background-radius: 20px;
+    -fx-cursor: hand;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.15), 4, 0, 0, 2);
+    -fx-padding: 5px 15px;
+    -fx-transition: all 0.3s ease-in-out;
+}
+
+/* Hover Effect */
+.button-delete:hover {
+    -fx-background-color: linear-gradient(to right, #ff80ab, #81d4fa); /* Soft pink to blue gradient */
+    -fx-text-fill: #ffffff; /* Switch text to white for better contrast */
+    -fx-border-color: #ffffff;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.25), 6, 0, 0, 4);
+}
+
+/* Pressed Effect */
+.button-delete:pressed {
+    -fx-background-color: #ff4081; /* Solid pink when pressed */
+    -fx-text-fill: #ffffff;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.2), 2, 0, 0, 1);
+}
+
+/* Disabled State */
+.button-delete:disabled {
+    -fx-background-color: #e1bee7; /* Light lavender for disabled state */
+    -fx-text-fill: #999;
+    -fx-opacity: 0.6;
+    -fx-cursor: default;
+}

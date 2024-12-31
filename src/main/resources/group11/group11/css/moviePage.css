@@ -1,0 +1,70 @@
+.close-form {
+    -fx-background-color:transparent;
+    -fx-cursor:hand;
+}
+
+.close-form:hover {
+
+    -fx-background-color:#ff5151;
+
+}
+
+.bg-form {
+    -fx-background-color: linear-gradient(to top right, #62aec5,#e64072);
+}
+
+.table-view
+{
+    -fx-background-color:#fff;
+    -fx-background-radius:10px;
+    -fx-border-color:white;
+    -fx-border-radius:10px;
+}
+
+.table-view .column-header-background
+{
+    -fx-background-color: linear-gradient(to top right, #62aec5,#e64072);
+    -fx-background-insets: 0 0 0 0;
+    -fx-background-radius: 10px 10px 0px 0px;
+}
+.table-view .column-header, .table-view .filter{
+    -fx-background-color: transparent;
+    -fx-size:50px;
+    -fx-fill:#fff;
+}
+
+.search-movie-container
+{
+    -fx-border-color:white;
+    -fx-border-radius:10px;
+}
+
+.movie-image-container
+{
+    -fx-border-color:white;
+    -fx-border-radius:10px;
+}
+
+
+/* Hover Effect */
+.button-info:hover {
+    -fx-background-color: linear-gradient(to right, #ff80ab, #81d4fa); /* Soft pink to blue gradient */
+    -fx-text-fill: #ffffff; /* Switch text to white for better contrast */
+    -fx-border-color: #ffffff;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.25), 6, 0, 0, 4);
+}
+
+/* Pressed Effect */
+.button-info:pressed {
+    -fx-background-color: #ff4081; /* Solid pink when pressed */
+    -fx-text-fill: #ffffff;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.2), 2, 0, 0, 1);
+}
+
+/* Disabled State */
+.button-info:disabled {
+    -fx-background-color: #e1bee7; /* Light lavender for disabled state */
+    -fx-text-fill: #999;
+    -fx-opacity: 0.6;
+    -fx-cursor: default;
+}
