@@ -13,7 +13,7 @@ public class Users
 
 
     //constructor
-    public Users(int userId, String username, String password,String fullName, String role) {
+    public Users(int userId, String username, String password, String role) {
         this.userId = userId;
         this.username = username;
         this.password = password;
@@ -61,7 +61,7 @@ public class Users
         return role;
     }
 
-    public void setrole(String name)
+    public void setrole(String role)
     {
         this.role = role;
     }

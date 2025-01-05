@@ -4,6 +4,8 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 
@@ -48,5 +50,85 @@ public class Facade {
         }
         return null;
     }
+
+    public Movie searchMovieByFullName(String fullName) {
+        Movie movie = new Movie();
+        String query = "SELECT moviesSummary, moviesGenre, moviesImage, moviesDuration, movieReleaseYear FROM movies WHERE moviesName = ?";
+        try (Connection conn = connect(); PreparedStatement stmt = conn.prepareStatement(query)) {
+            stmt.setString(1, fullName);
+            ResultSet rs = stmt.executeQuery();
+
+            if (rs.next()) {
+                // Extract values from the ResultSet
+                String movieSummary = rs.getString("moviesSummary");
+                String movieGenre = rs.getString("moviesGenre");
+                String movieImage = rs.getString("moviesImage");
+                String movieDuration = rs.getString("moviesDuration");
+                String movieReleaseYear = rs.getString("movieReleaseYear");
+
+
+                return new Movie(fullName, movieSummary, movieGenre, movieImage, movieDuration, movieReleaseYear);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return movie; // Return null if no movie is found
+    }
+
+    public List<Movie> searchMovieByGenre(String genre) {
+        String query = "SELECT moviesName, moviesSummary, moviesImage, moviesDuration, movieReleaseYear FROM movies WHERE moviesGenre = ?";
+        List<Movie> movieList = new ArrayList<>();
+
+        try (Connection conn = connect(); PreparedStatement stmt = conn.prepareStatement(query)) {
+            stmt.setString(1, genre);
+            ResultSet rs = stmt.executeQuery();
+
+            while (rs.next()) {
+                // Extract values from the ResultSet
+                String movieName = rs.getString("moviesName");
+                String movieSummary = rs.getString("moviesSummary");
+                String movieImage = rs.getString("moviesImage");
+                String movieDuration = rs.getString("moviesDuration");
+                String movieReleaseYear = rs.getString("movieReleaseYear");
+
+                // Create and add the movie object to the list
+                Movie movie = new Movie(movieName, movieSummary, genre, movieImage, movieDuration, movieReleaseYear);
+                movieList.add(movie);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return movieList; // Return the list of movies (can be empty if no results)
+    }
+
+
+    public List<Movie> searchMovieByPartialName(String partialName) {
+        String query = "SELECT moviesName, moviesSummary, moviesGenre, moviesImage, moviesDuration, movieReleaseYear " +
+                "FROM movies WHERE moviesName LIKE ?";
+        List<Movie> movieList = new ArrayList<>();
+
+        try (Connection conn = connect(); PreparedStatement stmt = conn.prepareStatement(query)) {
+            stmt.setString(1, "%" + partialName + "%");  // Match any part of the movie name
+            ResultSet rs = stmt.executeQuery();
+
+            while (rs.next()) {
+                // Extract values from the ResultSet
+                String movieName = rs.getString("moviesName");
+                String movieSummary = rs.getString("moviesSummary");
+                String movieGenre = rs.getString("moviesGenre");
+                String movieImage = rs.getString("moviesImage");
+                String movieDuration = rs.getString("moviesDuration");
+                String movieReleaseYear = rs.getString("movieReleaseYear");
+
+                // Create and add the movie object to the list
+                Movie movie = new Movie(movieName, movieSummary, movieGenre, movieImage, movieDuration, movieReleaseYear);
+                movieList.add(movie);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return movieList; // Return the list of movies (can be empty if no results)
+    }
+
 
 }

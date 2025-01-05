@@ -13,6 +13,7 @@ module group11.group11 {
 
     requires java.sql;
     requires mysql.connector.j;
+    requires fontawesomefx;
 
     // Open the Controller package to javafx.fxml for reflection
     opens group11.group11.Controller to javafx.fxml;

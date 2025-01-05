@@ -31,4 +31,8 @@ public class Login_page extends Application {
             System.err.println("Error: Unable to load the FXML file. Ensure the path and controller are correct.");
         }
     }
+    public static void main(String[] args) {
+        // Launch the JavaFX application
+        launch(args);
+    }
 }

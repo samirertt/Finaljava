@@ -1,13 +1,17 @@
 package group11.group11.Controller;
 
 import group11.group11.Facade;
+import group11.group11.Main;
 import group11.group11.Users;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 
-public class loginPageController {
+public class LoginPageController {
+
+    private Main mainApp;
+
     @FXML
     private TextField usernameField;
 
@@ -17,6 +21,9 @@ public class loginPageController {
     @FXML
     private Label errorLabel;
 
+    public void setMainApp(Main mainApp) {
+        this.mainApp = mainApp;
+    }
     private final Facade facade = new Facade();
 
     @FXML
@@ -24,11 +31,12 @@ public class loginPageController {
         String username = usernameField.getText();
         String password = passwordField.getText();
 
-        Users users= facade.validateLogin(username, password);
+        Users user= facade.validateLogin(username, password);
 
-        if (users != null) {
+        if (user != null) {
             // Proceed with successful login actions
             errorLabel.setText("Login successful!");
+            mainApp.showMoviePage(user);
             errorLabel.setDisable(false);
         } else {
             // Display error message for invalid credentials
