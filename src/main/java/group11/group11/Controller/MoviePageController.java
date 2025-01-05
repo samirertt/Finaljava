@@ -77,6 +77,9 @@ public class MoviePageController implements Initializable {
     @FXML
     private Button movieSearch_windowMinimize_btn;
 
+    @FXML
+    private Label movieSearch_movieInformation;
+
     public void setMainApp(Main mainApp) {
         this.mainApp = mainApp;
     }
@@ -147,6 +150,7 @@ public class MoviePageController implements Initializable {
     public void displayMovieDetails(Movie movie) {
         movieSearch_Name.setText(movie.getMovieName());
         movieSearch_Genre.setText(movie.getMovieGenre());
+        movieSearch_movieInformation.setText(movie.getMovieSummary());
         System.out.println("path:");
         System.out.println(movie.getMovieImage());
         if(movie.getMovieImage() != null && !movie.getMovieImage().isEmpty())

@@ -12,6 +12,41 @@
 .bg-form {
     -fx-background-color: linear-gradient(to top right, #62aec5,#e64072);
 }
+.label-information {
+    -fx-background-color: transparent; /* Transparent background */
+    -fx-text-fill: #333; /* Dark text color */
+    -fx-font-size: 14px; /* Adjust font size */
+    -fx-padding: 10px; /* Add more padding for larger text */
+    -fx-font-weight: bold; /* Bold text for emphasis */
+    -fx-border-color: linear-gradient(to top right, #62aec5, #e64072); /* Gradient border */
+    -fx-border-radius: 5px; /* Slightly rounded corners */
+    -fx-border-width: 1px; /* Thin border */
+    -fx-wrap-text: true; /* Enable text wrapping for long text */
+    -fx-text-alignment: justify; /* Justify the text for neat alignment */
+    -fx-overflow: hidden; /* Prevent overflow of text */
+}
+
+/* Hover Effect */
+.label-information:hover {
+    -fx-background-color: linear-gradient(to top right, #ff80ab, #81d4fa); /* Soft gradient background */
+    -fx-text-fill: #ffffff; /* White text on hover */
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.15), 4, 0, 0, 2); /* Subtle shadow effect */
+}
+
+/* Focus Effect */
+.label-information:focused {
+    -fx-border-color: #ff4081; /* Solid pink border when focused */
+    -fx-effect: dropshadow(gaussian, rgba(255, 64, 129, 0.4), 6, 0, 0, 2); /* Glow effect */
+}
+
+/* Disabled State */
+.label-information:disabled {
+    -fx-text-fill: #999; /* Gray text for disabled state */
+    -fx-opacity: 0.6; /* Reduced opacity */
+    -fx-cursor: default;
+}
+
+
 
 .table-view
 {
