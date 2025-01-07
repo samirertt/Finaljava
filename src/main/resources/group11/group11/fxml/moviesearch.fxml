@@ -83,11 +83,19 @@
          <children>
             <Label fx:id="movieSearch_profileName" layoutX="20.0" prefHeight="30.0" prefWidth="82.0" text="NAME">
                <font>
-                  <Font size="15.0" />
+                  <Font name="System Bold" size="15.0" />
                </font>
             </Label>
-            <Label fx:id="movieSearch_profileRole" layoutX="20.0" layoutY="28.0" prefHeight="30.0" prefWidth="82.0" text="ROLE" />
+            <Label fx:id="movieSearch_profileRole" layoutX="20.0" layoutY="28.0" prefHeight="30.0" prefWidth="82.0" text="ROLE">
+               <font>
+                  <Font name="System Bold" size="13.0" />
+               </font></Label>
          </children>
       </AnchorPane>
+      <Button fx:id="searchMovie_cart" layoutX="916.0" layoutY="12.0" mnemonicParsing="false" onAction="#handleOpenCartPage" prefHeight="28.0" prefWidth="46.0">
+         <graphic>
+            <FontAwesomeIcon glyphName="ARCHIVE" />
+         </graphic>
+      </Button>
    </children>
 </AnchorPane>

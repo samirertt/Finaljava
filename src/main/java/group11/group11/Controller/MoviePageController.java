@@ -79,6 +79,8 @@ public class MoviePageController implements Initializable {
 
     @FXML
     private Label movieSearch_movieInformation;
+    @FXML
+    private Button searchMovie_cart;
 
     public void setMainApp(Main mainApp) {
         this.mainApp = mainApp;
@@ -94,7 +96,14 @@ public class MoviePageController implements Initializable {
             mainApp.showLoginPage();
         }
     }
-
+    @FXML
+    private void handleOpenCartPage() {
+        System.out.println("Cart button clicked! movie");
+        if (mainApp != null) {
+            System.out.println("is not null");
+            mainApp.showCartPage();
+        }
+    }
     @FXML
     private void handleWindowClose() {
         System.exit(0);
@@ -201,7 +210,11 @@ public class MoviePageController implements Initializable {
         movieSearchTableView.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {
             displayMovieDetails(newSelection);
         });
-
+        // Debugging button click handler
+        searchMovie_cart.setOnAction(event -> {
+            System.out.println("Cart button clicked!");
+            handleOpenCartPage();
+        });
         setProfileDetails();
     }
 }

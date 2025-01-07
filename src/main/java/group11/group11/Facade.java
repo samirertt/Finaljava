@@ -10,7 +10,7 @@ import java.util.Objects;
 
 
 public class Facade {
-    private static final String DB_URL = "jdbc:mysql://localhost:3306/UserManagement";
+    private static final String DB_URL = "jdbc:mysql://localhost:3306/cinemacenter";
     private static final String DB_USER = "root"; // Replace with your username
     private static final String DB_PASSWORD = "addnone2013"; // Replace with your password
 
@@ -130,5 +130,44 @@ public class Facade {
         return movieList; // Return the list of movies (can be empty if no results)
     }
 
+    public List<Cart.Product> getProductsFromDb(String orderNo) {
+        List<Cart.Product> products = new ArrayList<>();
+        String query = "SELECT name_ofProduct, price_ofProduct, quantity_ofProduct " +
+                "FROM `order` WHERE order_no = ?";
+
+        try (Connection conn = connect(); PreparedStatement stmt = conn.prepareStatement(query)) {
+            stmt.setString(1, orderNo);
+            ResultSet rs = stmt.executeQuery();
+
+            while (rs.next()) {
+                // Extract values from the ResultSet
+                String productName = rs.getString("name_ofProduct");
+                double productPrice = rs.getDouble("price_ofProduct");
+                int productQuantity = rs.getInt("quantity_ofProduct");
+
+                // Create a new Cart.Product object and add it to the list
+                Cart.Product product = new Cart.Product(productName, productPrice, productQuantity);
+                products.add(product);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return products; // Return the list of products
+    }
+
+    public void updateProductQuantity(String orderNo, String productName, int newQuantity) {
+        String query = "UPDATE `order` SET quantity_ofProduct = ? WHERE order_no = ? AND name_ofProduct = ?";
+
+        try (Connection conn = connect(); PreparedStatement stmt = conn.prepareStatement(query)) {
+            stmt.setInt(1, newQuantity);
+            stmt.setString(2, orderNo);
+            stmt.setString(3, productName);
+            stmt.executeUpdate();
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.err.println("Error updating product quantity in the database.");
+        }
+    }
 
 }

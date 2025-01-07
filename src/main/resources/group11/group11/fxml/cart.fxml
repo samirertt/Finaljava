@@ -1,6 +1,43 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
 
-
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="1100.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" />
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="700.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="group11.group11.Controller.CartPageController">
+   <children>
+      <TableView fx:id="cart_orderTable" layoutX="81.0" layoutY="76.0" prefHeight="348.0" prefWidth="538.0" stylesheets="@../css/cart.css">
+        <columns>
+          <TableColumn fx:id="cart_productName" prefWidth="331.0" text="Name" />
+          <TableColumn fx:id="cart_productPrice" minWidth="0.0" prefWidth="105.0" text="Price" />
+            <TableColumn fx:id="cart_productQuantity" prefWidth="101.0" text="Quantity" />
+        </columns>
+      </TableView>
+      <Label layoutX="81.0" layoutY="33.0" text="Cart list">
+         <font>
+            <Font name="System Bold" size="25.0" />
+         </font>
+      </Label>
+      <Button fx:id="cart_Remove" layoutX="547.0" layoutY="436.0" mnemonicParsing="false" styleClass="minus_btn" stylesheets="@../css/cart.css" text="Remove" />
+      <Button fx:id="cart_Decrease" layoutX="81.0" layoutY="436.0" mnemonicParsing="false" prefHeight="24.0" prefWidth="56.0" styleClass="minus_btn" stylesheets="@../css/cart.css">
+         <graphic>
+            <FontAwesomeIcon glyphName="MINUS" />
+         </graphic>
+      </Button>
+      <Button fx:id="cart_Increase" layoutX="166.0" layoutY="436.0" mnemonicParsing="false" prefHeight="24.0" prefWidth="56.0" styleClass="add_btn" stylesheets="@../css/cart.css">
+         <graphic>
+            <FontAwesomeIcon glyphName="PLUS" wrappingWidth="11.214285850524902" />
+         </graphic>
+      </Button>
+      <Label layoutX="447.0" layoutY="40.0" text="Order No:">
+         <font>
+            <Font size="15.0" />
+         </font>
+      </Label>
+      <Label fx:id="cart_orderNo" layoutX="529.0" layoutY="42.0" text="9999" />
+   </children>
+</AnchorPane>
