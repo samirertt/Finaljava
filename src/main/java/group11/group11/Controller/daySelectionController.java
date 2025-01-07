@@ -1,5 +1,6 @@
 package group11.group11.Controller;
 
+import group11.group11.Facade;
 import group11.group11.Movie;
 import javafx.application.Application;
 import javafx.fxml.FXML;
@@ -10,6 +11,9 @@ import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import javafx.event.ActionEvent;
 import javafx.scene.Parent;
+
+import java.sql.Date;
+import java.sql.Time;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
@@ -105,59 +109,41 @@ public class daySelectionController extends Application
             System.err.println("CSS file not found!");
         }
 
-
-
-        dayToSessionsMap.put("17.01.2025", Arrays.asList("Morning (10:00)", "Afternoon (13:00)"));
-        dayToSessionsMap.put("18.01.2025", Arrays.asList("Evening (17:00)", "Night (21:00)"));
-        dayToSessionsMap.put("19.01.2025", Arrays.asList("Morning (09:00)", "Afternoon (12:00)", "Evening (16:00)"));
-        dayToSessionsMap.put("20.01.2025", Arrays.asList("Morning (08:00)", "Afternoon (12:00)", "Night (20:00)"));
-        dayToSessionsMap.put("21.01.2025", Arrays.asList("Morning (10:00)", "Afternoon (14:00)", "Evening (18:00)"));
-        dayToSessionsMap.put("22.01.2025", Arrays.asList("Morning (09:00)", "Afternoon (13:00)", "Night (19:00)", "Late Night (23:00)"));
-        dayToSessionsMap.put("23.01.2025", Arrays.asList("Morning (08:00)", "Afternoon (12:00)"));
-        dayToSessionsMap.put("24.01.2025", Arrays.asList("Morning (10:00)", "Afternoon (14:00)", "Night (19:00)"));
-        dayToSessionsMap.put("25.01.2025", Arrays.asList("Morning (09:00)", "Afternoon (13:00)", "Evening (17:00)"));
-        dayToSessionsMap.put("26.01.2025", Arrays.asList("Afternoon (12:00)", "Evening (16:00)", "Night (20:00)"));
-        dayToSessionsMap.put("27.01.2025", Arrays.asList("Morning (08:00)", "Afternoon (12:00)", "Evening (16:00)", "Night (20:00)"));
-        dayToSessionsMap.put("28.01.2025", Arrays.asList("Morning (10:00)", "Afternoon (13:00)"));
-        dayToSessionsMap.put("29.01.2025", Arrays.asList("Morning (09:00)", "Afternoon (12:00)", "Evening (15:00)", "Night (19:00)"));
-        dayToSessionsMap.put("30.01.2025", Arrays.asList("Morning (08:00)", "Afternoon (12:00)", "Evening (16:00)"));
-
-        sessionToHallsMap.put("Morning (10:00)", Arrays.asList("Hall A", "Hall B"));
-        sessionToHallsMap.put("Afternoon (13:00)", Arrays.asList("Hall A", "Hall B"));
-        sessionToHallsMap.put("Evening (17:00)", Arrays.asList("Hall A", "Hall B"));
-        sessionToHallsMap.put("Night (21:00)", Arrays.asList("Hall A", "Hall B"));
-        sessionToHallsMap.put("Morning (09:00)", Arrays.asList("Hall A", "Hall B"));
-        sessionToHallsMap.put("Afternoon (12:00)", Arrays.asList("Hall A", "Hall B"));
-        sessionToHallsMap.put("Evening (16:00)", Arrays.asList("Hall A", "Hall B"));
-        sessionToHallsMap.put("Late Night (23:00)", Arrays.asList("Hall A", "Hall B"));
-        sessionToHallsMap.put("Morning (08:00)", Arrays.asList("Hall A", "Hall B"));
-        sessionToHallsMap.put("Afternoon (14:00)", Arrays.asList("Hall A", "Hall B"));
-        sessionToHallsMap.put("Night (20:00)", Arrays.asList("Hall A", "Hall B"));
-        sessionToHallsMap.put("Evening (18:00)", Arrays.asList("Hall A", "Hall B"));
-        sessionToHallsMap.put("Afternoon (19:00)", Arrays.asList("Hall A", "Hall B"));
-
-
-
-
-        dayComboBox.getItems().addAll(dayToSessionsMap.keySet());
         dayComboBox.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {
             if (newSelection != null) {
-                List<String> sessions = dayToSessionsMap.get(newSelection);
+                Date selectedDay = Date.valueOf(newSelection); // Convert String to SQL Date
+                List<Time> sessionTimes = Facade.getSessionTimes(selectedDay);
                 sessionComboBox.getItems().clear();
-                sessionComboBox.getItems().addAll(sessions);
+                for (Time time : sessionTimes) {
+                    sessionComboBox.getItems().add(time.toString());
+                }
             }
         });
 
         sessionComboBox.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {
             if (newSelection != null) {
-                List<String> halls = sessionToHallsMap.get(newSelection);
+                Time selectedTime = Time.valueOf(newSelection); // Convert String to SQL Time
+                List<String> halls = Facade.getSessionHalls(selectedTime);
                 hallComboBox.getItems().clear();
                 hallComboBox.getItems().addAll(halls);
             }
         });
 
         moveOnToSeatSelection.setOnAction(this::btnSelectedMoveOn);
+    }
 
+    public void setSelectedMovie(Movie selectedMovie) {
+        this.selectedMovie = selectedMovie;
+        loadSessionTimes();
+    }
+
+    private void loadSessionTimes() {
+        if (selectedMovie != null) {
+            List<Date> sessionDays = Facade.getSessionDays(Facade.getMovieIdByName(selectedMovie.getMovieName()));
+            for (Date day : sessionDays) {
+                dayComboBox.getItems().add(day.toString());
+            }
+        }
     }
 
 
@@ -215,19 +201,6 @@ public class daySelectionController extends Application
         alert.setContentText(message);
         alert.showAndWait();
     }
-
-    public void setSelectedMovie(Movie selectedMovie) {
-        this.selectedMovie = selectedMovie;
-        // You can now use this.selectedMovie to access the movie details
-        // For example, you can load the session times from the database based on this movie
-        loadSessionTimes();
-    }
-
-    private void loadSessionTimes() {
-        // Implement the logic to load session times from the database based on selectedMovie
-        // For example:
-        // List<Session> sessions = facade.getSessionsByMovieId(selectedMovie.getMovieId());
-        // Update the UI with the session times
-    }
 }
+
 

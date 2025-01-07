@@ -11,7 +11,7 @@ public class Facade {
     private static final String DB_USER = "root"; // Replace with your username
     private static final String DB_PASSWORD = "blodreina"; // Replace with your password
 
-    private Connection connect() throws Exception {
+    private static Connection connect() throws Exception {
         Class.forName("com.mysql.cj.jdbc.Driver");
         return DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD);
     }
@@ -127,7 +127,7 @@ public class Facade {
         return movieList; // Return the list of movies (can be empty if no results)
     }
 
-    public int getMovieIdByName(String movieName) {
+    public static int getMovieIdByName(String movieName) {
         int movieId = -1; // Default value if the movie is not found
         String query = "SELECT movie_id FROM movies WHERE moviesName = ?";
 
@@ -147,10 +147,10 @@ public class Facade {
         return movieId;
     }
 
-    public List<Date> getSessionDays(int movieId)
+    public static List<Date> getSessionDays(int movieId)
     {
         List<Date> sessionDays = new ArrayList<>();
-        String query = "SELECT DISTINCT session_date FROM sessions WHERE movie_id = ? ORDER BY session_date";
+        String query = "SELECT DISTINCT day FROM sessions WHERE movie_id = ? ORDER BY day";
 
         try (Connection conn = connect();
              PreparedStatement pstmt = conn.prepareStatement(query)) {
@@ -159,7 +159,7 @@ public class Facade {
 
             try (ResultSet rs = pstmt.executeQuery()) {
                 while (rs.next()) {
-                    Date sessionDate = rs.getDate("session_date");
+                    Date sessionDate = rs.getDate("day");
                     sessionDays.add(sessionDate);
                 }
             }
@@ -170,10 +170,10 @@ public class Facade {
         return sessionDays;
     }
 
-    public List<Time> getSessionTimes(Date selectedDay)
+    public static List<Time> getSessionTimes(Date selectedDay)
     {
         List<Time> sessionTimes = new ArrayList<>();
-        String query = "SELECT session_time FROM sessions WHERE session_date = ? ORDER BY session_time";
+        String query = "SELECT time FROM sessions WHERE day = ? ORDER BY time";
 
         try (Connection conn = connect();
              PreparedStatement pstmt = conn.prepareStatement(query)) {
@@ -182,7 +182,7 @@ public class Facade {
 
             try (ResultSet rs = pstmt.executeQuery()) {
                 while (rs.next()) {
-                    Time sessionTime = rs.getTime("session_time");
+                    Time sessionTime = rs.getTime("time");
                     sessionTimes.add(sessionTime);
                 }
             }
@@ -193,10 +193,10 @@ public class Facade {
         return sessionTimes;
     }
 
-    public List<String> getSessionHalls(Date selectedTime)
+    public static List<String> getSessionHalls(Time selectedTime)
     {
         List<String> sessionHalls = new ArrayList<>();
-        String query = "SELECT hall_name FROM sessions WHERE session_time = ? ORDER BY hall_name";
+        String query = "SELECT DISTINCT hall FROM sessions WHERE time = ? ORDER BY hall";
 
         try (Connection conn = connect();
              PreparedStatement pstmt = conn.prepareStatement(query)) {
@@ -205,7 +205,7 @@ public class Facade {
 
             try (ResultSet rs = pstmt.executeQuery()) {
                 while (rs.next()) {
-                    String hallName = rs.getString("hall_name");
+                    String hallName = rs.getString("hall");
                     sessionHalls.add(hallName);
                 }
             }

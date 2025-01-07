@@ -54,7 +54,7 @@ public class Movie {
         return movieImage;
     }
 
-    public void setMovieImage() {
+    public void setMovieImage(String movieImage) {
         this.movieImage = movieImage;
     }
 
