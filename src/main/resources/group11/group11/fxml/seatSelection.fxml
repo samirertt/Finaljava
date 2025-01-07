@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.Cursor?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane prefHeight="700.0" prefWidth="1100.0" style="-fx-background-color: linear-gradient(to top right, #62aec5,#e64072);" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="group11.group11.Controller.seatSelectionController">
+
+    <GridPane fx:id="seatGrid" alignment="CENTER" hgap="10" layoutX="179.0" layoutY="43.0" prefHeight="615.0" prefWidth="746.0" vgap="10" AnchorPane.leftAnchor="175.0" AnchorPane.rightAnchor="175.0">
+        <padding>
+            <Insets bottom="20" left="20" right="20" top="20" />
+        </padding>
+
+        <!-- Row A Buttons -->
+        <Button fx:id="A1" onAction="#onSeatClicked" prefHeight="64.06" prefWidth="61.81" text="A1" />
+        <Button fx:id="A2" onAction="#onSeatClicked" prefHeight="65.0" prefWidth="63.0" text="A2" GridPane.columnIndex="1" />
+        <Button fx:id="A3" onAction="#onSeatClicked" prefHeight="64.06" prefWidth="62.0" text="A3" GridPane.columnIndex="2" />
+        <Button fx:id="A4" onAction="#onSeatClicked" prefHeight="64.06" prefWidth="61.81" text="A4" GridPane.columnIndex="3" />
+        <Button fx:id="A5" onAction="#onSeatClicked" prefHeight="64.06" prefWidth="61.81" text="A5" GridPane.columnIndex="4" />
+        <Button fx:id="A6" onAction="#onSeatClicked" prefHeight="64.06" prefWidth="61.81" text="A6" GridPane.columnIndex="5" />
+        <Button fx:id="A7" onAction="#onSeatClicked" prefHeight="64.06" prefWidth="61.81" text="A7" GridPane.columnIndex="6" />
+        <Button fx:id="A8" onAction="#onSeatClicked" prefHeight="64.06" prefWidth="61.81" text="A8" GridPane.columnIndex="7" />
+
+        <Button fx:id="B1" onAction="#onSeatClicked" prefHeight="69.0" prefWidth="61.81" text="B1" GridPane.rowIndex="1" />
+        <Button fx:id="B2" onAction="#onSeatClicked" prefHeight="69.0" prefWidth="63.0" text="B2" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+        <Button fx:id="B3" onAction="#onSeatClicked" prefHeight="69.0" prefWidth="62.0" text="B3" GridPane.columnIndex="2" GridPane.rowIndex="1" />
+        <Button fx:id="B4" onAction="#onSeatClicked" prefHeight="69.0" prefWidth="62.0" text="B4" GridPane.columnIndex="3" GridPane.rowIndex="1" />
+        <Button fx:id="B5" onAction="#onSeatClicked" prefHeight="69.0" prefWidth="62.0" text="B5" GridPane.columnIndex="4" GridPane.rowIndex="1" />
+        <Button fx:id="B6" onAction="#onSeatClicked" prefHeight="69.0" prefWidth="62.0" text="B6" GridPane.columnIndex="5" GridPane.rowIndex="1" />
+        <Button fx:id="B7" onAction="#onSeatClicked" prefHeight="69.0" prefWidth="62.0" text="B7" GridPane.columnIndex="6" GridPane.rowIndex="1" />
+        <Button fx:id="B8" onAction="#onSeatClicked" prefHeight="69.0" prefWidth="62.0" text="B8" GridPane.columnIndex="7" GridPane.rowIndex="1" />
+
+        <!-- Row C Buttons -->
+        <Button fx:id="C1" onAction="#onSeatClicked" prefHeight="64.06" prefWidth="61.81" text="C1" GridPane.rowIndex="2" />
+        <Button fx:id="C2" onAction="#onSeatClicked" prefHeight="65.0" prefWidth="63.0" text="C2" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+        <Button fx:id="C3" onAction="#onSeatClicked" prefHeight="64.06" prefWidth="61.81" text="C3" GridPane.columnIndex="2" GridPane.rowIndex="2" />
+        <Button fx:id="C4" onAction="#onSeatClicked" prefHeight="64.06" prefWidth="61.81" text="C4" GridPane.columnIndex="3" GridPane.rowIndex="2" />
+        <Button fx:id="C5" onAction="#onSeatClicked" prefHeight="65.0" prefWidth="62.0" text="C5" GridPane.columnIndex="4" GridPane.rowIndex="2" />
+        <Button fx:id="C6" onAction="#onSeatClicked" prefHeight="65.0" prefWidth="62.0" text="C6" GridPane.columnIndex="5" GridPane.rowIndex="2" />
+        <Button fx:id="C7" onAction="#onSeatClicked" prefHeight="65.0" prefWidth="62.0" text="C7" GridPane.columnIndex="6" GridPane.rowIndex="2" />
+        <Button fx:id="C8" onAction="#onSeatClicked" prefHeight="65.0" prefWidth="62.0" text="C8" GridPane.columnIndex="7" GridPane.rowIndex="2" />
+
+        <!-- Row D Buttons -->
+        <Button fx:id="D1" onAction="#onSeatClicked" prefHeight="64.06" prefWidth="62.0" text="D1" GridPane.rowIndex="3" />
+        <Button fx:id="D2" onAction="#onSeatClicked" prefHeight="65.0" prefWidth="63.0" text="D2" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+        <Button fx:id="D3" onAction="#onSeatClicked" prefHeight="65.0" prefWidth="62.0" text="D3" GridPane.columnIndex="2" GridPane.rowIndex="3" />
+        <Button fx:id="D4" onAction="#onSeatClicked" prefHeight="65.0" prefWidth="62.0" text="D4" GridPane.columnIndex="3" GridPane.rowIndex="3" />
+        <Button fx:id="D5" onAction="#onSeatClicked" prefHeight="65.0" prefWidth="62.0" text="D5" GridPane.columnIndex="4" GridPane.rowIndex="3" />
+        <Button fx:id="D6" onAction="#onSeatClicked" prefHeight="65.0" prefWidth="62.0" text="D6" GridPane.columnIndex="5" GridPane.rowIndex="3" />
+        <Button fx:id="D7" onAction="#onSeatClicked" prefHeight="65.0" prefWidth="62.0" text="D7" GridPane.columnIndex="6" GridPane.rowIndex="3" />
+        <Button fx:id="D8" onAction="#onSeatClicked" prefHeight="65.0" prefWidth="62.0" text="D8" GridPane.columnIndex="7" GridPane.rowIndex="3" />
+
+        <!-- Row E Buttons -->
+        <Button fx:id="E1" onAction="#onSeatClicked" prefHeight="65.0" prefWidth="62.0" text="E1" GridPane.rowIndex="4" />
+        <Button fx:id="E2" onAction="#onSeatClicked" prefHeight="65.0" prefWidth="63.0" text="E2" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+        <Button fx:id="E3" onAction="#onSeatClicked" prefHeight="65.0" prefWidth="62.0" text="E3" GridPane.columnIndex="2" GridPane.rowIndex="4" />
+        <Button fx:id="E4" onAction="#onSeatClicked" prefHeight="65.0" prefWidth="62.0" text="E4" GridPane.columnIndex="3" GridPane.rowIndex="4" />
+        <Button fx:id="E5" onAction="#onSeatClicked" prefHeight="65.0" prefWidth="62.0" text="E5" GridPane.columnIndex="4" GridPane.rowIndex="4" />
+        <Button fx:id="E6" onAction="#onSeatClicked" prefHeight="65.0" prefWidth="62.0" text="E6" GridPane.columnIndex="5" GridPane.rowIndex="4" />
+        <Button fx:id="E7" onAction="#onSeatClicked" prefHeight="65.0" prefWidth="62.0" text="E7" GridPane.columnIndex="6" GridPane.rowIndex="4" />
+        <Button fx:id="E8" onAction="#onSeatClicked" prefHeight="65.0" prefWidth="66.0" text="E8" GridPane.columnIndex="7" GridPane.rowIndex="4" />
+
+        <!-- Row F Buttons -->
+        <Button fx:id="F1" onAction="#onSeatClicked" prefHeight="65.0" prefWidth="62.0" text="F1" GridPane.rowIndex="5" />
+        <Button fx:id="F2" onAction="#onSeatClicked" prefHeight="65.0" prefWidth="63.0" text="F2" GridPane.columnIndex="1" GridPane.rowIndex="5" />
+        <Button fx:id="F3" onAction="#onSeatClicked" prefHeight="65.0" prefWidth="62.0" text="F3" GridPane.columnIndex="2" GridPane.rowIndex="5" />
+        <Button fx:id="F4" onAction="#onSeatClicked" prefHeight="65.0" prefWidth="62.0" text="F4" GridPane.columnIndex="3" GridPane.rowIndex="5" />
+        <Button fx:id="F5" onAction="#onSeatClicked" prefHeight="65.0" prefWidth="62.0" text="F5" GridPane.columnIndex="4" GridPane.rowIndex="5" />
+        <Button fx:id="F6" onAction="#onSeatClicked" prefHeight="65.0" prefWidth="62.0" text="F6" GridPane.columnIndex="5" GridPane.rowIndex="5" />
+        <Button fx:id="F7" onAction="#onSeatClicked" prefHeight="65.0" prefWidth="64.0" text="F7" GridPane.columnIndex="6" GridPane.rowIndex="5" />
+        <Button fx:id="F8" onAction="#onSeatClicked" prefHeight="65.0" prefWidth="63.0" text="F8" GridPane.columnIndex="7" GridPane.rowIndex="5" />
+
+        <columnConstraints>
+            <ColumnConstraints />
+            <ColumnConstraints />
+            <ColumnConstraints />
+            <ColumnConstraints />
+            <ColumnConstraints maxWidth="100.0" minWidth="54.0" prefWidth="62.0" />
+            <ColumnConstraints maxWidth="135.0" minWidth="58.0" prefWidth="62.0" />
+            <ColumnConstraints maxWidth="152.0" minWidth="59.0" prefWidth="62.0" />
+            <ColumnConstraints maxWidth="64.06" prefWidth="61.81" />
+        </columnConstraints>
+        <rowConstraints>
+            <RowConstraints valignment="CENTER" />
+            <RowConstraints />
+            <RowConstraints />
+            <RowConstraints />
+            <RowConstraints valignment="TOP" />
+            <RowConstraints />
+        </rowConstraints>
+        <cursor>
+            <Cursor fx:constant="CROSSHAIR" />
+        </cursor>
+
+    </GridPane>
+    <Label alignment="CENTER" contentDisplay="CENTER" graphicTextGap="5.0" layoutX="49.0" layoutY="3.0" prefHeight="23.0" prefWidth="139.0" style="-fx-background-color: #76566f;" text="DOOR 1" textAlignment="CENTER">
+        <font>
+            <Font name="Times New Roman Bold" size="15.0" />
+        </font>
+    </Label>
+    <Label alignment="CENTER" contentDisplay="CENTER" graphicTextGap="5.0" layoutX="385.0" layoutY="3.0" prefHeight="23.0" prefWidth="331.0" style="-fx-background-color: #A9A9A9; -fx-background-radius: 30px;" text="HALL B" textAlignment="CENTER">
+        <font>
+            <Font name="Times New Roman Bold" size="15.0" />
+        </font>
+    </Label>
+    <Label alignment="CENTER" contentDisplay="CENTER" graphicTextGap="5.0" layoutX="925.0" layoutY="3.0" prefHeight="23.0" prefWidth="139.0" style="-fx-background-color: #76566f;" text="DOOR 2" textAlignment="CENTER">
+        <font>
+            <Font name="Times New Roman Bold" size="15.0" />
+        </font>
+    </Label>
+    <Label alignment="CENTER" contentDisplay="CENTER" graphicTextGap="5.0" layoutX="49.0" layoutY="683.0" prefHeight="23.0" prefWidth="139.0" style="-fx-background-color: #A52A2A;" text="EXIT" textAlignment="CENTER" underline="true">
+        <font>
+            <Font name="Times New Roman Bold" size="15.0" />
+        </font>
+    </Label>
+    <Label alignment="CENTER" contentDisplay="CENTER" graphicTextGap="5.0" layoutX="322.0" layoutY="695.0" prefHeight="23.0" prefWidth="478.0" style="-fx-background-color: #A9A9A9;" text="SCREEN" textAlignment="CENTER">
+        <font>
+            <Font name="Times New Roman Bold" size="15.0" />
+        </font>
+    </Label>
+    <Button fx:id="productPurchase" alignment="CENTER" layoutX="947.0" layoutY="675.0" mnemonicParsing="false" onAction="#btnProductPurchase" prefHeight="33.0" prefWidth="139.0" style="-fx-background-color: #f5f5f5; -fx-font-size: 15px; -fx-font-style: bold;" text="Product Purchase" />
+
+</AnchorPane>

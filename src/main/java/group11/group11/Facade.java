@@ -1,18 +1,15 @@
 package group11.group11;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
 
 public class Facade {
-    private static final String DB_URL = "jdbc:mysql://localhost:3306/UserManagement";
+    private static final String DB_URL = "jdbc:mysql://localhost:3306/cinemacenter";
     private static final String DB_USER = "root"; // Replace with your username
-    private static final String DB_PASSWORD = "addnone2013"; // Replace with your password
+    private static final String DB_PASSWORD = "blodreina"; // Replace with your password
 
     private Connection connect() throws Exception {
         Class.forName("com.mysql.cj.jdbc.Driver");
@@ -130,5 +127,92 @@ public class Facade {
         return movieList; // Return the list of movies (can be empty if no results)
     }
 
+    public int getMovieIdByName(String movieName) {
+        int movieId = -1; // Default value if the movie is not found
+        String query = "SELECT movie_id FROM movies WHERE moviesName = ?";
 
+        try (Connection conn = connect();
+             PreparedStatement pstmt = conn.prepareStatement(query)) {
+
+            pstmt.setString(1, movieName);
+
+            try (ResultSet rs = pstmt.executeQuery()) {
+                if (rs.next()) {
+                    movieId = rs.getInt("movie_id");
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return movieId;
+    }
+
+    public List<Date> getSessionDays(int movieId)
+    {
+        List<Date> sessionDays = new ArrayList<>();
+        String query = "SELECT DISTINCT session_date FROM sessions WHERE movie_id = ? ORDER BY session_date";
+
+        try (Connection conn = connect();
+             PreparedStatement pstmt = conn.prepareStatement(query)) {
+
+            pstmt.setInt(1, movieId);
+
+            try (ResultSet rs = pstmt.executeQuery()) {
+                while (rs.next()) {
+                    Date sessionDate = rs.getDate("session_date");
+                    sessionDays.add(sessionDate);
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return sessionDays;
+    }
+
+    public List<Time> getSessionTimes(Date selectedDay)
+    {
+        List<Time> sessionTimes = new ArrayList<>();
+        String query = "SELECT session_time FROM sessions WHERE session_date = ? ORDER BY session_time";
+
+        try (Connection conn = connect();
+             PreparedStatement pstmt = conn.prepareStatement(query)) {
+
+            pstmt.setDate(1, new java.sql.Date(selectedDay.getTime()));
+
+            try (ResultSet rs = pstmt.executeQuery()) {
+                while (rs.next()) {
+                    Time sessionTime = rs.getTime("session_time");
+                    sessionTimes.add(sessionTime);
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return sessionTimes;
+    }
+
+    public List<String> getSessionHalls(Date selectedTime)
+    {
+        List<String> sessionHalls = new ArrayList<>();
+        String query = "SELECT hall_name FROM sessions WHERE session_time = ? ORDER BY hall_name";
+
+        try (Connection conn = connect();
+             PreparedStatement pstmt = conn.prepareStatement(query)) {
+
+            pstmt.setTime(1, new java.sql.Time(selectedTime.getTime()));
+
+            try (ResultSet rs = pstmt.executeQuery()) {
+                while (rs.next()) {
+                    String hallName = rs.getString("hall_name");
+                    sessionHalls.add(hallName);
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return sessionHalls;
+    }
 }

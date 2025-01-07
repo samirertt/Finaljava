@@ -63,7 +63,7 @@
                         <Font size="32.0" />
                      </font>
                   </Label>
-                  <Button fx:id="movieSearch_ticketBuy_btn" layoutX="646.0" layoutY="292.0" mnemonicParsing="false" prefHeight="28.0" prefWidth="95.0" styleClass="button-info" stylesheets="@../css/moviePage.css" text="Select" />
+                  <Button fx:id="movieSearch_ticketBuy_btn" layoutX="646.0" layoutY="292.0" mnemonicParsing="false" prefHeight="28.0" prefWidth="95.0" styleClass="button-info" stylesheets="@../css/moviePage.css" text="Select" onAction="#btnSelect" />
                   <Label fx:id="movieSearch_movieInformation" layoutX="11.0" layoutY="114.0" prefHeight="165.0" prefWidth="734.0" styleClass="label-information" stylesheets="@../css/moviePage.css" text="Movie Description" />
                   <Label fx:id="movieSearch_Name" layoutX="14.0" layoutY="51.0" text="Movie name">
                      <font>
