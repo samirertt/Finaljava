@@ -1,9 +1,6 @@
 package group11.group11;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -14,7 +11,7 @@ public class Facade {
     private static final String DB_USER = "root"; // Replace with your username
     private static final String DB_PASSWORD = "addnone2013"; // Replace with your password
 
-    private Connection connect() throws Exception {
+    private static Connection connect() throws Exception {
         Class.forName("com.mysql.cj.jdbc.Driver");
         return DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD);
     }
@@ -53,13 +50,14 @@ public class Facade {
 
     public Movie searchMovieByFullName(String fullName) {
         Movie movie = new Movie();
-        String query = "SELECT moviesSummary, moviesGenre, moviesImage, moviesDuration, movieReleaseYear FROM movies WHERE moviesName = ?";
+        String query = "SELECT movie_id, moviesSummary, moviesGenre, moviesImage, moviesDuration, movieReleaseYear FROM movies WHERE moviesName = ?";
         try (Connection conn = connect(); PreparedStatement stmt = conn.prepareStatement(query)) {
             stmt.setString(1, fullName);
             ResultSet rs = stmt.executeQuery();
 
             if (rs.next()) {
                 // Extract values from the ResultSet
+                int movie_id = rs.getInt("movie_id");
                 String movieSummary = rs.getString("moviesSummary");
                 String movieGenre = rs.getString("moviesGenre");
                 String movieImage = rs.getString("moviesImage");
@@ -67,7 +65,7 @@ public class Facade {
                 String movieReleaseYear = rs.getString("movieReleaseYear");
 
 
-                return new Movie(fullName, movieSummary, movieGenre, movieImage, movieDuration, movieReleaseYear);
+                return new Movie(movie_id,fullName, movieSummary, movieGenre, movieImage, movieDuration, movieReleaseYear);
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -76,7 +74,7 @@ public class Facade {
     }
 
     public List<Movie> searchMovieByGenre(String genre) {
-        String query = "SELECT moviesName, moviesSummary, moviesImage, moviesDuration, movieReleaseYear FROM movies WHERE moviesGenre = ?";
+        String query = "SELECT movie_id, moviesName, moviesSummary, moviesImage, moviesDuration, movieReleaseYear FROM movies WHERE moviesGenre = ?";
         List<Movie> movieList = new ArrayList<>();
 
         try (Connection conn = connect(); PreparedStatement stmt = conn.prepareStatement(query)) {
@@ -85,6 +83,7 @@ public class Facade {
 
             while (rs.next()) {
                 // Extract values from the ResultSet
+                int movie_id = rs.getInt("movie_id");
                 String movieName = rs.getString("moviesName");
                 String movieSummary = rs.getString("moviesSummary");
                 String movieImage = rs.getString("moviesImage");
@@ -92,7 +91,7 @@ public class Facade {
                 String movieReleaseYear = rs.getString("movieReleaseYear");
 
                 // Create and add the movie object to the list
-                Movie movie = new Movie(movieName, movieSummary, genre, movieImage, movieDuration, movieReleaseYear);
+                Movie movie = new Movie(movie_id,movieName, movieSummary, genre, movieImage, movieDuration, movieReleaseYear);
                 movieList.add(movie);
             }
         } catch (Exception e) {
@@ -103,7 +102,7 @@ public class Facade {
 
 
     public List<Movie> searchMovieByPartialName(String partialName) {
-        String query = "SELECT moviesName, moviesSummary, moviesGenre, moviesImage, moviesDuration, movieReleaseYear " +
+        String query = "SELECT movie_id, moviesName, moviesSummary, moviesGenre, moviesImage, moviesDuration, movieReleaseYear " +
                 "FROM movies WHERE moviesName LIKE ?";
         List<Movie> movieList = new ArrayList<>();
 
@@ -113,6 +112,7 @@ public class Facade {
 
             while (rs.next()) {
                 // Extract values from the ResultSet
+                int movie_id = rs.getInt("movie_id");
                 String movieName = rs.getString("moviesName");
                 String movieSummary = rs.getString("moviesSummary");
                 String movieGenre = rs.getString("moviesGenre");
@@ -121,7 +121,7 @@ public class Facade {
                 String movieReleaseYear = rs.getString("movieReleaseYear");
 
                 // Create and add the movie object to the list
-                Movie movie = new Movie(movieName, movieSummary, movieGenre, movieImage, movieDuration, movieReleaseYear);
+                Movie movie = new Movie(movie_id, movieName, movieSummary, movieGenre, movieImage, movieDuration, movieReleaseYear);
                 movieList.add(movie);
             }
         } catch (Exception e) {
@@ -133,7 +133,7 @@ public class Facade {
     public List<Cart.Product> getProductsFromDb(String orderNo) {
         List<Cart.Product> products = new ArrayList<>();
         String query = "SELECT name_ofProduct, price_ofProduct, quantity_ofProduct " +
-                "FROM `order` WHERE order_no = ?";
+                "FROM `cart` WHERE order_no = ?";
 
         try (Connection conn = connect(); PreparedStatement stmt = conn.prepareStatement(query)) {
             stmt.setString(1, orderNo);
@@ -157,7 +157,7 @@ public class Facade {
     }
 
     public void updateProductQuantity(String orderNo, String productName, int newQuantity) {
-        String query = "UPDATE `order` SET quantity_ofProduct = ? WHERE order_no = ? AND name_ofProduct = ?";
+        String query = "UPDATE `cart` SET quantity_ofProduct = ? WHERE order_no = ? AND name_ofProduct = ?";
 
         try (Connection conn = connect(); PreparedStatement stmt = conn.prepareStatement(query)) {
             stmt.setInt(1, newQuantity);
@@ -169,5 +169,133 @@ public class Facade {
             System.err.println("Error updating product quantity in the database.");
         }
     }
+    public static int getMovieIdByName(String movieName) {
+        int movieId = -1; // Default value if the movie is not found
+        String query = "SELECT movie_id FROM movies WHERE moviesName = ?";
 
+        try (Connection conn = connect();
+             PreparedStatement pstmt = conn.prepareStatement(query)) {
+
+            pstmt.setString(1, movieName);
+
+            try (ResultSet rs = pstmt.executeQuery()) {
+                if (rs.next()) {
+                    movieId = rs.getInt("movie_id");
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return movieId;
+    }
+
+    public static List<Date> getSessionDays(int movieId)
+    {
+        List<Date> sessionDays = new ArrayList<>();
+        String query = "SELECT DISTINCT day FROM Sessions WHERE movie_id = ? ORDER BY day";
+
+        try (Connection conn = connect();
+             PreparedStatement pstmt = conn.prepareStatement(query)) {
+
+            pstmt.setInt(1, movieId);
+
+            try (ResultSet rs = pstmt.executeQuery()) {
+                while (rs.next()) {
+                    Date sessionDate = rs.getDate("day");
+                    sessionDays.add(sessionDate);
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return sessionDays;
+    }
+
+    public static List<Time> getSessionTimes(Date selectedDay)
+    {
+        List<Time> sessionTimes = new ArrayList<>();
+        String query = "SELECT session_id, time FROM Sessions WHERE day = ? ORDER BY time";
+
+        try (Connection conn = connect();
+             PreparedStatement pstmt = conn.prepareStatement(query)) {
+
+            pstmt.setDate(1, new Date(selectedDay.getTime()));
+            try (ResultSet rs = pstmt.executeQuery()) {
+                while (rs.next()) {
+                    Time sessionTime = rs.getTime("time");
+                    sessionTimes.add(sessionTime);
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return sessionTimes;
+    }
+    public static List<String> getUnavailableSeats(int sessionId) {
+        List<String> unavailableSeats = new ArrayList<>();
+        String query = "SELECT seat_number FROM Seats WHERE session_id = ? AND is_available = 0";
+
+        try (Connection conn = connect();
+             PreparedStatement pstmt = conn.prepareStatement(query)) {
+
+            pstmt.setInt(1, sessionId);
+
+            try (ResultSet rs = pstmt.executeQuery()) {
+                while (rs.next()) {
+                    String seatNumber = rs.getString("seat_number");
+                    unavailableSeats.add(seatNumber);
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return unavailableSeats;
+    }
+    public static List<String> getSessionHalls(Time selectedTime)
+    {
+        List<String> sessionHalls = new ArrayList<>();
+        String query = "SELECT DISTINCT hall FROM Sessions WHERE time = ? ORDER BY hall";
+
+        try (Connection conn = connect();
+             PreparedStatement pstmt = conn.prepareStatement(query)) {
+
+            pstmt.setTime(1, new Time(selectedTime.getTime()));
+
+            try (ResultSet rs = pstmt.executeQuery()) {
+                while (rs.next()) {
+                    String hallName = rs.getString("hall");
+                    sessionHalls.add(hallName);
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return sessionHalls;
+    }
+
+    public static int getSessionId(Time selectedTime, int movieId)
+    {
+        int session_id = 0;
+        String query = "SELECT session_id FROM Sessions WHERE time = ? AND movie_id = ?";
+
+        try (Connection conn = connect();
+             PreparedStatement pstmt = conn.prepareStatement(query)) {
+
+            pstmt.setTime(1, new Time(selectedTime.getTime()));
+            pstmt.setInt(2,movieId);
+            try (ResultSet rs = pstmt.executeQuery()) {
+                while (rs.next()) {
+                    session_id = rs.getInt("session_id");
+                }
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return session_id;
+    }
 }

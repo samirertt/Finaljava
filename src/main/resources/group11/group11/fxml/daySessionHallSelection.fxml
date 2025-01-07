@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon?>
 <?import java.net.URL?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ComboBox?>
@@ -50,13 +51,25 @@
     
     
 
-    <AnchorPane fx:id="field" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700" prefWidth="1100" style="-fx-background-color: linear-gradient(to top right, #62aec5,#e64072);" stylesheets="@../css/dayselection.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" />
-        <Button fx:id="moveOnToSeatSelection" layoutX="451.0" layoutY="659.0" mnemonicParsing="false" onAction="#btnSelectedMoveOn" prefHeight="33.0" prefWidth="202.0" style="-fx-background-color: #f5f5f5;                     -fx-border-color: #cccccc; -fx-font-size: 15px;" text="Move On to Seat Selection" />
+    <AnchorPane fx:id="field" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700" prefWidth="1100" style="-fx-background-color: linear-gradient(to top right, #62aec5,#e64072);" stylesheets="@../css/dayselection.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1">
+      <children>
+         <Button layoutX="1038.0" mnemonicParsing="false" onAction="#movieSearch_windowClose_btn" prefHeight="24.0" prefWidth="64.0" styleClass="close-form" stylesheets="@../css/moviePage.css">
+            <graphic>
+               <FontAwesomeIcon glyphName="CLOSE" />
+            </graphic>
+         </Button>
+         <Button fx:id="movieSearch_windowMinimize_btn" layoutX="976.0" mnemonicParsing="false" onAction="#MovieSearch_windowMinimize" prefHeight="24.0" prefWidth="64.0" styleClass="close-form" stylesheets="@../css/moviePage.css">
+            <graphic>
+               <FontAwesomeIcon glyphName="MINUS" />
+            </graphic>
+         </Button>
+      </children></AnchorPane>
+        <Button fx:id="moveOnToSeatSelection" layoutX="451.0" layoutY="659.0" mnemonicParsing="false" onAction="#btnSelectedMoveOn" prefHeight="33.0" prefWidth="223.0" style="-fx-background-color: #f5f5f5;                     -fx-border-color: #cccccc; -fx-font-size: 15px;" text="Move On to Seat Selection" />
     <Label fx:id="movieSearch_profileName" layoutX="20.0" prefHeight="30.0" prefWidth="82.0" stylesheets="@../../../dayselection.css" text="NAME">
     </Label>
     <Label fx:id="movieSearch_profileRole" layoutX="20.0" layoutY="28.0" prefHeight="30.0" prefWidth="82.0" stylesheets="@../../../style.css" text="ROLE" />
 
-    <Label fx:id="firstLabel" layoutX="361.0" layoutY="14.0" prefHeight="57.75" prefWidth="377.67" style="-fx-font-size: 22.0; -fx-font-family: Tahoma;" text="        Select Date, Session and Hall" textAlignment="CENTER" textFill="WHITE">
+    <Label fx:id="firstLabel" layoutX="361.0" layoutY="14.0" prefHeight="58.0" prefWidth="394.0" style="-fx-font-size: 22.0; -fx-font-family: Tahoma;" text="        Select Date, Session and Hall" textAlignment="CENTER" textFill="WHITE">
     </Label>
     <AnchorPane fx:id="dayAnchor" layoutX="53.17" layoutY="82.25" prefHeight="558.25" prefWidth="311.67" style="-fx-background-color: #a4779b; -fx-background-radius: 10px; -fx-border-color: #222222; -fx-border-width: 3px; -fx-border-radius: 10px;">
         <ComboBox fx:id="dayComboBox" layoutX="16.0" layoutY="14.0" prefHeight="33.0" prefWidth="280.0" promptText="Day" style="-fx-background-color: #f5f5f5; -fx-border-color: #cccccc;">

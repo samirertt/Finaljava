@@ -8,7 +8,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="700.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="group11.group11.Controller.CartPageController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="700.0" styleClass="bg-form" stylesheets="@../css/moviePage.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="group11.group11.Controller.CartPageController">
    <children>
       <TableView fx:id="cart_orderTable" layoutX="81.0" layoutY="76.0" prefHeight="348.0" prefWidth="538.0" stylesheets="@../css/cart.css">
         <columns>
@@ -39,5 +39,15 @@
          </font>
       </Label>
       <Label fx:id="cart_orderNo" layoutX="529.0" layoutY="42.0" text="9999" />
+      <Button fx:id="cartList_close_btn" layoutX="644.0" mnemonicParsing="false" onAction="movieSearch_windowClose_btn" prefHeight="24.0" prefWidth="56.0" styleClass="close-form" stylesheets="@../css/moviePage.css">
+         <graphic>
+            <FontAwesomeIcon glyphName="CLOSE" />
+         </graphic>
+      </Button>
+      <Button fx:id="cartList_minimize_btn" layoutX="591.0" layoutY="2.0" mnemonicParsing="false" prefHeight="24.0" prefWidth="56.0" styleClass="close-form" stylesheets="@../css/moviePage.css">
+         <graphic>
+            <FontAwesomeIcon glyphName="MINUS" wrappingWidth="15.214285850524902" />
+         </graphic>
+      </Button>
    </children>
 </AnchorPane>

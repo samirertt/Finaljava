@@ -1,7 +1,7 @@
 package group11.group11;
 
 public class Movie {
-
+    private int movie_id;
     private String movieName;
     private String movieSummary;
     private String movieGenre;
@@ -11,8 +11,9 @@ public class Movie {
 
 
     // Constructor to initialize the movie object
-    public Movie(String movieName, String movieSummary, String movieGenre,
+    public Movie(int movie_id, String movieName, String movieSummary, String movieGenre,
                  String movieImage, String movieDuration, String movieReleaseYear) {
+        this.movie_id = movie_id;
         this.movieName = movieName;
         this.movieSummary = movieSummary;
         this.movieGenre = movieGenre;
@@ -25,7 +26,19 @@ public class Movie {
 
     }
 
+
+
     // Getters and Setters
+
+
+    public int getMovie_id() {
+        return movie_id;
+    }
+    public void setMovie_id(int movie_id)
+    {
+        this.movie_id = movie_id;
+    }
+
     public String getMovieName() {
         return movieName;
     }

@@ -1,9 +1,8 @@
 package group11.group11;
 
-import group11.group11.Controller.CartPageController;
-import group11.group11.Controller.MoviePageController;
-import group11.group11.Controller.LoginPageController;
+import group11.group11.Controller.*;
 import javafx.application.Application;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -71,21 +70,21 @@ public class Main extends Application {
             System.err.println("Error: Unable to load the Movie FXML file.");
         }
     }
-    public void showDaySelectionPage(Users user) {
+    public void showDaySelectionPage(Users user, Movie selectedMovie) {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("fxml/daySessionHallSelection.fxml"));
             Parent root = loader.load();
-            MoviePageController controller = loader.getController();
+            daySelectionController controller = loader.getController();
             controller.setCurrentUser(user);
             controller.setProfileDetails();
+            controller.setMainApp(this);
+            controller.setSelectedMovie(selectedMovie); // Pass the selected movie to the controller
             primaryStage.setTitle("Day Selection Page");
             primaryStage.setScene(new Scene(root));
             primaryStage.show();
-
-
         } catch (Exception e) {
             e.printStackTrace();
-            System.err.println("Error: Unable to load the Movie FXML file.");
+            System.err.println("Error: Unable to load the Day Selection FXML file.");
         }
     }
 
@@ -112,6 +111,43 @@ public class Main extends Application {
         } catch (Exception e) {
             e.printStackTrace();
             System.err.println("Error: Unable to load the Cart FXML file.");
+        }
+    }
+    public void openHallBPage(int session_id) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/group11/group11/fxml/seatSelection.fxml"));
+            Parent root = loader.load();
+            primaryStage.setScene(new Scene(root));
+            primaryStage.show();
+        } catch (Exception e) {
+            System.out.println("Error occurred while loading Hall B page");
+            e.printStackTrace();
+        }
+    }
+
+    public void openHallAPage(int session_id) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/group11/group11/fxml/seatSelectionA.fxml"));
+            Parent root = loader.load();
+            seatSelectionAController controller = loader.getController();
+            controller.setSessionId(session_id);
+            primaryStage.setScene(new Scene(root));
+            primaryStage.show();
+        } catch (Exception e) {
+            System.out.println("Error occurred while loading Hall A page");
+            e.printStackTrace();
+        }
+    }
+
+    public void ProductPurchase() {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/group11/group11/fxml/customer_products.fxml"));
+            Parent root = loader.load();
+            primaryStage.setScene(new Scene(root));
+            primaryStage.show();
+        } catch (Exception e) {
+            System.out.println("Error occurred while loading page");
+            e.printStackTrace();
         }
     }
 

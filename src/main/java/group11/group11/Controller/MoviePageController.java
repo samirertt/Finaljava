@@ -242,20 +242,10 @@ public class MoviePageController implements Initializable {
                 return;
             }
 
-            // Load the next page's FXML
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/group11/group11/fxml/daySessionHallSelection.fxml"));
-            Scene scene = new Scene(loader.load());
-
-            // Get the controller of the next page
-            daySelectionController nextPageController = loader.getController();
-
-            // Pass the selected movie to the next page's controller
-            nextPageController.setSelectedMovie(selectedMovie);
-
-            // Set the new scene and show it
-            Stage stage = (Stage) movieSearch_ticketBuy_btn.getScene().getWindow();
-            stage.setScene(scene);
-            stage.show();
+            // Call the showDaySelectionPage method from the Main class
+            if (mainApp != null) {
+                mainApp.showDaySelectionPage(currentUser, selectedMovie);
+            }
         } catch (Exception e) {
             System.out.println("Error occurred while loading page");
             e.printStackTrace();

@@ -11,6 +11,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.stage.Stage;
 
 import java.util.List;
 
@@ -41,15 +42,27 @@ public class CartPageController {
 
     @FXML
     private TableColumn<Cart.Product, Integer> cart_productQuantity;
-
+    @FXML
     private Cart cart;
+    @FXML
     private ObservableList<Cart.Product> cartData;
+    @FXML
+    private Button movieSearch_windowMinimize_btn;
 
     // Method to set the main application instance
     public void setMainApp(Main mainApp) {
         this.mainApp = mainApp;
         System.out.println("mainApp set in CartPageController: " + (mainApp != null));
     }
+    public void movieSearch_windowClose_btn() {
+        System.exit(0);
+    }
+
+    public void MovieSearch_windowMinimize() {
+        Stage stage = (Stage) movieSearch_windowMinimize_btn.getScene().getWindow();
+        stage.setIconified(true);
+    }
+
     Facade facade = new Facade();
     // Initialize data that depends on mainApp
     public void initializeData() {
