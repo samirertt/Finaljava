@@ -71,6 +71,24 @@ public class Main extends Application {
             System.err.println("Error: Unable to load the Movie FXML file.");
         }
     }
+    public void showDaySelectionPage(Users user) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("fxml/daySessionHallSelection.fxml"));
+            Parent root = loader.load();
+            MoviePageController controller = loader.getController();
+            controller.setCurrentUser(user);
+            controller.setProfileDetails();
+            primaryStage.setTitle("Day Selection Page");
+            primaryStage.setScene(new Scene(root));
+            primaryStage.show();
+
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.err.println("Error: Unable to load the Movie FXML file.");
+        }
+    }
+
 
     // Show the Cart page
     public void showCartPage() {

@@ -6,8 +6,11 @@ import group11.group11.Movie;
 import group11.group11.Users;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
@@ -81,6 +84,9 @@ public class MoviePageController implements Initializable {
     private Label movieSearch_movieInformation;
     @FXML
     private Button searchMovie_cart;
+
+    @FXML
+    private Button movieSearch_ticketBuy_btn;
 
     public void setMainApp(Main mainApp) {
         this.mainApp = mainApp;
@@ -216,5 +222,43 @@ public class MoviePageController implements Initializable {
             handleOpenCartPage();
         });
         setProfileDetails();
+
+        movieSearch_ticketBuy_btn.setOnAction(this::btnSelect);
+    }
+
+    @FXML
+    public void btnSelect(ActionEvent event) {
+        try {
+            // Get the selected movie from the TableView
+            Movie selectedMovie = movieSearchTableView.getSelectionModel().getSelectedItem();
+
+            if (selectedMovie == null) {
+                // Show an alert or message to the user to select a movie first
+                Alert alert = new Alert(Alert.AlertType.WARNING);
+                alert.setTitle("No Selection");
+                alert.setHeaderText("No Movie Selected");
+                alert.setContentText("Please select a movie in the table.");
+                alert.showAndWait();
+                return;
+            }
+
+            // Load the next page's FXML
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/group11/group11/fxml/daySessionHallSelection.fxml"));
+            Scene scene = new Scene(loader.load());
+
+            // Get the controller of the next page
+            daySelectionController nextPageController = loader.getController();
+
+            // Pass the selected movie to the next page's controller
+            nextPageController.setSelectedMovie(selectedMovie);
+
+            // Set the new scene and show it
+            Stage stage = (Stage) movieSearch_ticketBuy_btn.getScene().getWindow();
+            stage.setScene(scene);
+            stage.show();
+        } catch (Exception e) {
+            System.out.println("Error occurred while loading page");
+            e.printStackTrace();
+        }
     }
 }

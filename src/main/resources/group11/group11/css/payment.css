@@ -1,0 +1,159 @@
+/* Anchor Pane Styles */
+.anchor-pane {
+    -fx-background-color: linear-gradient(to right, #ff80ab, #81d4fa); /* Soft pink to blue gradient */
+    -fx-padding: 10px; /* Padding inside the pane */
+    -fx-border-color: #ccc; /* Light grey border */
+    -fx-border-width: 2px;
+    -fx-border-radius: 5px;
+    -fx-background-radius: 5px;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.15), 4, 0, 0, 2);
+}
+
+/* Second Anchor Pane */
+.anchor-pane2 {
+    -fx-background-color: linear-gradient(to right, #ffffff, #b3e5fc); /* Soft white to blue gradient */
+    -fx-padding: 10px;
+    -fx-border-color: #ccc;
+    -fx-pref-height: 135px;
+    -fx-pref-width: 150px;
+    -fx-border-width: 2px;
+    -fx-border-radius: 5px;
+    -fx-background-radius: 5px;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.15), 4, 0, 0, 2);
+}
+
+
+
+.label-text {
+    -fx-text-fill: #ff4081; /* Vibrant pink text */
+    -fx-font-size: 13px;
+    -fx-font-family: "Arial";
+    -fx-font-weight: bold;
+    -fx-alignment: center;
+}
+.button-pay {
+    -fx-pref-width: 200px;
+    -fx-pref-height: 60px;
+    -fx-background-color: linear-gradient(to right, #ffffff, #b3e5fc);
+    -fx-text-fill: #ff4081; /* Vibrant pink text */
+    -fx-font-size: 14px;
+    -fx-font-family: "Arial";
+    -fx-font-weight: bold;
+    -fx-border-radius: 2px;
+    -fx-background-radius: 2px;
+    -fx-cursor: hand;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.15), 4, 0, 0, 2);
+    -fx-padding: 5px 15px;
+    -fx-transition: all 0.3s ease-in-out;
+}
+
+/* Hover Effect */
+.button-pay:hover {
+    -fx-background-color: linear-gradient(to right, #ff80ab, #81d4fa);
+    -fx-text-fill: #ffffff; /* White text for contrast */
+    -fx-border-color: #ffffff;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.25), 6, 0, 0, 4);
+}
+
+/* Pressed Effect */
+.button-pay:pressed {
+    -fx-background-color: #ff4081; /* Solid pink when pressed */
+    -fx-text-fill: #ffffff;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.2), 2, 0, 0, 1);
+}
+
+
+/* TableView Styles */
+.table-view {
+    -fx-background-color: #f9f9f9;
+    -fx-border-color: #ccc;
+    -fx-border-width: 1px;
+    -fx-font-size: 14px;
+}
+
+/* Style for Table Header */
+.table-view .column-header-background {
+    -fx-background-color: linear-gradient(to bottom, #ff7f7f, #ffb27f); /* Soft pink to orange */
+    -fx-border-color: #ccc;
+    -fx-border-width: 0 0 1px 0;
+    -fx-font-weight: bold;
+    -fx-text-fill: white;
+}
+
+/* Style for Table Cells */
+.table-view .table-cell {
+    -fx-background-color: #ffffff;
+    -fx-border-color: #e0e0e0;
+}
+
+/* Style for Even Rows */
+.table-view .table-row-cell:even {
+    -fx-background-color: #f1f1f1;
+}
+
+/* Style for Odd Rows */
+.table-view .table-row-cell:odd {
+    -fx-background-color: #ffffff;
+}
+
+/* Style for Selected Rows */
+.table-view .table-row-cell:selected {
+    -fx-background-color: #a3c6ff; /* Light blue for selected rows */
+    -fx-text-fill: #000000; /* Black text for readability */
+}
+.anchor-pane-ticket-info {
+    -fx-background-color: linear-gradient(to right, #ffffff, #b3e5fc);
+    -fx-padding: 10px; /* Padding inside the pane */
+    -fx-border-color: #ccc; /* Light grey border */
+    -fx-border-width: 2px;
+    -fx-border-radius: 2px;
+    -fx-background-radius: 5px;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.15), 4, 0, 0, 2);
+}
+
+/* Title label (TICKET INFORMATION) */
+.label-ticket-title {
+    -fx-text-fill: #ff4081; /* Vibrant pink text */
+    -fx-font-size: 24px;
+    -fx-font-weight: bold;
+    -fx-font-family: "Arial";
+    -fx-alignment: center;
+    -fx-padding: 10px;
+    -fx-background-color: linear-gradient(to right, #ffffff, #ffb27f);
+    -fx-border-radius: 2px;
+    -fx-background-radius: 5px;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.15), 4, 0, 0, 2);
+}
+
+/* Label Styles for the DAY, TIME, HALL, MOVIE */
+.label-ticket-info {
+    -fx-text-fill: #ff4081; /* Vibrant pink text */
+    -fx-font-size: 16px;
+    -fx-font-family: "Arial";
+    -fx-font-weight: bold;
+    -fx-pref-height: 60px;
+    -fx-pref-width: 274px;
+    -fx-alignment: center-left;
+    -fx-padding: 10px;
+    -fx-background-color: linear-gradient(to right, #ffffff, #b3e5fc);
+    -fx-border-radius: 2px;
+    -fx-background-radius: 2px;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.15), 4, 0, 0, 2);
+}
+
+/* Specific Styles for Individual Labels (Day, Time, Hall, Movie) */
+.label-day,
+.label-time,
+.label-hall,
+.label-movie {
+    -fx-text-fill: #ff4081; /* Vibrant pink text */
+    -fx-font-size: 14px;
+    -fx-font-family: "Arial";
+    -fx-font-weight: bold;
+    -fx-alignment: center-left;
+    -fx-padding: 10px;
+    -fx-border-radius: 2px;
+    -fx-background-radius: 2px;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.15), 4, 0, 0, 2);
+}
+
