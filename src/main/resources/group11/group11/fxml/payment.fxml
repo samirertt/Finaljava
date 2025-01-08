@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import java.lang.String?>
+<?import java.net.URL?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.DatePicker?>
 <?import javafx.scene.control.Label?>
@@ -19,7 +20,7 @@
          </children>
       </AnchorPane>
       <Button fx:id="payButton" layoutX="852.0" layoutY="616.0" mnemonicParsing="false" style="-fx-font-size: 15;" styleClass="button-pay" text="PROCEED TO PAY" />
-      <TableView fx:id="payment_TableView" layoutX="45.0" layoutY="93.0" prefHeight="244.0" prefWidth="739.0" stylesheets="@../css/payment.css">
+      <TableView fx:id="payment_TableView" layoutX="45.0" layoutY="93.0" prefHeight="244.0" prefWidth="739.0">
         <columns>
           <TableColumn fx:id="payment_tableView_itemName" prefWidth="75.0" text="Item Name" />
           <TableColumn fx:id="payment_tableView_Quantity" prefWidth="75.0" text="Quantity" />
@@ -33,6 +34,10 @@
             <String fx:value="column-header-background" />
             <String fx:value="table-view" />
          </styleClass>
+         <stylesheets>
+            <URL value="@../css/payment.css" />
+            <URL value="@../css/moviePage.css" />
+         </stylesheets>
       </TableView>
       <AnchorPane layoutX="100.0" layoutY="350.0" prefHeight="282.0" prefWidth="310.0" styleClass="anchor-pane-ticket-info">
          <children>
