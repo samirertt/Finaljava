@@ -2,6 +2,7 @@ package group11.group11.Controller;
 
 import group11.group11.Facade;
 import group11.group11.Main;
+import group11.group11.Movie;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -12,6 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class seatSelectionController {
+    Facade facade = new Facade();
     @FXML
     private Button A1;
 
@@ -164,7 +166,12 @@ public class seatSelectionController {
 
     @FXML
     private Main mainApp;
+    private Movie selectedMovie;
 
+    public void setSelectedMovie(Movie selectedMovie)
+    {
+        this.selectedMovie = selectedMovie;
+    }
     @FXML
     private Button movieSearch_windowMinimize_btn;
 
@@ -285,6 +292,14 @@ public class seatSelectionController {
                 + "-fx-border-width: 3px; "
                 + "-fx-text-fill: white; "
                 + "-fx-font-weight: bold;");
+
+        int number = facade.productExistsInCart(mainApp.getOrderNo(), selectedMovie.getMovieName());
+        // Update the database
+        if (number > 0) {
+            facade.updateProductQuantity(mainApp.getOrderNo(), selectedMovie.getMovieName(), number+1);
+        } else {
+            facade.addProductToCart(mainApp.getOrderNo(), selectedMovie.getMovieName(), 200, 1);
+        }
     }
 
 

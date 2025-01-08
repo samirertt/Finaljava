@@ -9,13 +9,50 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
+import java.sql.Date;
+import java.sql.Time;
 import java.util.Random;
 
 public class Main extends Application {
 
     private static Stage primaryStage;
     private String orderNo; // Field to hold the order number
+    private Movie selecetedMovie;
+    private Date selectedDate;
+    private Time selectedTime;
+    private String selectedHall;
 
+    public Movie getSelectedMovie() {
+        return selecetedMovie;
+    }
+
+    public Date getSelectedDate() {
+        return selectedDate;
+    }
+
+    public Time getSelectedTime() {
+        return selectedTime;
+    }
+
+    public String getSelectedHall() {
+        return selectedHall;
+    }
+
+    public void setSelectedMovie(Movie selectedMovie) {
+        this.selecetedMovie = selectedMovie;
+    }
+
+    public void setSelectedDate(Date selectedDate) {
+        this.selectedDate = selectedDate;
+    }
+
+    public void setSelectedTime(Time selectedTime) {
+        this.selectedTime = selectedTime;
+    }
+
+    public void setSelectedHall(String selectedHall) {
+        this.selectedHall = selectedHall;
+    }
     @Override
     public void start(Stage stage) {
         primaryStage = stage; // Store the primary stage
@@ -37,6 +74,7 @@ public class Main extends Application {
     // Show the Login page
     public void showLoginPage() {
         try {
+
             FXMLLoader loader = new FXMLLoader(getClass().getResource("fxml/loginPage.fxml"));
             Parent root = loader.load();
             primaryStage.setTitle("Login Page");
@@ -47,6 +85,7 @@ public class Main extends Application {
             // Pass reference of this class to the controller
             LoginPageController controller = loader.getController();
             controller.setMainApp(this);
+            Facade.clearCart();
         } catch (Exception e) {
             e.printStackTrace();
             System.err.println("Error: Unable to load the Login FXML file.");
@@ -113,11 +152,16 @@ public class Main extends Application {
             System.err.println("Error: Unable to load the Cart FXML file.");
         }
     }
-    public void openHallBPage(int session_id) {
+    public void openHallBPage(int session_id, Movie selectedMovie) {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/group11/group11/fxml/seatSelection.fxml"));
             Parent root = loader.load();
+
             primaryStage.setScene(new Scene(root));
+            seatSelectionController controller = loader.getController();
+            controller.setSessionId(session_id);
+            controller.setMainApp(this);
+            controller.setSelectedMovie(selectedMovie);
             primaryStage.show();
         } catch (Exception e) {
             System.out.println("Error occurred while loading Hall B page");
@@ -125,12 +169,14 @@ public class Main extends Application {
         }
     }
 
-    public void openHallAPage(int session_id) {
+    public void openHallAPage(int session_id,  Movie selectedMovie) {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/group11/group11/fxml/seatSelectionA.fxml"));
             Parent root = loader.load();
             seatSelectionAController controller = loader.getController();
             controller.setSessionId(session_id);
+            controller.setMainApp(this);
+            controller.setSelectedMovie(selectedMovie);
             primaryStage.setScene(new Scene(root));
             primaryStage.show();
         } catch (Exception e) {
@@ -141,8 +187,13 @@ public class Main extends Application {
 
     public void ProductPurchase() {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/group11/group11/fxml/customer_products.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("fxml/customer_products.fxml"));
             Parent root = loader.load();
+
+            // Get the controller and set the mainApp reference
+            customer_products controller = loader.getController();
+            System.out.println("Setting mainApp in customer_products controller..."); // Debug statement
+            controller.setMainApp(this); // Pass the Main instance to the controller
             primaryStage.setScene(new Scene(root));
             primaryStage.show();
         } catch (Exception e) {
@@ -151,6 +202,19 @@ public class Main extends Application {
         }
     }
 
+    public void btnPayScreen() {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("fxml/payment.fxml"));
+            Parent root = loader.load();
+            payment controller = loader.getController();
+            controller.setMainApp(this);
+            primaryStage.setScene(new Scene(root));
+            primaryStage.show();
+        } catch (Exception e) {
+            System.out.println("Error occurred while loading page");
+            e.printStackTrace();
+        }
+    }
     public static void main(String[] args) {
         launch(args);
     }

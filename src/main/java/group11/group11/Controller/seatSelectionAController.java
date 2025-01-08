@@ -2,6 +2,7 @@ package group11.group11.Controller;
 
 import group11.group11.Facade;
 import group11.group11.Main;
+import group11.group11.Movie;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -14,6 +15,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class seatSelectionAController {
+    Facade facade = new Facade();
     @FXML
     private Button A1;
 
@@ -91,7 +93,13 @@ public class seatSelectionAController {
 
     private List<String> selectedSeats = new ArrayList<>();
     private int sessionId; // Add this field to store the session ID
+    private Movie selectedMovie;
 
+    public void setSelectedMovie(Movie selectedMovie)
+    {
+        this.selectedMovie = selectedMovie;
+        mainApp.setSelectedMovie(selectedMovie);
+    }
     public void setSessionId(int sessionId) {
         this.sessionId = sessionId;
         initializeSeatAvailability();
@@ -161,19 +169,18 @@ public class seatSelectionAController {
                 + "-fx-border-width: 3px; "
                 + "-fx-text-fill: white; "
                 + "-fx-font-weight: bold;");
+
+        int number = facade.productExistsInCart(mainApp.getOrderNo(), selectedMovie.getMovieName());
+        // Update the database
+        if (number > 0) {
+            facade.updateProductQuantity(mainApp.getOrderNo(), selectedMovie.getMovieName(), number+1);
+        } else {
+            facade.addProductToCart(mainApp.getOrderNo(), selectedMovie.getMovieName(), 200, 1);
+        }
     }
 
     @FXML
     public void btnProductPurchase(ActionEvent event) {
-        try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/group11/group11/fxml/customer_products.fxml"));
-            Scene scene = new Scene(loader.load());
-            Stage stage = (Stage) productPurchase.getScene().getWindow();
-            stage.setScene(scene);
-            stage.show();
-        } catch (Exception e) {
-            System.out.println("Error occurred while loading page");
-            e.printStackTrace();
-        }
+        mainApp.ProductPurchase();
     }
 }

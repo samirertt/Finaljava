@@ -137,6 +137,7 @@ public class daySelectionController extends Application
                 for (Time time : sessionTimes) {
                     sessionComboBox.getItems().add(time.toString());
                 }
+                mainApp.setSelectedDate(selectedDay);
             }
         });
 
@@ -147,6 +148,7 @@ public class daySelectionController extends Application
                 List<String> halls = Facade.getSessionHalls(selectedTime);
                 hallComboBox.getItems().clear();
                 hallComboBox.getItems().addAll(halls);
+                mainApp.setSelectedTime(selectedTime);
             }
         });
     }
@@ -156,14 +158,15 @@ public class daySelectionController extends Application
     @FXML
     public void btnSelectedMoveOn() {
         String selectedHall = hallComboBox.getValue();
+        mainApp.setSelectedHall(selectedHall);
         int session_id = Facade.getSessionId(sessionTime,selectedMovie.getMovie_id());
         if (selectedHall != null) {
             switch (selectedHall) {
                 case "A":
-                    mainApp.openHallAPage(session_id);
+                    mainApp.openHallAPage(session_id, selectedMovie);
                     break;
                 case "B":
-                    mainApp.openHallBPage(session_id);
+                    mainApp.openHallBPage(session_id, selectedMovie);
                     break;
                 default:
                     showAlert("Invalid selection!");

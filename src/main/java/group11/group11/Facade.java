@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-
 public class Facade {
     private static final String DB_URL = "jdbc:mysql://localhost:3306/cinemacenter";
     private static final String DB_USER = "root"; // Replace with your username
@@ -64,8 +63,7 @@ public class Facade {
                 String movieDuration = rs.getString("moviesDuration");
                 String movieReleaseYear = rs.getString("movieReleaseYear");
 
-
-                return new Movie(movie_id,fullName, movieSummary, movieGenre, movieImage, movieDuration, movieReleaseYear);
+                return new Movie(movie_id, fullName, movieSummary, movieGenre, movieImage, movieDuration, movieReleaseYear);
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -91,7 +89,7 @@ public class Facade {
                 String movieReleaseYear = rs.getString("movieReleaseYear");
 
                 // Create and add the movie object to the list
-                Movie movie = new Movie(movie_id,movieName, movieSummary, genre, movieImage, movieDuration, movieReleaseYear);
+                Movie movie = new Movie(movie_id, movieName, movieSummary, genre, movieImage, movieDuration, movieReleaseYear);
                 movieList.add(movie);
             }
         } catch (Exception e) {
@@ -99,7 +97,6 @@ public class Facade {
         }
         return movieList; // Return the list of movies (can be empty if no results)
     }
-
 
     public List<Movie> searchMovieByPartialName(String partialName) {
         String query = "SELECT movie_id, moviesName, moviesSummary, moviesGenre, moviesImage, moviesDuration, movieReleaseYear " +
@@ -132,8 +129,7 @@ public class Facade {
 
     public List<Cart.Product> getProductsFromDb(String orderNo) {
         List<Cart.Product> products = new ArrayList<>();
-        String query = "SELECT name_ofProduct, price_ofProduct, quantity_ofProduct " +
-                "FROM `cart` WHERE order_no = ?";
+        String query = "SELECT item_type, price_per_item, quantity FROM cart WHERE item_id = ?";
 
         try (Connection conn = connect(); PreparedStatement stmt = conn.prepareStatement(query)) {
             stmt.setString(1, orderNo);
@@ -141,9 +137,9 @@ public class Facade {
 
             while (rs.next()) {
                 // Extract values from the ResultSet
-                String productName = rs.getString("name_ofProduct");
-                double productPrice = rs.getDouble("price_ofProduct");
-                int productQuantity = rs.getInt("quantity_ofProduct");
+                String productName = rs.getString("item_type");
+                double productPrice = rs.getDouble("price_per_item");
+                int productQuantity = rs.getInt("quantity");
 
                 // Create a new Cart.Product object and add it to the list
                 Cart.Product product = new Cart.Product(productName, productPrice, productQuantity);
@@ -156,8 +152,23 @@ public class Facade {
         return products; // Return the list of products
     }
 
+    public void addProductToCart(String orderNo, String productName, double productPrice, int quantity) {
+        String query = "INSERT INTO cart (item_id, item_type, price_per_item, quantity) VALUES (?, ?, ?, ?)";
+
+        try (Connection conn = connect(); PreparedStatement stmt = conn.prepareStatement(query)) {
+            stmt.setString(1, orderNo);
+            stmt.setString(2, productName);
+            stmt.setDouble(3, productPrice);
+            stmt.setInt(4, quantity);
+            stmt.executeUpdate();
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.err.println("Error adding product to the cart in the database.");
+        }
+    }
+
     public void updateProductQuantity(String orderNo, String productName, int newQuantity) {
-        String query = "UPDATE `cart` SET quantity_ofProduct = ? WHERE order_no = ? AND name_ofProduct = ?";
+        String query = "UPDATE cart SET quantity = ? WHERE item_id = ? AND item_type = ?";
 
         try (Connection conn = connect(); PreparedStatement stmt = conn.prepareStatement(query)) {
             stmt.setInt(1, newQuantity);
@@ -169,6 +180,25 @@ public class Facade {
             System.err.println("Error updating product quantity in the database.");
         }
     }
+
+    public int productExistsInCart(String orderNo, String productName) {
+        String query = "SELECT COUNT(*) FROM cart WHERE item_id = ? AND item_type = ?";
+
+        try (Connection conn = connect(); PreparedStatement stmt = conn.prepareStatement(query)) {
+            stmt.setString(1, orderNo);
+            stmt.setString(2, productName);
+            ResultSet rs = stmt.executeQuery();
+
+            if (rs.next()) {
+                int count = rs.getInt(1);
+                return count; // Returns true if the product exists in the cart
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return 0;
+    }
+
     public static int getMovieIdByName(String movieName) {
         int movieId = -1; // Default value if the movie is not found
         String query = "SELECT movie_id FROM movies WHERE moviesName = ?";
@@ -189,8 +219,7 @@ public class Facade {
         return movieId;
     }
 
-    public static List<Date> getSessionDays(int movieId)
-    {
+    public static List<Date> getSessionDays(int movieId) {
         List<Date> sessionDays = new ArrayList<>();
         String query = "SELECT DISTINCT day FROM Sessions WHERE movie_id = ? ORDER BY day";
 
@@ -212,8 +241,7 @@ public class Facade {
         return sessionDays;
     }
 
-    public static List<Time> getSessionTimes(Date selectedDay)
-    {
+    public static List<Time> getSessionTimes(Date selectedDay) {
         List<Time> sessionTimes = new ArrayList<>();
         String query = "SELECT session_id, time FROM Sessions WHERE day = ? ORDER BY time";
 
@@ -233,6 +261,7 @@ public class Facade {
 
         return sessionTimes;
     }
+
     public static List<String> getUnavailableSeats(int sessionId) {
         List<String> unavailableSeats = new ArrayList<>();
         String query = "SELECT seat_number FROM Seats WHERE session_id = ? AND is_available = 0";
@@ -254,8 +283,8 @@ public class Facade {
 
         return unavailableSeats;
     }
-    public static List<String> getSessionHalls(Time selectedTime)
-    {
+
+    public static List<String> getSessionHalls(Time selectedTime) {
         List<String> sessionHalls = new ArrayList<>();
         String query = "SELECT DISTINCT hall FROM Sessions WHERE time = ? ORDER BY hall";
 
@@ -277,8 +306,7 @@ public class Facade {
         return sessionHalls;
     }
 
-    public static int getSessionId(Time selectedTime, int movieId)
-    {
+    public static int getSessionId(Time selectedTime, int movieId) {
         int session_id = 0;
         String query = "SELECT session_id FROM Sessions WHERE time = ? AND movie_id = ?";
 
@@ -286,7 +314,7 @@ public class Facade {
              PreparedStatement pstmt = conn.prepareStatement(query)) {
 
             pstmt.setTime(1, new Time(selectedTime.getTime()));
-            pstmt.setInt(2,movieId);
+            pstmt.setInt(2, movieId);
             try (ResultSet rs = pstmt.executeQuery()) {
                 while (rs.next()) {
                     session_id = rs.getInt("session_id");
@@ -297,5 +325,16 @@ public class Facade {
             e.printStackTrace();
         }
         return session_id;
+    }
+    public static void clearCart() {
+        String query = "DELETE FROM cart"; // Delete all rows from the cart table
+
+        try (Connection conn = connect(); PreparedStatement stmt = conn.prepareStatement(query)) {
+            stmt.executeUpdate(); // Execute the delete query
+            System.out.println("Cart table cleared successfully.");
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.err.println("Error clearing the cart table.");
+        }
     }
 }

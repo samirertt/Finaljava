@@ -8,9 +8,10 @@
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="1100.0" styleClass="anchor-pane" stylesheets="@../css/payment.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="1100.0" styleClass="anchor-pane" stylesheets="@../css/payment.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="group11.group11.Controller.payment">
    <children>
       <AnchorPane layoutX="819.0" layoutY="93.0" prefHeight="513.0" prefWidth="266.0" style="-fx-background-color: white;">
          <children>
@@ -18,11 +19,11 @@
          </children>
       </AnchorPane>
       <Button fx:id="payButton" layoutX="852.0" layoutY="616.0" mnemonicParsing="false" style="-fx-font-size: 15;" styleClass="button-pay" text="PROCEED TO PAY" />
-      <TableView layoutX="45.0" layoutY="93.0" prefHeight="244.0" prefWidth="739.0" stylesheets="@../css/payment.css">
+      <TableView fx:id="payment_TableView" layoutX="45.0" layoutY="93.0" prefHeight="244.0" prefWidth="739.0" stylesheets="@../css/payment.css">
         <columns>
-          <TableColumn prefWidth="75.0" text="Item Name" />
-          <TableColumn prefWidth="75.0" text="Quantity" />
-            <TableColumn prefWidth="75.0" text="Price" />
+          <TableColumn fx:id="payment_tableView_itemName" prefWidth="75.0" text="Item Name" />
+          <TableColumn fx:id="payment_tableView_Quantity" prefWidth="75.0" text="Quantity" />
+            <TableColumn fx:id="payment_tableView_price" prefWidth="75.0" text="Price" />
         </columns>
          <columnResizePolicy>
             <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
@@ -36,10 +37,10 @@
       <AnchorPane layoutX="100.0" layoutY="350.0" prefHeight="282.0" prefWidth="310.0" styleClass="anchor-pane-ticket-info">
          <children>
             <Label layoutX="24.0" layoutY="14.0" prefHeight="76.0" prefWidth="298.4" style="-fx-alignment: center;" styleClass="label-ticket-info" text="TICKET INFORMATION" AnchorPane.bottomAnchor="254.0" AnchorPane.leftAnchor="24.0" AnchorPane.rightAnchor="24.0" AnchorPane.topAnchor="14.0" />
-            <Label layoutX="12.0" layoutY="127.0" prefHeight="60.0" prefWidth="274.0" styleClass="label-day" text="DAY:" />
-            <Label layoutX="12.0" layoutY="187.0" prefHeight="60.0" prefWidth="274.0" styleClass="label-time" text="TIME" />
-            <Label layoutX="12.0" layoutY="238.0" prefHeight="60.0" prefWidth="274.0" styleClass="label-hall" text="HALL:" />
-            <Label layoutX="12.0" layoutY="67.0" prefHeight="60.0" prefWidth="274.0" styleClass="label-movie" text="MOVIE:" />
+            <Label fx:id="payment_movieDay" layoutX="12.0" layoutY="127.0" prefHeight="60.0" prefWidth="274.0" styleClass="label-day" text="DAY:" />
+            <Label fx:id="payment_movieTime" layoutX="12.0" layoutY="187.0" prefHeight="60.0" prefWidth="274.0" styleClass="label-time" text="TIME" />
+            <Label fx:id="payment_movieHall" layoutX="12.0" layoutY="238.0" prefHeight="60.0" prefWidth="274.0" styleClass="label-hall" text="HALL:" />
+            <Label fx:id="payment_movieName" layoutX="12.0" layoutY="67.0" prefHeight="60.0" prefWidth="274.0" styleClass="label-movie" text="Movie:" />
          </children>
       </AnchorPane>
       <AnchorPane layoutX="419.0" layoutY="350.0" prefHeight="282.0" prefWidth="310.0" styleClass="anchor-pane-ticket-info">
@@ -52,5 +53,10 @@
             <Button layoutX="214.0" layoutY="242.0" mnemonicParsing="false" text="ENTER" />
          </children>
       </AnchorPane>
+      <Label fx:id="order_ID" layoutX="812.0" layoutY="26.0" text="Label">
+         <font>
+            <Font size="30.0" />
+         </font>
+      </Label>
    </children>
 </AnchorPane>

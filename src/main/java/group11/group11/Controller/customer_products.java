@@ -1,5 +1,8 @@
 package group11.group11.Controller;
 
+import group11.group11.Cart;
+import group11.group11.Facade;
+import group11.group11.Main;
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
@@ -17,6 +20,7 @@ import javafx.stage.Stage;
 import javafx.util.Pair;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class customer_products {
@@ -66,7 +70,6 @@ public class customer_products {
     private Button dec_drink4;
     @FXML
     private Label qty_drink4;
-
 
     @FXML
     private Button inc_food1;  // Popcorn
@@ -126,23 +129,20 @@ public class customer_products {
     @FXML
     private Button PayScreenBtn;
 
+    private Cart cart;
+    private Facade facade;
+    private Main mainApp;
+
+    public void setMainApp(Main mainApp) {
+        System.out.println("Setting mainApp: " + mainApp);
+        this.mainApp = mainApp;
+        this.cart = new Cart(mainApp.getOrderNo());
+        initializeData(); // Call this after setting mainApp
+    }
+
     @FXML
     private void initialize() {
-        // Initialize the labels with the starting counts
-        qty_drink1.setText("0");
-        qty_drink2.setText("0");
-        qty_drink3.setText("0");
-        qty_drink4.setText("0");
-        qty_food1.setText("0");
-        qty_food2.setText("0");
-        qty_food3.setText("0");
-        qty_food4.setText("0");
-        qty_toy1.setText("0");
-        qty_toy2.setText("0");
-        qty_toy3.setText("0");
-        qty_toy4.setText("0");
-
-        // Initialize the TableView and its columns
+        // Initialize only the components that do not depend on mainApp
         productList = FXCollections.observableArrayList();
         productColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getKey()));
         quantityColumn.setCellValueFactory(cellData -> new SimpleIntegerProperty(cellData.getValue().getValue().getKey()).asObject());
@@ -165,6 +165,32 @@ public class customer_products {
         productPrices.put("Toy2", 100.0);
         productPrices.put("Toy3", 100.0);
         productPrices.put("Toy4", 1000.0);
+
+        // Initialize the labels with the starting counts
+        qty_drink1.setText("0");
+        qty_drink2.setText("0");
+        qty_drink3.setText("0");
+        qty_drink4.setText("0");
+        qty_food1.setText("0");
+        qty_food2.setText("0");
+        qty_food3.setText("0");
+        qty_food4.setText("0");
+        qty_toy1.setText("0");
+        qty_toy2.setText("0");
+        qty_toy3.setText("0");
+        qty_toy4.setText("0");
+
+        // Initialize the Facade
+        facade = new Facade();
+    }
+
+    private void initializeData() {
+        // Initialize the cart with the order number from mainApp
+        if (mainApp != null) {
+            this.cart = new Cart(mainApp.getOrderNo());
+        } else {
+            System.out.println("mainApp is null!"); // Debug statement
+        }
     }
 
     @FXML
@@ -214,9 +240,9 @@ public class customer_products {
             return qty_toy1;
         } else if (button == inc_toy2 || button == dec_toy2) {
             return qty_toy2;
-        }else if (button == inc_toy3 || button == dec_toy3) {
+        } else if (button == inc_toy3 || button == dec_toy3) {
             return qty_toy3;
-        }else if (button == inc_toy4 || button == dec_toy4) {
+        } else if (button == inc_toy4 || button == dec_toy4) {
             return qty_toy4;
         }
 
@@ -256,6 +282,19 @@ public class customer_products {
         productPrice = productPrices.get(productName);
         productQuantities.put(productName, count);
 
+        // Add or update the product in the cart
+        if (count > 0) {
+            cart.addProduct(productName, productPrice, count);
+        } else {
+            cart.removeProduct(productName);
+        }
+        // Update the database
+        if (facade.productExistsInCart(mainApp.getOrderNo(), productName) > 0) {
+            facade.updateProductQuantity(mainApp.getOrderNo(), productName, count);
+        } else {
+            facade.addProductToCart(mainApp.getOrderNo(), productName, productPrice, count);
+        }
+
         boolean found = false;
         for (int i = 0; i < productList.size(); i++) {
             Pair<String, Pair<Integer, Double>> product = productList.get(i);
@@ -280,20 +319,10 @@ public class customer_products {
         totalAmountLabel.setText(String.format("Total: %.2f₺ ", totalAmount));
     }
 
-
     @FXML
-    public void btnPayScreen(ActionEvent event)
-    {
-        try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/group11/group11/fxml/payment.fxml"));
-            Scene scene = new Scene(loader.load());
-            Stage stage = (Stage) PayScreenBtn.getScene().getWindow();
-            stage.setScene(scene);
-            stage.show();
-        } catch (Exception e) {
-            System.out.println("Error occurred while loading page");
-            e.printStackTrace();
-        }
-
+    public void btnPayScreen(ActionEvent event) {
+        mainApp.btnPayScreen();
     }
+
+
 }
