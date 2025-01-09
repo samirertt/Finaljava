@@ -72,16 +72,23 @@ public class MoviePageController implements Initializable {
     private ImageView movieSearch_Image;
 
     @FXML
+    private Button logoutButton;
+
+    @FXML
     private Label movieSearch_Name;
 
     @FXML
     private Label movieSearch_Genre;
 
     @FXML
+    private Spinner<Integer> movieSearch_spinner;
+
+    @FXML
     private Button movieSearch_windowMinimize_btn;
 
     @FXML
     private Label movieSearch_movieInformation;
+
     @FXML
     private Button searchMovie_cart;
 
@@ -93,15 +100,17 @@ public class MoviePageController implements Initializable {
     }
 
     public void setCurrentUser(Users user) {
+
         this.currentUser = user;
     }
 
     @FXML
-    private void handleLogout() {
+    public void handleLogoutButton(ActionEvent event) {
         if (mainApp != null) {
-            mainApp.showLoginPage();
+            mainApp.logout();
         }
     }
+
     @FXML
     private void handleOpenCartPage() {
         System.out.println("Cart button clicked! movie");
@@ -110,6 +119,7 @@ public class MoviePageController implements Initializable {
             mainApp.showCartPage();
         }
     }
+
     @FXML
     private void handleWindowClose() {
         System.exit(0);
@@ -188,6 +198,7 @@ public class MoviePageController implements Initializable {
 
     }
 
+
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         ToggleGroup searchToggleGroup = new ToggleGroup();
@@ -224,6 +235,11 @@ public class MoviePageController implements Initializable {
         setProfileDetails();
 
         movieSearch_ticketBuy_btn.setOnAction(this::btnSelect);
+
+
+        if (logoutButton != null) {
+            logoutButton.setOnAction(this::handleLogoutButton);
+        }
     }
 
     @FXML

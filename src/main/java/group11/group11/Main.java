@@ -59,6 +59,10 @@ public class Main extends Application {
         showLoginPage(); // Start with the login page
     }
 
+    public void logout() {
+        showLoginPage();
+    }
+
     // Generate a random order number and store it in the field
     public String generateRandomOrderNo() {
         int orderNo = new Random().nextInt(900000) + 100000; // 6-digit random number
@@ -162,6 +166,7 @@ public class Main extends Application {
             controller.setSessionId(session_id);
             controller.setMainApp(this);
             controller.setSelectedMovie(selectedMovie);
+            primaryStage.setScene(new Scene(root));
             primaryStage.show();
         } catch (Exception e) {
             System.out.println("Error occurred while loading Hall B page");

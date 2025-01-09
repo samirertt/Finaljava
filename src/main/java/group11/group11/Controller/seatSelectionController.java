@@ -3,17 +3,30 @@ package group11.group11.Controller;
 import group11.group11.Facade;
 import group11.group11.Main;
 import group11.group11.Movie;
+import group11.group11.Users;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
-
+import java.sql.Time;
 import java.util.ArrayList;
 import java.util.List;
 
 public class seatSelectionController {
+
+    private Movie selectedMovie;
+    private Users currentUser;
+
     Facade facade = new Facade();
+
+    @FXML
+    private Label movieSearch_profileName;
+
+    @FXML
+    private Label movieSearch_profileRole;
+
     @FXML
     private Button A1;
 
@@ -159,6 +172,12 @@ public class seatSelectionController {
     private Button F8;
 
     @FXML
+    private Button backButton;
+
+    @FXML
+    private Button logoutButton;
+
+    @FXML
     private Button productPurchase;
 
     @FXML
@@ -166,7 +185,6 @@ public class seatSelectionController {
 
     @FXML
     private Main mainApp;
-    private Movie selectedMovie;
 
     public void setSelectedMovie(Movie selectedMovie)
     {
@@ -198,10 +216,43 @@ public class seatSelectionController {
     }
 
     @FXML
+    public void handleLogoutButton(ActionEvent event) {
+        if (mainApp != null) {
+            mainApp.logout();
+        }
+    }
+
+    @FXML
+    public void handleBackButton(ActionEvent event) {
+        if (mainApp != null && currentUser != null) {
+            mainApp.showDaySelectionPage(currentUser, selectedMovie);
+        }
+    }
+
+    public void setCurrentUser(Users user) {
+        this.currentUser = user;
+    }
+
+    public void setProfileDetails() {
+        if (currentUser != null) {
+            movieSearch_profileName.setText(currentUser.getUsername());
+            movieSearch_profileRole.setText(currentUser.getrole());
+        }
+    }
+
+    @FXML
     public void initialize() {
         // Call initializeSeatAvailability here if sessionId is already set
         if (sessionId != 0) {
             initializeSeatAvailability();
+        }
+
+        if (backButton != null) {
+            backButton.setOnAction(this::handleBackButton);
+        }
+
+        if (logoutButton != null) {
+            logoutButton.setOnAction(this::handleLogoutButton);
         }
     }
 
@@ -301,7 +352,14 @@ public class seatSelectionController {
             facade.addProductToCart(mainApp.getOrderNo(), selectedMovie.getMovieName(), 200, 1);
         }
     }
-
+    @FXML
+    private void handleOpenCartPage() {
+        System.out.println("Cart button clicked! movie");
+        if (mainApp != null) {
+            System.out.println("is not null");
+            mainApp.showCartPage();
+        }
+    }
 
     // check if seats are selected
     @FXML

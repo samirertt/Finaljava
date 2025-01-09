@@ -8,6 +8,7 @@ import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.event.ActionEvent;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
@@ -39,6 +40,9 @@ public class CartPageController {
 
     @FXML
     private TableColumn<Cart.Product, Double> cart_productPrice;
+
+    @FXML
+    private Button logoutButton;
 
     @FXML
     private TableColumn<Cart.Product, Integer> cart_productQuantity;
@@ -88,6 +92,14 @@ public class CartPageController {
             System.err.println("Error: mainApp is null in CartPageController.");
         }
     }
+
+    @FXML
+    public void handleLogoutButton(ActionEvent event) {
+        if (mainApp != null) {
+            mainApp.logout();
+        }
+    }
+
     @FXML
     public void initialize() {
         // Set up the TableView columns
@@ -97,6 +109,10 @@ public class CartPageController {
 
         // Add event handlers for button actions
         addEventHandlers();
+
+        if (logoutButton != null) {
+            logoutButton.setOnAction(this::handleLogoutButton);
+        }
     }
 
     // Adding event handlers for cart actions

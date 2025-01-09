@@ -83,6 +83,7 @@ public class seatSelectionAController {
     }
 
     public void movieSearch_windowClose_btn() {
+
         System.exit(0);
     }
 
