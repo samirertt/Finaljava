@@ -44,7 +44,7 @@
             <FontAwesomeIcon glyphName="SIGN_OUT" size="1.5em" />
          </graphic>
       </Button>
-      <Button fx:id="cartList_close_btn" layoutX="644.0" mnemonicParsing="false" onAction="movieSearch_windowClose_btn" prefHeight="24.0" prefWidth="56.0" styleClass="close-form" stylesheets="@../css/moviePage.css">
+      <Button fx:id="cartList_close_btn" layoutX="644.0" mnemonicParsing="false" onAction="#movieSearch_windowClose_btn" prefHeight="24.0" prefWidth="56.0" styleClass="close-form" stylesheets="@../css/moviePage.css">
          <graphic>
             <FontAwesomeIcon glyphName="CLOSE" />
          </graphic>

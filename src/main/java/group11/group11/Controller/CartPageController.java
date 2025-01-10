@@ -100,6 +100,7 @@ public class CartPageController {
         }
     }
 
+
     @FXML
     public void initialize() {
         // Set up the TableView columns

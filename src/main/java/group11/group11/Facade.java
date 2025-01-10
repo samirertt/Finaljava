@@ -8,7 +8,7 @@ import java.util.Objects;
 public class Facade {
     private static final String DB_URL = "jdbc:mysql://localhost:3306/cinemacenter";
     private static final String DB_USER = "root"; // Replace with your username
-    private static final String DB_PASSWORD = "188103"; // Replace with your password
+    private static final String DB_PASSWORD = "addnone2013"; // Replace with your password
 
     private static Connection connect() throws Exception {
         Class.forName("com.mysql.cj.jdbc.Driver");
@@ -182,7 +182,7 @@ public class Facade {
     }
 
     public int productExistsInCart(String orderNo, String productName) {
-        String query = "SELECT COUNT(*) FROM cart WHERE item_id = ? AND item_type = ?";
+        String query = "SELECT quantity FROM cart WHERE item_id = ? AND item_type = ?";
 
         try (Connection conn = connect(); PreparedStatement stmt = conn.prepareStatement(query)) {
             stmt.setString(1, orderNo);
