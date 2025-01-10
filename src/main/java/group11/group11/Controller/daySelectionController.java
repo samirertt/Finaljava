@@ -63,6 +63,9 @@ public class daySelectionController
     public ComboBox<String> hallComboBox;
 
     @FXML
+    private Button searchMovie_cart;
+
+    @FXML
     private Button backButton;
 
     @FXML
@@ -90,6 +93,15 @@ public class daySelectionController
     public void handleBackButton(ActionEvent event) {
         if (mainApp != null && currentUser != null) {
             mainApp.showMoviePage(currentUser);
+        }
+    }
+
+    @FXML
+    private void handleOpenCartPage() {
+        System.out.println("Cart button clicked! movie");
+        if (mainApp != null) {
+            System.out.println("is not null");
+            mainApp.showCartPage();
         }
     }
 
@@ -174,10 +186,10 @@ public class daySelectionController
         if (selectedHall != null) {
             switch (selectedHall) {
                 case "A":
-                    mainApp.openHallAPage(session_id, selectedMovie);
+                    mainApp.openHallAPage(session_id, selectedMovie, currentUser);
                     break;
                 case "B":
-                    mainApp.openHallBPage(session_id, selectedMovie);
+                    mainApp.openHallBPage(session_id, selectedMovie, currentUser);
                     break;
                 default:
                     showAlert("Invalid selection!");

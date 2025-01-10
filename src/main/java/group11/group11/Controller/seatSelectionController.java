@@ -172,6 +172,9 @@ public class seatSelectionController {
     private Button F8;
 
     @FXML
+    private Button searchMovie_cart;
+
+    @FXML
     private Button backButton;
 
     @FXML
@@ -229,6 +232,15 @@ public class seatSelectionController {
         }
     }
 
+    @FXML
+    private void handleOpenCartPage() {
+        System.out.println("Cart button clicked! movie");
+        if (mainApp != null) {
+            System.out.println("is not null");
+            mainApp.showCartPage();
+        }
+    }
+
     public void setCurrentUser(Users user) {
         this.currentUser = user;
     }
@@ -243,6 +255,12 @@ public class seatSelectionController {
     @FXML
     public void initialize() {
         // Call initializeSeatAvailability here if sessionId is already set
+
+        searchMovie_cart.setOnAction(event -> {
+            System.out.println("Cart button clicked!");
+            handleOpenCartPage();
+        });
+
         if (sessionId != 0) {
             initializeSeatAvailability();
         }
@@ -352,18 +370,12 @@ public class seatSelectionController {
             facade.addProductToCart(mainApp.getOrderNo(), selectedMovie.getMovieName(), 200, 1);
         }
     }
-    @FXML
-    private void handleOpenCartPage() {
-        System.out.println("Cart button clicked! movie");
-        if (mainApp != null) {
-            System.out.println("is not null");
-            mainApp.showCartPage();
-        }
-    }
 
     // check if seats are selected
     @FXML
     public void btnProductPurchase(ActionEvent event) {
-        mainApp.ProductPurchase();
+        if (mainApp != null && currentUser != null) {
+            mainApp.ProductPurchase(sessionId, selectedMovie, currentUser, "B");
+        }
     }
 }

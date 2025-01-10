@@ -73,12 +73,17 @@
                   <FontAwesomeIcon glyphName="SIGN_OUT" size="1.5em" />
               </graphic>
           </Button>
+          <Button fx:id="searchMovie_cart" layoutX="916.0" layoutY="-1.0" mnemonicParsing="false" onAction="#handleOpenCartPage" prefHeight="35.0" prefWidth="55.0" styleClass="close-form" stylesheets="@../css/moviePage.css">
+              <graphic>
+                  <FontAwesomeIcon glyphName="ARCHIVE" size="2.2em" />
+              </graphic>
+          </Button>
       </children></AnchorPane>
         <Button fx:id="moveOnToSeatSelection" layoutX="451.0" layoutY="659.0" mnemonicParsing="false" onAction="#btnSelectedMoveOn" prefHeight="33.0" prefWidth="223.0" style="-fx-background-color: #f5f5f5;                     -fx-border-color: #cccccc; -fx-font-size: 15px;" text="Move On to Seat Selection" />
-    <Label fx:id="movieSearch_profileName" layoutX="70.0" prefHeight="30.0" prefWidth="82.0" stylesheets="@../css/dayselection.css" text="NAME">
+    <Label fx:id="movieSearch_profileName" layoutX="75.0" prefHeight="30.0" prefWidth="82.0" style="-fx-font-weight: bold; -fx-font-size: 15.0" text="NAME">
     </Label>
-    <Label fx:id="movieSearch_profileRole" layoutX="70.0" layoutY="28.0" prefHeight="30.0" prefWidth="82.0" stylesheets="@../css/dayselection.css" text="ROLE" />
-
+    <Label fx:id="movieSearch_profileRole" layoutX="75.0" layoutY="28.0" prefHeight="30.0" prefWidth="82.0" style="-fx-font-weight: bold; -fx-font-size: 15.0" text="ROLE" />
+    <FontAwesomeIcon glyphName="USER" layoutX="42.0" layoutY="35.0" size="2.3em" />
     <Label fx:id="firstLabel" layoutX="361.0" layoutY="14.0" prefHeight="58.0" prefWidth="394.0" style="-fx-font-size: 22.0; -fx-font-family: Tahoma;" text="        Select Date, Session and Hall" textAlignment="CENTER" textFill="#000000">
     </Label>
     <AnchorPane fx:id="dayAnchor" layoutX="53.17" layoutY="82.25" prefHeight="558.25" prefWidth="311.67" style="-fx-background-color: #a4779b; -fx-background-radius: 10px; -fx-border-color: #222222; -fx-border-width: 3px; -fx-border-radius: 10px;">

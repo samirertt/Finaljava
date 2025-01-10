@@ -1,8 +1,6 @@
 package group11.group11.Controller;
 
-import group11.group11.Cart;
-import group11.group11.Facade;
-import group11.group11.Main;
+import group11.group11.*;
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
@@ -19,11 +17,20 @@ import javafx.event.ActionEvent;
 import javafx.stage.Stage;
 import javafx.util.Pair;
 
+import java.sql.Time;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 public class customer_products {
+
+    private Movie selectedMovie;
+    private Users currentUser;
+    private Time sessionTime;
+    private String previousPage;
+    private Cart cart;
+    private Facade facade;
+    private Main mainApp;
 
     @FXML
     private TableView<Pair<String, Pair<Integer, Double>>> productTable;
@@ -39,6 +46,24 @@ public class customer_products {
     private Map<String, Integer> productQuantities;
     @FXML
     private Map<String, Double> productPrices;
+
+    @FXML
+    private Label movieSearch_profileName;
+
+    @FXML
+    private Label movieSearch_profileRole;
+
+    @FXML
+    private Button searchMovie_cart;
+
+    @FXML
+    private Button backButton;
+
+    @FXML
+    private Button logoutButton;
+
+    @FXML
+    private Button movieSearch_windowMinimize_btn;
 
     @FXML
     private Label totalAmountLabel;
@@ -126,12 +151,78 @@ public class customer_products {
     private Button dec_toy2;
     @FXML
     private Label qty_toy2;
+
     @FXML
     private Button PayScreenBtn;
 
-    private Cart cart;
-    private Facade facade;
-    private Main mainApp;
+    private int sessionId; // Add this field to store the session ID
+
+    public void setSessionId(int sessionId) {
+        this.sessionId = sessionId;
+        System.out.println("Session ID set to: " + sessionId); // Debugging
+     //   initializeSeatAvailability();
+    }
+
+    public void setPreviousPage(String previousPage) {
+        this.previousPage = previousPage;
+    }
+
+    public void setSelectedMovie(Movie selectedMovie)
+    {
+        this.selectedMovie = selectedMovie;
+    }
+
+
+    public void movieSearch_windowClose_btn() {
+        System.exit(0);
+    }
+
+    @FXML
+    public void handleLogoutButton(ActionEvent event) {
+        if (mainApp != null) {
+            mainApp.logout();
+        }
+    }
+
+    @FXML
+    public void handleBackButton(ActionEvent event) {
+        if (mainApp != null && currentUser != null && selectedMovie != null) {
+            if ("A".equals(previousPage)) {
+                mainApp.openHallAPage(sessionId, selectedMovie, currentUser);
+            } else if ("B".equals(previousPage)) {
+                mainApp.openHallBPage(sessionId, selectedMovie, currentUser);
+            } else {
+                System.out.println("No previous page specified!");
+            }
+        }
+    }
+
+    @FXML
+    private void handleOpenCartPage() {
+        System.out.println("Cart button clicked! movie");
+        if (mainApp != null) {
+            System.out.println("is not null");
+            mainApp.showCartPage();
+        }
+    }
+
+    public void MovieSearch_windowMinimize() {
+        Stage stage = (Stage) movieSearch_windowMinimize_btn.getScene().getWindow();
+        stage.setIconified(true);
+    }
+
+
+    public void setCurrentUser(Users user) {
+        this.currentUser = user;
+    }
+
+    public void setProfileDetails() {
+        if (currentUser != null) {
+            movieSearch_profileName.setText(currentUser.getUsername());
+            movieSearch_profileRole.setText(currentUser.getrole());
+        }
+    }
+
 
     public void setMainApp(Main mainApp) {
         System.out.println("Setting mainApp: " + mainApp);
@@ -182,6 +273,24 @@ public class customer_products {
 
         // Initialize the Facade
         facade = new Facade();
+
+        searchMovie_cart.setOnAction(event -> {
+            System.out.println("Cart button clicked!");
+            handleOpenCartPage();
+        });
+
+
+        if (backButton != null) {
+            backButton.setOnAction(this::handleBackButton);
+        }
+
+        if (logoutButton != null) {
+            logoutButton.setOnAction(this::handleLogoutButton);
+        }
+
+        if (sessionId != 0) {
+      //      initializeSeatAvailability();
+        }
     }
 
     private void initializeData() {
@@ -321,7 +430,7 @@ public class customer_products {
 
     @FXML
     public void btnPayScreen(ActionEvent event) {
-        mainApp.btnPayScreen();
+        mainApp.btnPayScreen(sessionId, currentUser, selectedMovie);
     }
 
 

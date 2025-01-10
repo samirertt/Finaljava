@@ -16,7 +16,6 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
-
 import java.net.URL;
 import java.util.List;
 import java.util.Objects;
@@ -131,6 +130,7 @@ public class MoviePageController implements Initializable {
         Stage stage = (Stage) movieSearch_windowMinimize_btn.getScene().getWindow();
         stage.setIconified(true);
     }
+
     @FXML
     private void handleWindowMinimize() {
         Stage stage = (Stage) movieSearch_windowMinimize_btn.getScene().getWindow();
