@@ -136,7 +136,7 @@ public class payment {
     private void initialize() {
         // Initialize TableView columns
         payment_tableView_itemName.setCellValueFactory(new PropertyValueFactory<>("name"));
-        payment_tableView_Quantity.setCellValueFactory(new PropertyValueFactory<>("quantity"));
+        payment_tableView_Quantity.setCellValueFactory(new PropertyValueFactory<>("stock"));
         payment_tableView_price.setCellValueFactory(new PropertyValueFactory<>("price"));
     }
 

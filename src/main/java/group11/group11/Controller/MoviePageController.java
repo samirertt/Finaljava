@@ -8,21 +8,17 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
+
 import java.net.URL;
 import java.util.List;
 import java.util.Objects;
 import java.util.ResourceBundle;
-
-
-
 
 public class MoviePageController implements Initializable {
 
@@ -80,7 +76,7 @@ public class MoviePageController implements Initializable {
     private Label movieSearch_Genre;
 
     @FXML
-    private Spinner<Integer> movieSearch_spinner;
+    private Spinner<Integer> movieSearch_spinner; // Spinner for selecting quantity
 
     @FXML
     private Button movieSearch_windowMinimize_btn;
@@ -99,7 +95,6 @@ public class MoviePageController implements Initializable {
     }
 
     public void setCurrentUser(Users user) {
-
         this.currentUser = user;
     }
 
@@ -123,9 +118,11 @@ public class MoviePageController implements Initializable {
     private void handleWindowClose() {
         System.exit(0);
     }
+
     public void movieSearch_windowClose_btn() {
         System.exit(0);
     }
+
     public void MovieSearch_windowMinimize() {
         Stage stage = (Stage) movieSearch_windowMinimize_btn.getScene().getWindow();
         stage.setIconified(true);
@@ -178,29 +175,35 @@ public class MoviePageController implements Initializable {
         movieSearch_movieInformation.setText(movie.getMovieSummary());
         System.out.println("path:");
         System.out.println(movie.getMovieImage());
-        if(movie.getMovieImage() != null && !movie.getMovieImage().isEmpty())
-        {
-            try
-            {
+        if (movie.getMovieImage() != null && !movie.getMovieImage().isEmpty()) {
+            try {
                 Image image = new Image(Objects.requireNonNull(getClass().getResourceAsStream(movie.getMovieImage())));
                 movieSearch_Image.setImage(image);
-                //currentPosterpath = movie.getposterpath(); why ?
-            }catch (Exception e)
-            {
+            } catch (Exception e) {
                 e.printStackTrace();
                 movieSearch_Image.setImage(null);
             }
-        }else
-        {
+        } else {
             movieSearch_Image.setImage(null);
-            //currentPosterpath = null;
         }
-
     }
-
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        // Initialize the spinner
+        SpinnerValueFactory<Integer> valueFactory =
+                new SpinnerValueFactory.IntegerSpinnerValueFactory(0, Integer.MAX_VALUE, 0, 1); // Step by 1
+        movieSearch_spinner.setValueFactory(valueFactory);
+
+        // Add a listener to the spinner value
+        movieSearch_spinner.valueProperty().addListener((obs, oldValue, newValue) -> {
+            if (mainApp != null) {
+                mainApp.setNumOfTicket(newValue); // Pass the new value to mainApp
+            }
+        });
+        movieSearch_spinner.setValueFactory(valueFactory);
+
+        // Initialize the rest of the UI components
         ToggleGroup searchToggleGroup = new ToggleGroup();
         movieSearch_searchByFullName.setToggleGroup(searchToggleGroup);
         movieSearch_searchByGenre.setToggleGroup(searchToggleGroup);
@@ -213,6 +216,8 @@ public class MoviePageController implements Initializable {
 
         movieList = FXCollections.observableArrayList();
         movieSearchTableView.setItems(movieList);
+
+        movieList.addAll(facade.initializeMovieTable());
 
         searchToggleGroup.selectedToggleProperty().addListener((observable, oldValue, newValue) -> {
             if (newValue == movieSearch_searchByFullName) {
@@ -227,15 +232,16 @@ public class MoviePageController implements Initializable {
         movieSearchTableView.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {
             displayMovieDetails(newSelection);
         });
+
         // Debugging button click handler
         searchMovie_cart.setOnAction(event -> {
             System.out.println("Cart button clicked!");
             handleOpenCartPage();
         });
+
         setProfileDetails();
 
         movieSearch_ticketBuy_btn.setOnAction(this::btnSelect);
-
 
         if (logoutButton != null) {
             logoutButton.setOnAction(this::handleLogoutButton);

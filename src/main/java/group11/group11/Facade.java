@@ -70,7 +70,35 @@ public class Facade {
         }
         return movie; // Return null if no movie is found
     }
+    public List<Movie> initializeMovieTable() {
+        String query = "SELECT * FROM movies";
+        List<Movie> movieList = new ArrayList<>();
 
+        try (Connection conn = connect();
+             PreparedStatement pstmt = conn.prepareStatement(query);
+             ResultSet rs = pstmt.executeQuery()) {
+
+            while (rs.next()) {
+                // Extract values from the ResultSet
+                int movie_id = rs.getInt("movie_id");
+                String movieName = rs.getString("moviesName");
+                String movieSummary = rs.getString("moviesSummary");
+                String movieImage = rs.getString("moviesImage");
+                String movieDuration = rs.getString("moviesDuration");
+                String movieReleaseYear = rs.getString("movieReleaseYear");
+                String genre = rs.getString("moviesGenre"); // Assuming genre is also a column in your table
+
+                // Create and add the movie object to the list
+                Movie movie = new Movie(movie_id, movieName, movieSummary, genre, movieImage, movieDuration, movieReleaseYear);
+                movieList.add(movie);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            // Handle the exception as needed
+        }
+
+        return movieList;
+    }
     public List<Movie> searchMovieByGenre(String genre) {
         String query = "SELECT movie_id, moviesName, moviesSummary, moviesImage, moviesDuration, movieReleaseYear FROM movies WHERE moviesGenre = ?";
         List<Movie> movieList = new ArrayList<>();
@@ -167,7 +195,7 @@ public class Facade {
         }
     }
 
-    public void updateProductQuantity(String orderNo, String productName, int newQuantity) {
+    public static void updateProductQuantity(String orderNo, String productName, int newQuantity) {
         String query = "UPDATE cart SET quantity = ? WHERE item_id = ? AND item_type = ?";
 
         try (Connection conn = connect(); PreparedStatement stmt = conn.prepareStatement(query)) {
@@ -181,7 +209,7 @@ public class Facade {
         }
     }
 
-    public int productExistsInCart(String orderNo, String productName) {
+    public static int productExistsInCart(String orderNo, String productName) {
         String query = "SELECT quantity FROM cart WHERE item_id = ? AND item_type = ?";
 
         try (Connection conn = connect(); PreparedStatement stmt = conn.prepareStatement(query)) {

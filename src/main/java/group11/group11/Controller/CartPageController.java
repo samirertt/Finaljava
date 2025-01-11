@@ -1,8 +1,6 @@
 package group11.group11.Controller;
 
-import group11.group11.Cart;
-import group11.group11.Main;
-import group11.group11.Facade;
+import group11.group11.*;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -14,6 +12,7 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 
+import java.sql.Time;
 import java.util.List;
 
 public class CartPageController {
@@ -45,19 +44,54 @@ public class CartPageController {
     private Button logoutButton;
 
     @FXML
-    private TableColumn<Cart.Product, Integer> cart_productQuantity;
+    private TableColumn<Product, Integer> cart_productQuantity;
+
     @FXML
     private Cart cart;
+
     @FXML
-    private ObservableList<Cart.Product> cartData;
+    private ObservableList<Product> cartData;
+
     @FXML
     private Button movieSearch_windowMinimize_btn;
 
-    // Method to set the main application instance
+    private int session_id;
+    private Movie selectedMovie;
+    private Users currentUser;
+    private Time sessionTime;
+    private String previousPage;
+
+    private Facade facade = new Facade();
+
     public void setMainApp(Main mainApp) {
         this.mainApp = mainApp;
         System.out.println("mainApp set in CartPageController: " + (mainApp != null));
     }
+
+    public void setCurrentUser(Users user) {
+        this.currentUser = user;
+    }
+
+    public void setProfileDetails() {
+        if (currentUser != null) {
+            movieSearch_profileName.setText(currentUser.getUsername());
+            movieSearch_profileRole.setText(currentUser.getrole());
+        }
+    }
+
+    public void setSessionId(int session_id) {
+        this.session_id = session_id;
+        System.out.println("Session ID set to: " + session_id); // Debugging
+    }
+
+    public void setPreviousPage(String previousPage) {
+        this.previousPage = previousPage;
+    }
+
+    public void setSelectedMovie(Movie selectedMovie) {
+        this.selectedMovie = selectedMovie;
+    }
+
     public void movieSearch_windowClose_btn() {
         System.exit(0);
     }
@@ -67,8 +101,106 @@ public class CartPageController {
         stage.setIconified(true);
     }
 
-    Facade facade = new Facade();
-    // Initialize data that depends on mainApp
+    @FXML
+    public void initialize() {
+        // Set up the TableView columns
+        cart_productName.setCellValueFactory(new PropertyValueFactory<>("name"));
+        cart_productPrice.setCellValueFactory(new PropertyValueFactory<>("price"));
+        cart_productQuantity.setCellValueFactory(new PropertyValueFactory<>("stock")); // Use "stock" instead of "quantity"
+
+        // Add event handlers for button actions
+        addEventHandlers();
+
+        if (logoutButton != null) {
+            logoutButton.setOnAction(this::handleLogoutButton);
+        }
+
+        if (backButton != null) {
+            backButton.setOnAction(this::handleBackButton);
+        }
+
+        // Initialize data if mainApp is already set
+        if (mainApp != null) {
+            initializeData();
+        }
+    }
+
+    private void addEventHandlers() {
+        cart_Increase.setOnAction(event -> increaseQuantity());
+        cart_Decrease.setOnAction(event -> decreaseQuantity());
+        cart_Remove.setOnAction(event -> removeSelectedProduct());
+    }
+
+    private void increaseQuantity() {
+        Product selectedProduct = cart_orderTable.getSelectionModel().getSelectedItem();
+        if (selectedProduct != null)
+        {
+            selectedProduct.setStock(selectedProduct.getStock() + 1);
+            Facade.updateProductQuantity(mainApp.getOrderNo(), selectedProduct.getName(), selectedProduct.getStock());
+            refreshTable();
+        }
+    }
+
+    public void decreaseQuantity() {
+        Product selectedProduct = cart_orderTable.getSelectionModel().getSelectedItem();
+        if (selectedProduct != null && selectedProduct.getStock() > 1) {
+            selectedProduct.setStock(selectedProduct.getStock() - 1);
+            Facade.updateProductQuantity(mainApp.getOrderNo(), selectedProduct.getName(), selectedProduct.getStock());
+            refreshTable();
+        }
+    }
+
+    private void removeSelectedProduct() {
+        Product selectedProduct = cart_orderTable.getSelectionModel().getSelectedItem();
+        if (selectedProduct != null) {
+            cart.removeProduct(selectedProduct.getName());
+            cartData.remove(selectedProduct);
+            refreshTable();
+        }
+    }
+
+    private void refreshTable() {
+        cart_orderTable.refresh();
+    }
+
+    @FXML
+    public void handleLogoutButton(ActionEvent event) {
+        if (mainApp != null) {
+            mainApp.logout();
+        }
+    }
+
+    @FXML
+    public void handleBackButton(ActionEvent event) {
+        if (mainApp != null && previousPage != null) {
+            switch (previousPage) {
+                case "moviePage":
+                    mainApp.showMoviePage(currentUser);
+                    break;
+                case "B":
+                    mainApp.openHallBPage(session_id, selectedMovie, currentUser);
+                    break;
+                case "A":
+                    mainApp.openHallAPage(session_id, selectedMovie, currentUser);
+                    break;
+                case "customerProducts":
+                    mainApp.ProductPurchase(session_id, selectedMovie, currentUser, previousPage);
+                    break;
+                case "daySelection":
+                    mainApp.showDaySelectionPage(currentUser, selectedMovie);
+                    break;
+                case "payment":
+                    mainApp.btnPayScreen(session_id, currentUser, selectedMovie);
+                    break;
+                default:
+                    System.out.println("No specific page to go back to!"); // Debug
+                    break;
+            }
+        } else {
+            System.out.println("mainApp or previousPage is null!"); // Debug
+        }
+    }
+
     public void initializeData() {
         if (mainApp != null) {
             String orderNo = mainApp.getOrderNo();
@@ -76,7 +208,7 @@ public class CartPageController {
                 cart_orderNo.setText(orderNo);
 
                 // Fetch products from the database
-                List<Cart.Product> products = facade.getProductsFromDb(orderNo);
+                List<Product> products = facade.getProductsFromDb(orderNo);
 
                 // Convert the list to an ObservableList
                 cartData = FXCollections.observableArrayList(products);
@@ -91,70 +223,5 @@ public class CartPageController {
         } else {
             System.err.println("Error: mainApp is null in CartPageController.");
         }
-    }
-
-    @FXML
-    public void handleLogoutButton(ActionEvent event) {
-        if (mainApp != null) {
-            mainApp.logout();
-        }
-    }
-
-
-    @FXML
-    public void initialize() {
-        // Set up the TableView columns
-        cart_productName.setCellValueFactory(new PropertyValueFactory<>("name"));
-        cart_productPrice.setCellValueFactory(new PropertyValueFactory<>("price"));
-        cart_productQuantity.setCellValueFactory(new PropertyValueFactory<>("quantity"));
-
-        // Add event handlers for button actions
-        addEventHandlers();
-
-        if (logoutButton != null) {
-            logoutButton.setOnAction(this::handleLogoutButton);
-        }
-    }
-
-    // Adding event handlers for cart actions
-    private void addEventHandlers() {
-        cart_Increase.setOnAction(event -> increaseQuantity());
-        cart_Decrease.setOnAction(event -> decreaseQuantity());
-        cart_Remove.setOnAction(event -> removeSelectedProduct());
-    }
-
-    // Increase the quantity of the selected product
-    private void increaseQuantity() {
-        Cart.Product selectedProduct = cart_orderTable.getSelectionModel().getSelectedItem();
-        if (selectedProduct != null) {
-            selectedProduct.setQuantity(selectedProduct.getQuantity() + 1);
-
-        }
-        facade.updateProductQuantity(mainApp.getOrderNo(), selectedProduct.getName(), selectedProduct.getQuantity());
-        refreshTable();
-    }
-
-    // Decrease the quantity of the selected product
-    private void decreaseQuantity() {
-        Cart.Product selectedProduct = cart_orderTable.getSelectionModel().getSelectedItem();
-        if (selectedProduct != null && selectedProduct.getQuantity() > 1) {
-            selectedProduct.setQuantity(selectedProduct.getQuantity() - 1);
-            refreshTable();
-        }
-    }
-
-    // Remove the selected product from the cart
-    private void removeSelectedProduct() {
-        Cart.Product selectedProduct = cart_orderTable.getSelectionModel().getSelectedItem();
-        if (selectedProduct != null) {
-            cart.removeProduct(selectedProduct.getName());
-            cartData.remove(selectedProduct);
-            refreshTable();
-        }
-    }
-
-    // Refresh the TableView after changes
-    private void refreshTable() {
-        cart_orderTable.refresh();
     }
 }

@@ -6,6 +6,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
@@ -22,7 +23,7 @@ public class Main extends Application {
     private Time selectedTime;
     private String selectedHall;
     private int session_id;
-
+    private int numOfTicket;
     public Movie getSelectedMovie() {
         return selecetedMovie;
     }
@@ -37,6 +38,19 @@ public class Main extends Application {
 
     public String getSelectedHall() {
         return selectedHall;
+    }
+    public int getSession_id()
+    {
+        return session_id;
+    }
+    public int getNumOfTicket()
+    {
+        return numOfTicket;
+    }
+
+    public void setNumOfTicket(int numOfTicket)
+    {
+        this.numOfTicket = numOfTicket;
     }
 
     public void setSelectedMovie(Movie selectedMovie) {
@@ -167,7 +181,6 @@ public class Main extends Application {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/group11/group11/fxml/seatSelection.fxml"));
             Parent root = loader.load();
 
-            primaryStage.setScene(new Scene(root));
             seatSelectionController controller = loader.getController();
             controller.setSessionId(session_id);
             controller.setCurrentUser(user);

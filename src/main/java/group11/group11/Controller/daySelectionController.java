@@ -13,19 +13,15 @@ import java.sql.Time;
 import java.util.*;
 import java.sql.Date;
 
-
-public class daySelectionController
-{
+public class daySelectionController {
 
     private Movie selectedMovie;
     private Users currentUser;
     private Time sessionTime;
+    private Main mainApp;
 
-    public void setSessionTime(Time sessionTime)
-    {
-        this.sessionTime = sessionTime;
-    }
-    // private Users currentUser;
+    // List to store selected seats
+    private List<String> selectedSeats = new ArrayList<>();
 
     @FXML
     private Label movieSearch_profileName;
@@ -35,8 +31,6 @@ public class daySelectionController
 
     @FXML
     public AnchorPane field;
-
-    private Main mainApp;
 
     @FXML
     public Label firstLabel;
@@ -101,7 +95,7 @@ public class daySelectionController
         System.out.println("Cart button clicked! movie");
         if (mainApp != null) {
             System.out.println("is not null");
-            mainApp.showCartPage();
+            mainApp.showCartPage(mainApp.getSession_id(), selectedMovie, currentUser, "daySelection");
         }
     }
 
@@ -109,7 +103,6 @@ public class daySelectionController
         Stage stage = (Stage) movieSearch_windowMinimize_btn.getScene().getWindow();
         stage.setIconified(true);
     }
-
 
     public void setCurrentUser(Users user) {
         this.currentUser = user;
@@ -124,7 +117,6 @@ public class daySelectionController
 
     @FXML
     public void initialize() {
-
         field.setVisible(true);
         field.setManaged(true);
 
@@ -170,18 +162,16 @@ public class daySelectionController
         }
     }
 
-
     @FXML
-    public void btnSelectedMoveOn()
-    {
-
-        if(sessionTime == null)
-        {
-            showAlert("PLease select a session!");
+    public void btnSelectedMoveOn() {
+        if (sessionTime == null) {
+            showAlert("Please select a session!");
+            return;
         }
+
         String selectedHall = hallComboBox.getValue();
         mainApp.setSelectedHall(selectedHall);
-        int session_id = Facade.getSessionId(sessionTime,selectedMovie.getMovie_id());
+        int session_id = Facade.getSessionId(sessionTime, selectedMovie.getMovie_id());
 
         if (selectedHall != null) {
             switch (selectedHall) {
@@ -200,7 +190,6 @@ public class daySelectionController
         }
     }
 
-
     private void showAlert(String message) {
         Alert alert = new Alert(Alert.AlertType.WARNING);
         alert.setTitle("Invalid Selection");
@@ -211,8 +200,6 @@ public class daySelectionController
 
     public void setSelectedMovie(Movie selectedMovie) {
         this.selectedMovie = selectedMovie;
-        // You can now use this.selectedMovie to access the movie details
-        // For example, you can load the session times from the database based on this movie
         loadSessionTimes();
     }
 
@@ -224,5 +211,5 @@ public class daySelectionController
             }
         }
     }
-}
 
+}

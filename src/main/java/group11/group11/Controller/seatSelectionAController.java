@@ -1,17 +1,14 @@
 package group11.group11.Controller;
-
-import group11.group11.Facade;
-import group11.group11.Main;
-import group11.group11.Movie;
-import group11.group11.Users;
+import group11.group11.*;
+import group11.group11.Controller.CartPageController;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
+
 import java.sql.Time;
 import java.util.ArrayList;
 import java.util.List;
@@ -21,6 +18,8 @@ public class seatSelectionAController {
     private Movie selectedMovie;
     private Users currentUser;
     private Time sessionTime;
+    private int sessionId;
+    private String previousPage;
 
     Facade facade = new Facade();
 
@@ -31,52 +30,7 @@ public class seatSelectionAController {
     private Label movieSearch_profileRole;
 
     @FXML
-    private Button A1;
-
-    @FXML
-    private Button A2;
-
-    @FXML
-    private Button A3;
-
-    @FXML
-    private Button A4;
-
-    @FXML
-    private Button B1;
-
-    @FXML
-    private Button B2;
-
-    @FXML
-    private Button B3;
-
-    @FXML
-    private Button B4;
-
-    @FXML
-    private Button C1;
-
-    @FXML
-    private Button C2;
-
-    @FXML
-    private Button C3;
-
-    @FXML
-    private Button C4;
-
-    @FXML
-    private Button D1;
-
-    @FXML
-    private Button D2;
-
-    @FXML
-    private Button D3;
-
-    @FXML
-    private Button D4;
+    private Button A1, A2, A3, A4, B1, B2, B3, B4, C1, C2, C3, C4, D1, D2, D3, D4;
 
     @FXML
     private Button searchMovie_cart;
@@ -99,12 +53,13 @@ public class seatSelectionAController {
     @FXML
     private Button movieSearch_windowMinimize_btn;
 
+    private List<String> selectedSeats = new ArrayList<>();
+
     public void setMainApp(Main mainApp) {
         this.mainApp = mainApp;
     }
 
     public void movieSearch_windowClose_btn() {
-
         System.exit(0);
     }
 
@@ -132,17 +87,15 @@ public class seatSelectionAController {
         System.out.println("Cart button clicked! movie");
         if (mainApp != null) {
             System.out.println("is not null");
-            mainApp.showCartPage();
+            mainApp.showCartPage(sessionId, selectedMovie, currentUser, "A");
         }
     }
 
-    private List<String> selectedSeats = new ArrayList<>();
-    private int sessionId; // Add this field to store the session ID
-
-    public void setSelectedMovie(Movie selectedMovie)
-    {
+    public void setSelectedMovie(Movie selectedMovie) {
         this.selectedMovie = selectedMovie;
-        mainApp.setSelectedMovie(selectedMovie);
+        if (mainApp != null) {
+            mainApp.setSelectedMovie(selectedMovie);
+        }
     }
 
     public void setSessionId(int sessionId) {
@@ -163,7 +116,7 @@ public class seatSelectionAController {
 
     @FXML
     public void initialize() {
-        // Call initializeSeatAvailability here if sessionId is already set
+        productPurchase.setDisable(true);
 
         searchMovie_cart.setOnAction(event -> {
             System.out.println("Cart button clicked!");
@@ -172,6 +125,11 @@ public class seatSelectionAController {
 
         if (sessionId != 0) {
             initializeSeatAvailability();
+
+            if (!Facade.isEnoughSeat(mainApp.getNumOfTicket(), mainApp.getSession_id())) {
+                showAlert("Not enough seats available!");
+                return;
+            }
         }
 
         if (backButton != null) {
@@ -181,7 +139,14 @@ public class seatSelectionAController {
         if (logoutButton != null) {
             logoutButton.setOnAction(this::handleLogoutButton);
         }
+    }
 
+    private void showAlert(String message) {
+        Alert alert = new Alert(Alert.AlertType.WARNING);
+        alert.setTitle("Invalid Selection");
+        alert.setHeaderText(null);
+        alert.setContentText(message);
+        alert.showAndWait();
     }
 
     private void initializeSeatAvailability() {
@@ -202,11 +167,9 @@ public class seatSelectionAController {
                 System.out.println("Seat button not found for: " + seat); // Debugging
             }
         }
-
     }
 
     private Button getSeatButton(String seatNumber) {
-        // Map integer seat numbers to seat button IDs
         switch (seatNumber) {
             case "1": return A1;
             case "2": return A2;
@@ -224,7 +187,6 @@ public class seatSelectionAController {
             case "14": return D2;
             case "15": return D3;
             case "16": return D4;
-
             default: return null;
         }
     }
@@ -233,21 +195,42 @@ public class seatSelectionAController {
     public void onSeatClicked(ActionEvent event) {
         Button clickedButton = (Button) event.getSource();
         String seatName = clickedButton.getText();
-        selectedSeats.add(seatName);
-        System.out.println("Seat " + seatName + " selected.");
 
-        clickedButton.setStyle("-fx-background-color: #808080; "
-                + "-fx-border-color: black; "
-                + "-fx-border-width: 3px; "
-                + "-fx-text-fill: white; "
-                + "-fx-font-weight: bold;");
+        if (selectedSeats.contains(seatName)) {
+            // Deselect the seat
+            selectedSeats.remove(seatName);
+            clickedButton.setStyle(""); // Reset the button style
+            System.out.println("Seat " + seatName + " deselected.");
+            // Update the database
+            int number = Facade.productExistsInCart(mainApp.getOrderNo(), selectedMovie.getMovieName());
+            if (number > 0) {
+                Facade.updateProductQuantity(mainApp.getOrderNo(), selectedMovie.getMovieName(), number - 1);
+            }
 
-        int number = facade.productExistsInCart(mainApp.getOrderNo(), selectedMovie.getMovieName());
-        // Update the database
-        if (number > 0) {
-            facade.updateProductQuantity(mainApp.getOrderNo(), selectedMovie.getMovieName(), number+1);
         } else {
-            facade.addProductToCart(mainApp.getOrderNo(), selectedMovie.getMovieName(), 200, 1);
+            // Check if the number of selected seats has reached the limit
+            if (selectedSeats.size() >= mainApp.getNumOfTicket()) {
+                showAlert("You have already selected the maximum number of seats (" + mainApp.getNumOfTicket() + ").");
+                return;
+            }
+
+            // Select the seat
+            selectedSeats.add(seatName);
+            productPurchase.setDisable(selectedSeats.isEmpty());
+            clickedButton.setStyle("-fx-background-color: #808080; "
+                    + "-fx-border-color: black; "
+                    + "-fx-border-width: 3px; "
+                    + "-fx-text-fill: white; "
+                    + "-fx-font-weight: bold;");
+            System.out.println("Seat " + seatName + " selected.");
+
+            // Update the database
+            int number = Facade.productExistsInCart(mainApp.getOrderNo(), selectedMovie.getMovieName());
+            if (number > 0) {
+                Facade.updateProductQuantity(mainApp.getOrderNo(), selectedMovie.getMovieName(), number + 1);
+            } else {
+                Facade.addProductToCart(mainApp.getOrderNo(), selectedMovie.getMovieName(), 200, 1);
+            }
         }
     }
 

@@ -6,6 +6,7 @@ import group11.group11.Movie;
 import group11.group11.Users;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.GridPane;
@@ -263,6 +264,11 @@ public class seatSelectionController {
 
         if (sessionId != 0) {
             initializeSeatAvailability();
+
+            if (!Facade.isEnoughSeat(mainApp.getNumOfTicket(), mainApp.getSession_id())) {
+                showAlert("Not enough seats available!");
+                return;
+            }
         }
 
         if (backButton != null) {
@@ -273,7 +279,13 @@ public class seatSelectionController {
             logoutButton.setOnAction(this::handleLogoutButton);
         }
     }
-
+    private void showAlert(String message) {
+        Alert alert = new Alert(Alert.AlertType.WARNING);
+        alert.setTitle("Invalid Selection");
+        alert.setHeaderText(null);
+        alert.setContentText(message);
+        alert.showAndWait();
+    }
     private void initializeSeatAvailability() {
         List<String> unavailableSeats = Facade.getUnavailableSeats(sessionId);
         System.out.println("Unavailable seats: " + unavailableSeats); // Debugging
