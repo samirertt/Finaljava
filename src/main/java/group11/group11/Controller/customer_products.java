@@ -68,6 +68,8 @@ public class customer_products {
     private Button dec_drink1;
     @FXML
     private Label qty_drink1;
+    @FXML
+    private Label price_drink1;
 
     @FXML
     private Button inc_drink2; // Coca-Cola
@@ -75,6 +77,8 @@ public class customer_products {
     private Button dec_drink2;
     @FXML
     private Label qty_drink2;
+    @FXML
+    private Label price_drink2;
 
     @FXML
     private Button inc_drink3; // Ice-tea
@@ -82,6 +86,8 @@ public class customer_products {
     private Button dec_drink3;
     @FXML
     private Label qty_drink3;
+    @FXML
+    private Label price_drink3;
 
     @FXML
     private Button inc_drink4; // Water
@@ -89,6 +95,8 @@ public class customer_products {
     private Button dec_drink4;
     @FXML
     private Label qty_drink4;
+    @FXML
+    private Label price_drink4;
 
     @FXML
     private Button inc_food1;  // Popcorn
@@ -96,6 +104,8 @@ public class customer_products {
     private Button dec_food1;
     @FXML
     private Label qty_food1;
+    @FXML
+    private Label price_food1;
 
     @FXML
     private Button inc_food2;  // Snickers
@@ -103,6 +113,8 @@ public class customer_products {
     private Button dec_food2;
     @FXML
     private Label qty_food2;
+    @FXML
+    private Label price_food2;
 
     @FXML
     private Button inc_food3;  // Hanımeller
@@ -110,6 +122,8 @@ public class customer_products {
     private Button dec_food3;
     @FXML
     private Label qty_food3;
+    @FXML
+    private Label price_food3;
 
     @FXML
     private Button inc_food4;  // Falım
@@ -117,6 +131,8 @@ public class customer_products {
     private Button dec_food4;
     @FXML
     private Label qty_food4;
+    @FXML
+    private Label price_food4;
 
     @FXML
     private Button inc_toy3;
@@ -124,6 +140,8 @@ public class customer_products {
     private Button dec_toy3;
     @FXML
     private Label qty_toy3;
+    @FXML
+    private Label price_toy3;
 
     @FXML
     private Button inc_toy4;
@@ -131,6 +149,8 @@ public class customer_products {
     private Button dec_toy4;
     @FXML
     private Label qty_toy4;
+    @FXML
+    private Label price_toy4;
 
     @FXML
     private Button inc_toy1;
@@ -138,6 +158,8 @@ public class customer_products {
     private Button dec_toy1;
     @FXML
     private Label qty_toy1;
+    @FXML
+    private Label price_toy1;
 
     @FXML
     private Button inc_toy2;
@@ -145,6 +167,8 @@ public class customer_products {
     private Button dec_toy2;
     @FXML
     private Label qty_toy2;
+    @FXML
+    private Label price_toy2;
 
     @FXML
     private Button PayScreenBtn;
@@ -221,7 +245,11 @@ public class customer_products {
     }
 
     @FXML
-    private void initialize() {
+    private void initialize()  {
+
+        productQuantities = new HashMap<>();
+        productPrices = new HashMap<>();
+
         // Initialize only the components that do not depend on mainApp
         productList = FXCollections.observableArrayList();
         productColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
@@ -248,8 +276,61 @@ public class customer_products {
         qty_toy3.setText("0");
         qty_toy4.setText("0");
 
-        // Initialize the Facade
-        facade = new Facade();
+        for (Product product : products) {
+            switch (product.getName()) {
+                case "Sprite":
+                    price_drink1.setText(String.format("%.2f₺", product.getPrice()));
+                    productPrices.put("Sprite", product.getPrice());
+                    break;
+                case "Coca-Cola":
+                    price_drink2.setText(String.format("%.2f₺", product.getPrice()));
+                    productPrices.put("Coca-Cola", product.getPrice());
+                    break;
+                case "Ice-tea":
+                    price_drink3.setText(String.format("%.2f₺", product.getPrice()));
+                    productPrices.put("Ice-tea", product.getPrice());
+                    break;
+                case "Water":
+                    price_drink4.setText(String.format("%.2f₺", product.getPrice()));
+                    productPrices.put("Water", product.getPrice());
+                    break;
+                case "Popcorn":
+                    price_food1.setText(String.format("%.2f₺", product.getPrice()));
+                    productPrices.put("Popcorn", product.getPrice());
+                    break;
+                case "Snickers":
+                    price_food2.setText(String.format("%.2f₺", product.getPrice()));
+                    productPrices.put("Snickers", product.getPrice());
+                    break;
+                case "Hanımeller":
+                    price_food3.setText(String.format("%.2f₺", product.getPrice()));
+                    productPrices.put("Hanımeller", product.getPrice());
+                    break;
+                case "Falım":
+                    price_food4.setText(String.format("%.2f₺", product.getPrice()));
+                    productPrices.put("Falım", product.getPrice());
+                    break;
+                case "Toy1":
+                    price_toy1.setText(String.format("%.2f₺", product.getPrice()));
+                    productPrices.put("Toy1", product.getPrice());
+                    break;
+                case "Toy2":
+                    price_toy2.setText(String.format("%.2f₺", product.getPrice()));
+                    productPrices.put("Toy2", product.getPrice());
+                    break;
+                case "Toy3":
+                    price_toy3.setText(String.format("%.2f₺", product.getPrice()));
+                    productPrices.put("Toy3", product.getPrice());
+                    break;
+                case "Toy4":
+                    price_toy4.setText(String.format("%.2f₺", product.getPrice()));
+                    productPrices.put("Toy4", product.getPrice());
+                    break;
+                default:
+                    System.out.println("Unknown product: " + product.getName());
+                    break;
+            }
+        }
 
         searchMovie_cart.setOnAction(event -> {
             System.out.println("Cart button clicked!");
@@ -269,7 +350,8 @@ public class customer_products {
         }
     }
 
-    private void initializeData() {
+    private void initializeData()
+    {
         // Initialize the cart with the order number from mainApp
         if (mainApp != null)
         {
@@ -281,10 +363,12 @@ public class customer_products {
     }
 
     @FXML
-    private void increment(ActionEvent event) {
+    private void increment(ActionEvent event)
+    {
         Button button = (Button) event.getSource();
         Label label = getLabelForButton(button);
-        if (label != null) {
+        if (label != null)
+        {
             int count = Integer.parseInt(label.getText());
             String productName = getProductNameForButton(button);
 
@@ -325,7 +409,8 @@ public class customer_products {
         }
     }
 
-    private Label getLabelForButton(Button button) {
+    private Label getLabelForButton(Button button)
+    {
         if (button == inc_drink1 || button == dec_drink1) {
             return qty_drink1;
         } else if (button == inc_drink2 || button == dec_drink2) {
@@ -351,7 +436,6 @@ public class customer_products {
         } else if (button == inc_toy4 || button == dec_toy4) {
             return qty_toy4;
         }
-
         return null;
     }
 
@@ -426,10 +510,10 @@ public class customer_products {
         }
 
         // Update the database
-        if (facade.productExistsInCart(mainApp.getOrderNo(), productName) > 0) {
-            facade.updateProductQuantity(mainApp.getOrderNo(), productName, count);
+        if (Facade.productExistsInCart(mainApp.getOrderNo(), productName) > 0) {
+            Facade.updateProductQuantity(mainApp.getOrderNo(), productName, count);
         } else {
-            facade.addProductToCart(mainApp.getOrderNo(), productName, productPrice, count);
+            Facade.addProductToCart(mainApp.getOrderNo(), productName, productPrice, count);
         }
 
         // Update the product list in the table
@@ -446,6 +530,7 @@ public class customer_products {
         }
         productTable.refresh();
         updateTotalAmount();
+
     }
 
     private void updateTotalAmount() {
@@ -465,7 +550,8 @@ public class customer_products {
     }
 
     @FXML
-    public void btnPayScreen(ActionEvent event) {
+    public void btnPayScreen(ActionEvent event)
+    {
         mainApp.btnPayScreen(sessionId, currentUser, selectedMovie);
     }
 }

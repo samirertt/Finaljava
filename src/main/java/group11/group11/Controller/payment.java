@@ -1,15 +1,11 @@
 package group11.group11.Controller;
 import group11.group11.*;
-
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
-
+import java.time.LocalDate;
 import java.sql.Date;
 import java.sql.Time;
 import java.util.List;
@@ -23,7 +19,16 @@ public class payment {
     private Button payButton;
 
     @FXML
-    private TableView<Cart.Product> payment_TableView;
+    private TableView<Product> payment_TableView;
+
+    @FXML
+    private TextField nameField;
+
+    @FXML
+    private TextField surnameField;
+
+    @FXML
+    private DatePicker birthdatePicker;
 
     @FXML
     private Label payment_movieDay;
@@ -56,13 +61,13 @@ public class payment {
     private Button movieSearch_windowMinimize_btn;
 
     @FXML
-    private TableColumn<Cart.Product, Integer> payment_tableView_Quantity;
+    private TableColumn<Product, Integer> payment_tableView_Quantity;
 
     @FXML
-    private TableColumn<Cart.Product, String> payment_tableView_itemName;
+    private TableColumn<Product, String> payment_tableView_itemName;
 
     @FXML
-    private TableColumn<Cart.Product, Double> payment_tableView_price;
+    private TableColumn<Product, Double> payment_tableView_price;
 
     private Main mainApp;
     private Facade facade;
@@ -102,7 +107,7 @@ public class payment {
     @FXML
     public void handleBackButton(ActionEvent event) {
         if (mainApp != null && currentUser != null) {
-            mainApp.ProductPurchase(session_id, selectedMovie, currentUser, previousPage);
+            mainApp.ProductPurchase(session_id, selectedMovie, currentUser,"payment");
         }
     }
 
@@ -111,7 +116,7 @@ public class payment {
         System.out.println("Cart button clicked! movie");
         if (mainApp != null) {
             System.out.println("is not null");
-            mainApp.showCartPage();
+            mainApp.showCartPage(session_id, selectedMovie, currentUser, "payment");
         }
     }
 
@@ -147,7 +152,7 @@ public class payment {
                 order_ID.setText("Order ID: " + mainApp.getOrderNo());
 
                 // Load cart items into the TableView
-                List<Cart.Product> products = facade.getProductsFromDb(mainApp.getOrderNo());
+                List<Product> products = facade.getProductsFromDb(mainApp.getOrderNo());
                 if (products != null && !products.isEmpty()) {
                     payment_TableView.getItems().addAll(products);
                 } else {
@@ -199,10 +204,75 @@ public class payment {
             System.err.println("MainApp is null. Cannot initialize data.");
         }
     }
+
     @FXML
     private void handlePayButton() {
-        // Handle payment logic here
-        System.out.println("Payment processed for order: " + mainApp.getOrderNo());
+        String name = nameField.getText();
+        String surname = surnameField.getText();
+        LocalDate birthdate = birthdatePicker.getValue();
 
+        if (name == null || name.trim().isEmpty()) {
+            System.out.println("Name cannot be empty!");
+            showAlert("Name cannot be empty!");
+            return;
+        }
+
+        if (surname == null || surname.trim().isEmpty()) {
+            System.out.println("Surname cannot be empty!");
+            showAlert("Surname cannot be empty!");
+            return;
+        }
+
+        if (!name.matches("[a-zA-ZçÇğĞıİöÖşŞüÜ\\s]+")) {
+            System.out.println("Name can only contain letters and spaces!");
+            showAlert("Name can only contain letters and spaces!");
+            return;
+        }
+
+        if (!surname.matches("[a-zA-ZçÇğĞıİöÖşŞüÜ\\s]+")) {
+            System.out.println("Surname can only contain letters and spaces!");
+            showAlert("Surname can only contain letters and spaces!");
+            return;
+        }
+
+        if (birthdate == null) {
+            System.out.println("Birthdate cannot be empty!");
+            showAlert("Birthdate cannot be empty!");
+            return;
+        }
+
+        LocalDate today = LocalDate.now();
+        if (birthdate.isAfter(today)) {
+            System.out.println("Birthdate cannot be in the future!");
+            showAlert("Birthdate cannot be in the future!");
+            return;
+        }
+
+        LocalDate minimumDate = today.minusYears(18);
+        if (birthdate.isAfter(minimumDate)) {
+            System.out.println("You must be at least 18 years old!");
+            showAlert("You must be at least 18 years old!");
+            return;
+        }
+
+        try {
+            facade.saveCustomerInfo(name, surname, birthdate);
+            System.out.println("Customer information saved to database!");
+            showAlert("Customer information saved successfully!");
+        } catch (Exception e) {
+            System.err.println("Error saving customer information: " + e.getMessage());
+            e.printStackTrace();
+            showAlert("An error occurred while saving customer information.");
+        }
+
+        System.out.println("Payment processed for order: " + mainApp.getOrderNo());
+    }
+
+    private void showAlert(String message) {
+        Alert alert = new Alert(Alert.AlertType.WARNING);
+        alert.setTitle("Invalid Selection");
+        alert.setHeaderText(null);
+        alert.setContentText(message);
+        alert.showAndWait();
     }
 }

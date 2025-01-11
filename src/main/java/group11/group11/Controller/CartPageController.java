@@ -29,19 +29,28 @@ public class CartPageController {
     private Button cart_Remove;
 
     @FXML
+    private Label movieSearch_profileName;
+
+    @FXML
+    private Label movieSearch_profileRole;
+
+    @FXML
     private Label cart_orderNo;
 
     @FXML
-    private TableView<Cart.Product> cart_orderTable;
+    private TableView<Product> cart_orderTable;
 
     @FXML
-    private TableColumn<Cart.Product, String> cart_productName;
+    private TableColumn<Product, String> cart_productName;
 
     @FXML
-    private TableColumn<Cart.Product, Double> cart_productPrice;
+    private TableColumn<Product, Double> cart_productPrice;
 
     @FXML
     private Button logoutButton;
+
+    @FXML
+    private Button backButton;
 
     @FXML
     private TableColumn<Product, Integer> cart_productQuantity;

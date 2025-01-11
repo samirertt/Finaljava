@@ -26,6 +26,9 @@ public class MoviePageController implements Initializable {
     public Button movieSearch_windowClose_btn;
 
     private Users currentUser;
+    private int session_id;
+    private String previousPage;
+    private Movie selectedMovie;
     private ObservableList<Movie> movieList;
 
     private Main mainApp;
@@ -110,7 +113,7 @@ public class MoviePageController implements Initializable {
         System.out.println("Cart button clicked! movie");
         if (mainApp != null) {
             System.out.println("is not null");
-            mainApp.showCartPage();
+            mainApp.showCartPage(session_id, selectedMovie, currentUser, "moviePage");
         }
     }
 
@@ -128,13 +131,6 @@ public class MoviePageController implements Initializable {
         stage.setIconified(true);
     }
 
-    @FXML
-    private void handleWindowMinimize() {
-        Stage stage = (Stage) movieSearch_windowMinimize_btn.getScene().getWindow();
-        if (stage != null) {
-            stage.setIconified(true);
-        }
-    }
 
     public void setProfileDetails() {
         if (currentUser != null) {

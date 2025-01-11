@@ -26,7 +26,7 @@
                </image>
             </ImageView>
             <Label layoutY="112.0" prefHeight="18.0" prefWidth="78.0" style="-fx-alignment: center;" styleClass="label-text" text="SPRITE" textAlignment="CENTER" />
-            <Label layoutX="75.0" layoutY="112.0" prefHeight="18.0" prefWidth="78.0" style="-fx-alignment: center;" styleClass="label-text" text="60₺ " textAlignment="CENTER" />
+            <Label fx:id="price_drink1" layoutX="75.0" layoutY="112.0" prefHeight="18.0" prefWidth="78.0" style="-fx-alignment: center;" styleClass="label-text" text="60₺ " textAlignment="CENTER" />
          </children>
       </AnchorPane>
       <AnchorPane layoutX="50.0" layoutY="230.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="130.0" prefWidth="130.0" styleClass="anchor-pane2">
@@ -44,7 +44,7 @@
                </image>
             </ImageView>
             <Label layoutY="112.0" prefHeight="18.0" prefWidth="94.0" style="-fx-alignment: center;" styleClass="label-text" text="COCA-COLA" textAlignment="CENTER" />
-            <Label layoutX="75.0" layoutY="112.0" prefHeight="18.0" prefWidth="78.0" style="-fx-alignment: center;" styleClass="label-text" text="60₺ " textAlignment="CENTER" />
+            <Label fx:id="price_drink2" layoutX="75.0" layoutY="112.0" prefHeight="18.0" prefWidth="78.0" style="-fx-alignment: center;" styleClass="label-text" text="60₺ " textAlignment="CENTER" />
          </children>
       </AnchorPane>
       <AnchorPane layoutX="50.0" layoutY="380.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="130.0" prefWidth="130.0" styleClass="anchor-pane2">
@@ -62,7 +62,7 @@
                </image>
             </ImageView>
             <Label layoutY="112.0" prefHeight="18.0" prefWidth="78.0" style="-fx-alignment: center;" styleClass="label-text" text="ICE-TEA" textAlignment="CENTER" />
-            <Label layoutX="75.0" layoutY="112.0" prefHeight="18.0" prefWidth="78.0" style="-fx-alignment: center;" styleClass="label-text" text="60₺ " textAlignment="CENTER" />
+            <Label fx:id="price_drink3" layoutX="75.0" layoutY="112.0" prefHeight="18.0" prefWidth="78.0" style="-fx-alignment: center;" styleClass="label-text" text="60₺ " textAlignment="CENTER" />
          </children>
       </AnchorPane>
       <AnchorPane layoutX="50.0" layoutY="530.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="130.0" prefWidth="130.0" styleClass="anchor-pane2">
@@ -80,7 +80,7 @@
                </image>
             </ImageView>
             <Label layoutY="112.0" prefHeight="18.0" prefWidth="78.0" style="-fx-alignment: center;" styleClass="label-text" text="WATER" textAlignment="CENTER" />
-            <Label layoutX="75.0" layoutY="112.0" prefHeight="18.0" prefWidth="78.0" style="-fx-alignment: center;" styleClass="label-text" text="30₺ " textAlignment="CENTER" />
+            <Label fx:id="price_drink4" layoutX="75.0" layoutY="112.0" prefHeight="18.0" prefWidth="78.0" style="-fx-alignment: center;" styleClass="label-text" text="30₺ " textAlignment="CENTER" />
          </children>
       </AnchorPane>
       <AnchorPane layoutX="240.0" layoutY="80.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="130.0" prefWidth="130.0" styleClass="anchor-pane2">
@@ -98,7 +98,7 @@
                </image>
             </ImageView>
             <Label layoutY="112.0" prefHeight="18.0" prefWidth="78.0" style="-fx-alignment: center;" styleClass="label-text" text="POPCORN" textAlignment="CENTER" />
-            <Label layoutX="75.0" layoutY="112.0" prefHeight="18.0" prefWidth="78.0" style="-fx-alignment: center;" styleClass="label-text" text="115₺ " textAlignment="CENTER" />
+            <Label fx:id="price_food1" layoutX="75.0" layoutY="112.0" prefHeight="18.0" prefWidth="78.0" style="-fx-alignment: center;" styleClass="label-text" text="115₺ " textAlignment="CENTER" />
          </children>
       </AnchorPane>
       <AnchorPane layoutX="240.0" layoutY="230.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="130.0" prefWidth="130.0" styleClass="anchor-pane2">
@@ -116,7 +116,7 @@
                </image>
             </ImageView>
             <Label layoutY="112.0" prefHeight="18.0" prefWidth="78.0" style="-fx-alignment: center;" styleClass="label-text" text="SNICKERS" textAlignment="CENTER" />
-            <Label layoutX="75.0" layoutY="112.0" prefHeight="18.0" prefWidth="78.0" style="-fx-alignment: center;" styleClass="label-text" text="25₺ " textAlignment="CENTER" />
+            <Label fx:id="price_food2" layoutX="75.0" layoutY="112.0" prefHeight="18.0" prefWidth="78.0" style="-fx-alignment: center;" styleClass="label-text" text="25₺ " textAlignment="CENTER" />
          </children>
       </AnchorPane>
       <AnchorPane layoutX="240.0" layoutY="380.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="130.0" prefWidth="130.0" styleClass="anchor-pane2">
@@ -134,7 +134,7 @@
                </image>
             </ImageView>
             <Label layoutY="112.0" prefHeight="18.0" prefWidth="78.0" style="-fx-alignment: center;" styleClass="label-text" text="FALIM" textAlignment="CENTER" />
-            <Label layoutX="75.0" layoutY="112.0" prefHeight="18.0" prefWidth="78.0" style="-fx-alignment: center;" styleClass="label-text" text="15₺ " textAlignment="CENTER" />
+            <Label fx:id="price_food3" layoutX="75.0" layoutY="112.0" prefHeight="18.0" prefWidth="78.0" style="-fx-alignment: center;" styleClass="label-text" text="15₺ " textAlignment="CENTER" />
          </children>
       </AnchorPane>
       <AnchorPane layoutX="240.0" layoutY="530.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="130.0" prefWidth="130.0" styleClass="anchor-pane2">
@@ -152,7 +152,7 @@
                </image>
             </ImageView>
             <Label layoutY="112.0" prefHeight="18.0" prefWidth="94.0" style="-fx-alignment: center;" styleClass="label-text" text="HANIMELLER" textAlignment="CENTER" />
-            <Label layoutX="75.0" layoutY="112.0" prefHeight="18.0" prefWidth="78.0" style="-fx-alignment: center;" styleClass="label-text" text="35₺ " textAlignment="CENTER" />
+            <Label fx:id="price_food4" layoutX="75.0" layoutY="112.0" prefHeight="18.0" prefWidth="78.0" style="-fx-alignment: center;" styleClass="label-text" text="35₺ " textAlignment="CENTER" />
          </children>
       </AnchorPane>
       <AnchorPane layoutX="430.0" layoutY="80.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="130.0" prefWidth="130.0" styleClass="anchor-pane2">
@@ -170,7 +170,7 @@
                </image>
             </ImageView>
             <Label layoutY="112.0" prefHeight="18.0" prefWidth="94.0" style="-fx-alignment: center;" styleClass="label-text" text="HANIMELLER" textAlignment="CENTER" />
-            <Label layoutX="75.0" layoutY="112.0" prefHeight="18.0" prefWidth="78.0" style="-fx-alignment: center;" styleClass="label-text" text="35₺ " textAlignment="CENTER" />
+            <Label fx:id="price_toy1" layoutX="75.0" layoutY="112.0" prefHeight="18.0" prefWidth="78.0" style="-fx-alignment: center;" styleClass="label-text" text="35₺ " textAlignment="CENTER" />
          </children>
       </AnchorPane>
       <AnchorPane layoutX="430.0" layoutY="230.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="130.0" prefWidth="130.0" styleClass="anchor-pane2">
@@ -188,7 +188,7 @@
                </image>
             </ImageView>
             <Label layoutY="112.0" prefHeight="18.0" prefWidth="94.0" style="-fx-alignment: center;" styleClass="label-text" text="HANIMELLER" textAlignment="CENTER" />
-            <Label layoutX="75.0" layoutY="112.0" prefHeight="18.0" prefWidth="78.0" style="-fx-alignment: center;" styleClass="label-text" text="35₺ " textAlignment="CENTER" />
+            <Label fx:id="price_toy2" layoutX="75.0" layoutY="112.0" prefHeight="18.0" prefWidth="78.0" style="-fx-alignment: center;" styleClass="label-text" text="35₺ " textAlignment="CENTER" />
          </children>
       </AnchorPane>
       <AnchorPane layoutX="430.0" layoutY="380.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="130.0" prefWidth="130.0" styleClass="anchor-pane2">
@@ -206,7 +206,7 @@
                </image>
             </ImageView>
             <Label layoutY="112.0" prefHeight="18.0" prefWidth="94.0" style="-fx-alignment: center;" styleClass="label-text" text="HANIMELLER" textAlignment="CENTER" />
-            <Label layoutX="75.0" layoutY="112.0" prefHeight="18.0" prefWidth="78.0" style="-fx-alignment: center;" styleClass="label-text" text="35₺ " textAlignment="CENTER" />
+            <Label fx:id="price_toy3" layoutX="75.0" layoutY="112.0" prefHeight="18.0" prefWidth="78.0" style="-fx-alignment: center;" styleClass="label-text" text="35₺ " textAlignment="CENTER" />
          </children>
       </AnchorPane>
       <AnchorPane layoutX="430.0" layoutY="530.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="130.0" prefWidth="130.0" styleClass="anchor-pane2">
@@ -224,7 +224,7 @@
                </image>
             </ImageView>
             <Label layoutY="112.0" prefHeight="18.0" prefWidth="94.0" style="-fx-alignment: center;" styleClass="label-text" text="HANIMELLER" textAlignment="CENTER" />
-            <Label layoutX="75.0" layoutY="112.0" prefHeight="18.0" prefWidth="78.0" style="-fx-alignment: center;" styleClass="label-text" text="35₺ " textAlignment="CENTER" />
+            <Label fx:id="price_toy4" layoutX="75.0" layoutY="112.0" prefHeight="18.0" prefWidth="78.0" style="-fx-alignment: center;" styleClass="label-text" text="35₺ " textAlignment="CENTER" />
          </children>
       </AnchorPane>
       <TableView fx:id="productTable" layoutX="706.0" layoutY="81.0" prefHeight="433.0" prefWidth="290.0" style="-fx-background-color: #f9f9f9; -fx-border-color: #ccc;" stylesheets="@../css/products.css">

@@ -153,7 +153,7 @@ public class Main extends Application {
 
 
     // Show the Cart page
-    public void showCartPage() {
+    public void showCartPage(int session_id, Movie selectedMovie, Users user, String previousPage) {
         try {
             System.out.println("Opening cart page...");
             FXMLLoader loader = new FXMLLoader(getClass().getResource("fxml/cart.fxml"));
@@ -161,6 +161,12 @@ public class Main extends Application {
 
             // Ensure the correct controller is set
             CartPageController controller = loader.getController();
+            controller.setSessionId(session_id);
+            controller.setCurrentUser(user);
+            controller.setProfileDetails();
+            controller.setSelectedMovie(selectedMovie);
+            controller.setPreviousPage(previousPage);
+
             System.out.println("Setting mainApp in CartPageController...");
             controller.setMainApp(this); // Pass the mainApp reference to the controller
 

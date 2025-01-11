@@ -44,6 +44,25 @@
             <FontAwesomeIcon glyphName="SIGN_OUT" size="1.5em" />
          </graphic>
       </Button>
+      <Button fx:id="backButton" layoutX="-1.0" layoutY="-1.0" mnemonicParsing="false" onAction="#handleBackButton" prefHeight="23.0" prefWidth="24.0" styleClass="close-form" stylesheets="@../css/moviePage.css">
+         <graphic>
+            <FontAwesomeIcon glyphName="ARROW_LEFT" size="1.2em" />
+         </graphic>
+      </Button>
+      <Button layoutX="1033.0" mnemonicParsing="false" onAction="#movieSearch_windowClose_btn" prefHeight="24.0" prefWidth="64.0" styleClass="close-form" stylesheets="@../css/moviePage.css">
+         <graphic>
+            <FontAwesomeIcon glyphName="CLOSE" />
+         </graphic>
+      </Button>
+      <Button fx:id="movieSearch_windowMinimize_btn" layoutX="974.0" mnemonicParsing="false" onAction="#MovieSearch_windowMinimize" prefHeight="24.0" prefWidth="64.0" styleClass="close-form" stylesheets="@../css/moviePage.css">
+         <graphic>
+            <FontAwesomeIcon glyphName="MINUS" />
+         </graphic>
+      </Button>
+      <Label fx:id="movieSearch_profileName" layoutX="75.0" prefHeight="30.0" prefWidth="82.0" style="-fx-font-weight: bold; -fx-font-size: 15.0" text="NAME">
+      </Label>
+      <Label fx:id="movieSearch_profileRole" layoutX="75.0" layoutY="18.0" prefHeight="30.0" prefWidth="82.0" style="-fx-font-weight: bold; -fx-font-size: 15.0" text="ROLE" />
+      <FontAwesomeIcon glyphName="USER" layoutX="42.0" layoutY="35.0" size="2.3em" />
       <Button fx:id="cartList_close_btn" layoutX="644.0" mnemonicParsing="false" onAction="#movieSearch_windowClose_btn" prefHeight="24.0" prefWidth="56.0" styleClass="close-form" stylesheets="@../css/moviePage.css">
          <graphic>
             <FontAwesomeIcon glyphName="CLOSE" />

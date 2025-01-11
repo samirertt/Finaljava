@@ -11,56 +11,6 @@ public class Cart {
     private final String orderNo; // Unique order number
     private final List<Product> products; // List of products in the cart
 
-    /**
-     * Represents an individual product in the cart.
-     */
-    public static class Product {
-        private String name;       // Name of the product
-        private double price;      // Price of the product
-        private int quantity;      // Quantity of the product
-
-        public Product(String name, double price, int quantity) {
-            this.name = name;
-            this.price = price;
-            this.quantity = quantity;
-        }
-
-        // Getters and Setters
-        public String getName() {
-            return name;
-        }
-
-        public void setName(String name) {
-            this.name = name;
-        }
-
-        public double getPrice() {
-            return price;
-        }
-
-        public void setPrice(double price) {
-            this.price = price;
-        }
-
-        public int getQuantity() {
-            return quantity;
-        }
-
-        public void setQuantity(int quantity) {
-            this.quantity = quantity;
-        }
-
-        @Override
-        public String toString() {
-            return String.format("Product{name='%s', price=%.2f, quantity=%d}", name, price, quantity);
-        }
-    }
-
-    /**
-     * Constructs a Cart with a unique order number.
-     *
-     * @param orderNo the unique order number for the cart
-     */
     public Cart(String orderNo) {
         this.orderNo = orderNo;
         this.products = new ArrayList<>();
@@ -69,11 +19,12 @@ public class Cart {
     /**
      * Adds a product to the cart.
      *
-     * @param name     the name of the product
-     * @param price    the price of the product
-     * @param quantity the quantity of the product
+     * @param name      the name of the product
+     * @param price     the price of the product
+     * @param quantity  the quantity of the product
      */
-    public void addProduct(String name, double price, int quantity) {
+    public void addProduct(String name, double price,int quantity)
+    {
         products.add(new Product(name, price, quantity));
     }
 
@@ -88,13 +39,24 @@ public class Cart {
     }
 
     /**
-     * Calculates the total price of all products in the cart.
+     * Calculates the total price of all products in the cart (excluding tax).
      *
      * @return the total price
      */
     public double getTotalPrice() {
         return products.stream()
-                .mapToDouble(product -> product.getPrice() * product.getQuantity())
+                .mapToDouble(product -> product.getPrice() * product.getStock())
+                .sum();
+    }
+
+    /**
+     * Calculates the total price of all products in the cart (including tax).
+     *
+     * @return the total price with tax
+     */
+    public double getTotalPriceWithTax() {
+        return products.stream()
+                .mapToDouble(product -> product.getTaxedPrice() * product.getStock())
                 .sum();
     }
 
@@ -128,9 +90,44 @@ public class Cart {
                 .collect(Collectors.toList());
     }
 
+    /**
+     * Updates the quantity of a product in the cart.
+     *
+     * @param productName the name of the product to update
+     * @param newQuantity the new quantity of the product
+     */
+    public void updateProductQuantity(String productName, int newQuantity) {
+        for (Product product : products) {
+            if (product.getName().equalsIgnoreCase(productName)) {
+                product.setStock(newQuantity);
+                return;
+            }
+        }
+        // If the product is not found, add it to the cart
+        addProduct(productName, 0, newQuantity); // Assuming productId and price are not needed here
+    }
+
+    /**
+     * Checks if a product exists in the cart.
+     *
+     * @param productName the name of the product to check
+     * @return true if the product exists, false otherwise
+     */
+    public boolean containsProduct(String productName) {
+        return products.stream()
+                .anyMatch(product -> product.getName().equalsIgnoreCase(productName));
+    }
+
+    /**
+     * Clears all products from the cart.
+     */
+    public void clearCart() {
+        products.clear();
+    }
+
     @Override
     public String toString() {
-        return String.format("Cart{orderNo='%s', products=%s, totalPrice=%.2f}",
-                orderNo, products, getTotalPrice());
+        return String.format("Cart{orderNo='%s', products=%s, totalPrice=%.2f, totalPriceWithTax=%.2f}",
+                orderNo, products, getTotalPrice(), getTotalPriceWithTax());
     }
 }

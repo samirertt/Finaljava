@@ -20,7 +20,7 @@
             <Text layoutX="41.0" layoutY="46.0" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-size: 30;" text="Order History" wrappingWidth="184.4132080078125" />
          </children>
       </AnchorPane>
-      <Button fx:id="payButton" layoutX="852.0" layoutY="616.0" mnemonicParsing="false" style="-fx-font-size: 15;" styleClass="button-pay" text="PROCEED TO PAY" />
+      <Button fx:id="payButton" layoutX="852.0" layoutY="616.0" mnemonicParsing="false" style="-fx-font-size: 15;" styleClass="button-pay" text="PROCEED TO PAY" onAction="#handlePayButton" />
       <TableView fx:id="payment_TableView" layoutX="45.0" layoutY="93.0" prefHeight="244.0" prefWidth="739.0">
         <columns>
           <TableColumn fx:id="payment_tableView_itemName" prefWidth="75.0" text="Item Name" />
@@ -52,9 +52,9 @@
       <AnchorPane layoutX="419.0" layoutY="350.0" prefHeight="282.0" prefWidth="310.0" styleClass="anchor-pane-ticket-info">
          <children>
             <Label layoutX="24.0" layoutY="14.0" prefHeight="76.0" prefWidth="298.4" style="-fx-alignment: center;" styleClass="label-ticket-info" text="CUSTOMER INFORMATION" AnchorPane.bottomAnchor="254.0" AnchorPane.leftAnchor="24.0" AnchorPane.rightAnchor="24.0" AnchorPane.topAnchor="14.0" />
-            <TextField layoutX="44.0" layoutY="83.0" prefHeight="26.0" prefWidth="222.0" promptText="Enter a name" />
-            <TextField layoutX="44.0" layoutY="127.0" prefHeight="26.0" prefWidth="222.0" promptText="Enter a surname" />
-            <DatePicker layoutX="44.0" layoutY="167.0" prefHeight="26.0" prefWidth="222.0" promptText="Enter a birthdate (yyyy-mm-dd)" />
+             <TextField fx:id="nameField" layoutX="44.0" layoutY="83.0" prefHeight="26.0" prefWidth="222.0" promptText="Enter a name" />
+             <TextField fx:id="surnameField" layoutX="44.0" layoutY="127.0" prefHeight="26.0" prefWidth="222.0" promptText="Enter a surname" />
+             <DatePicker fx:id="birthdatePicker" layoutX="44.0" layoutY="167.0" prefHeight="26.0" prefWidth="222.0" promptText="Enter a birthdate (yyyy-mm-dd)" />
             <Button layoutX="44.0" layoutY="242.0" mnemonicParsing="false" text="CLEAR" />
             <Button layoutX="214.0" layoutY="242.0" mnemonicParsing="false" text="ENTER" />
          </children>

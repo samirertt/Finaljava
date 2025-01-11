@@ -68,6 +68,10 @@ public class daySelectionController {
     @FXML
     private Button movieSearch_windowMinimize_btn;
 
+    public void setSessionTime(Time sessionTime) {
+        this.sessionTime = sessionTime;
+    }
+
     public void setMainApp(Main mainApp) {
         this.mainApp = mainApp;
     }

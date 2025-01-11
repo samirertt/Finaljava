@@ -4,6 +4,8 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.time.LocalDate;
+import java.sql.PreparedStatement;
 
 public class Facade {
     private static final String DB_URL = "jdbc:mysql://localhost:3306/cinemacenter";
@@ -155,8 +157,34 @@ public class Facade {
         return movieList; // Return the list of movies (can be empty if no results)
     }
 
-    public List<Cart.Product> getProductsFromDb(String orderNo) {
-        List<Cart.Product> products = new ArrayList<>();
+    public static List<Product> getProductsFromDatabase() {
+        List<Product> products = new ArrayList<>();
+        String query = "SELECT product_id, name, price, stock FROM products";
+
+        try (Connection conn = connect();
+             PreparedStatement pstmt = conn.prepareStatement(query);
+             ResultSet rs = pstmt.executeQuery()) {
+
+            while (rs.next()) {
+                int productId = rs.getInt("product_id");
+                String name = rs.getString("name");
+                double price = rs.getDouble("price");
+                double taxedPrice = rs.getDouble("taxed_price");
+                int stock = rs.getInt("stock");
+
+                // Create a Product object and add it to the list
+                Product product = new Product(productId, name, price, stock);
+                products.add(product);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return products;
+    }
+
+    public List<Product> getProductsFromDb(String orderNo) {
+        List<Product> products = new ArrayList<>();
         String query = "SELECT item_type, price_per_item, quantity FROM cart WHERE item_id = ?";
 
         try (Connection conn = connect(); PreparedStatement stmt = conn.prepareStatement(query)) {
@@ -170,7 +198,7 @@ public class Facade {
                 int productQuantity = rs.getInt("quantity");
 
                 // Create a new Cart.Product object and add it to the list
-                Cart.Product product = new Cart.Product(productName, productPrice, productQuantity);
+                Product product = new Product(productName, productPrice, productQuantity);
                 products.add(product);
             }
         } catch (Exception e) {
@@ -180,7 +208,7 @@ public class Facade {
         return products; // Return the list of products
     }
 
-    public void addProductToCart(String orderNo, String productName, double productPrice, int quantity) {
+    public static void addProductToCart(String orderNo, String productName, double productPrice, int quantity) {
         String query = "INSERT INTO cart (item_id, item_type, price_per_item, quantity) VALUES (?, ?, ?, ?)";
 
         try (Connection conn = connect(); PreparedStatement stmt = conn.prepareStatement(query)) {
@@ -192,6 +220,27 @@ public class Facade {
         } catch (Exception e) {
             e.printStackTrace();
             System.err.println("Error adding product to the cart in the database.");
+        }
+    }
+
+    public void saveCustomerInfo(String name, String surname, LocalDate birthdate) {
+        String sql = "INSERT INTO customers (name, surname, birthdate) VALUES (?, ?, ?)";
+
+        try (Connection conn = connect(); PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            pstmt.setString(1, name);
+            pstmt.setString(2, surname);
+            pstmt.setDate(3, Date.valueOf(birthdate));
+
+            int rowsAffected = pstmt.executeUpdate();
+
+            if (rowsAffected > 0) {
+                System.out.println("Customer information saved to database!");
+            } else {
+                System.out.println("Failed to save customer information.");
+            }
+        } catch (Exception e) {
+            System.err.println("Error saving customer information: " + e.getMessage());
+            e.printStackTrace();
         }
     }
 
@@ -364,5 +413,73 @@ public class Facade {
             e.printStackTrace();
             System.err.println("Error clearing the cart table.");
         }
+    }
+
+    public static int checkStock(String productName)
+    {
+        String query = "SELECT stock FROM products WHERE name = ?";
+        try (Connection conn = connect();
+             PreparedStatement pstmt = conn.prepareStatement(query)) {
+            pstmt.setString(1, productName);
+            try (ResultSet rs = pstmt.executeQuery()) {
+                if (rs.next()) {
+                    return rs.getInt("stock");
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return -1;
+    }
+    public static void updateStock(String productName, int newStock)
+    {
+        String query = "UPDATE products SET stock = ? WHERE name = ?";
+        try (Connection conn = connect();
+             PreparedStatement pstmt = conn.prepareStatement(query)) {
+            pstmt.setInt(1, newStock);
+            pstmt.setString(2, productName);
+            int rowsAffected = pstmt.executeUpdate();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static double getTaxedPrice(String productName)
+    {
+        double a =0;
+        return a;
+    }
+
+
+    public static boolean isEnoughSeat(int numOfTickets, int session_id) {
+        String query = "SELECT COUNT(*) AS available_seats FROM Seats WHERE is_available = 1 AND session_id = ?";
+        int availableSeats = 0;
+
+        System.out.println("Checking seats for session_id: " + session_id); // Debug statement
+
+        try (Connection conn = connect();
+             PreparedStatement pstmt = conn.prepareStatement(query)) {
+
+            // Set the session_id parameter
+            pstmt.setInt(1, session_id);
+
+            // Execute the query
+            try (ResultSet rs = pstmt.executeQuery()) {
+                if (rs.next()) {
+                    // Retrieve the count of available seats
+                    availableSeats = rs.getInt("available_seats");
+                    System.out.println("Available seats: " + availableSeats); // Debug statement
+                } else {
+                    System.out.println("No result returned from the query."); // Debug statement
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false; // Return false in case of an exception
+        }
+
+        // Check if there are enough seats
+        System.out.println("Enough seats: " + (availableSeats >= numOfTickets)); // Debug statement
+        return availableSeats >= numOfTickets;
     }
 }
