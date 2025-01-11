@@ -114,8 +114,8 @@ public class CartPageController {
     public void initialize() {
         // Set up the TableView columns
         cart_productName.setCellValueFactory(new PropertyValueFactory<>("name"));
-        cart_productPrice.setCellValueFactory(new PropertyValueFactory<>("price"));
-        cart_productQuantity.setCellValueFactory(new PropertyValueFactory<>("stock")); // Use "stock" instead of "quantity"
+        cart_productPrice.setCellValueFactory(new PropertyValueFactory<>("taxedPrice"));
+        cart_productQuantity.setCellValueFactory(new PropertyValueFactory<>("quantity"));
 
         // Add event handlers for button actions
         addEventHandlers();
@@ -142,19 +142,18 @@ public class CartPageController {
 
     private void increaseQuantity() {
         Product selectedProduct = cart_orderTable.getSelectionModel().getSelectedItem();
-        if (selectedProduct != null)
-        {
-            selectedProduct.setStock(selectedProduct.getStock() + 1);
-            Facade.updateProductQuantity(mainApp.getOrderNo(), selectedProduct.getName(), selectedProduct.getStock());
+        if (selectedProduct != null) {
+            selectedProduct.setQuantity(selectedProduct.getQuantity() + 1);
+            Facade.updateProductQuantity(mainApp.getOrderNo(), selectedProduct.getName(), selectedProduct.getQuantity());
             refreshTable();
         }
     }
 
     public void decreaseQuantity() {
         Product selectedProduct = cart_orderTable.getSelectionModel().getSelectedItem();
-        if (selectedProduct != null && selectedProduct.getStock() > 1) {
-            selectedProduct.setStock(selectedProduct.getStock() - 1);
-            Facade.updateProductQuantity(mainApp.getOrderNo(), selectedProduct.getName(), selectedProduct.getStock());
+        if (selectedProduct != null && selectedProduct.getQuantity() > 1) {
+            selectedProduct.setQuantity(selectedProduct.getQuantity() - 1);
+            Facade.updateProductQuantity(mainApp.getOrderNo(), selectedProduct.getName(), selectedProduct.getQuantity());
             refreshTable();
         }
     }
@@ -162,14 +161,23 @@ public class CartPageController {
     private void removeSelectedProduct() {
         Product selectedProduct = cart_orderTable.getSelectionModel().getSelectedItem();
         if (selectedProduct != null) {
-            cart.removeProduct(selectedProduct.getName());
+            // Remove the product from the database
+            Facade.removeProductFromCart(mainApp.getOrderNo(), selectedProduct.getName());
+
+            // Remove the product from the cart
+            cart.removeItem(selectedProduct.getName());
+
+            // Remove the product from the ObservableList (UI)
             cartData.remove(selectedProduct);
+
+            // Refresh the table to reflect the changes
             refreshTable();
         }
     }
 
     private void refreshTable() {
         cart_orderTable.refresh();
+        cart_orderTable.setItems(cartData);
     }
 
     @FXML
@@ -217,7 +225,7 @@ public class CartPageController {
                 cart_orderNo.setText(orderNo);
 
                 // Fetch products from the database
-                List<Product> products = facade.getProductsFromDb(orderNo);
+                List<Product> products = facade.getItemsFromDb(orderNo);
 
                 // Convert the list to an ObservableList
                 cartData = FXCollections.observableArrayList(products);

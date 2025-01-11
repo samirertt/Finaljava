@@ -100,7 +100,7 @@ public class Main extends Application {
             primaryStage.setScene(new Scene(root));
             primaryStage.initStyle(StageStyle.TRANSPARENT);
             primaryStage.show();
-            this.orderNo = "100001";
+            this.orderNo = generateRandomOrderNo();
             // Pass reference of this class to the controller
             LoginPageController controller = loader.getController();
             controller.setMainApp(this);

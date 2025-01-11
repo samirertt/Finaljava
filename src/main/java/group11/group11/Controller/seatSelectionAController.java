@@ -201,12 +201,9 @@ public class seatSelectionAController {
             selectedSeats.remove(seatName);
             clickedButton.setStyle(""); // Reset the button style
             System.out.println("Seat " + seatName + " deselected.");
-            // Update the database
-            int number = Facade.productExistsInCart(mainApp.getOrderNo(), selectedMovie.getMovieName());
-            if (number > 0) {
-                Facade.updateProductQuantity(mainApp.getOrderNo(), selectedMovie.getMovieName(), number - 1);
-            }
 
+            // Remove the ticket from the cart
+            Facade.removeProductFromCart(mainApp.getOrderNo(), selectedMovie.getMovieName());
         } else {
             // Check if the number of selected seats has reached the limit
             if (selectedSeats.size() >= mainApp.getNumOfTicket()) {
@@ -224,12 +221,12 @@ public class seatSelectionAController {
                     + "-fx-font-weight: bold;");
             System.out.println("Seat " + seatName + " selected.");
 
-            // Update the database
+            /// Update the database
             int number = Facade.productExistsInCart(mainApp.getOrderNo(), selectedMovie.getMovieName());
             if (number > 0) {
                 Facade.updateProductQuantity(mainApp.getOrderNo(), selectedMovie.getMovieName(), number + 1);
             } else {
-                Facade.addProductToCart(mainApp.getOrderNo(), selectedMovie.getMovieName(), 200, 1);
+                Facade.addTicketToCart(mainApp.getOrderNo(), selectedMovie.getMovieName(), Facade.getTicketPriceFromDB(), 1);
             }
         }
     }

@@ -10,12 +10,13 @@ import java.sql.PreparedStatement;
 public class Facade {
     private static final String DB_URL = "jdbc:mysql://localhost:3306/cinemacenter";
     private static final String DB_USER = "root"; // Replace with your username
-    private static final String DB_PASSWORD = "addnone2013"; // Replace with your password
+    private static final String DB_PASSWORD = "blodreina"; // Replace with your password
 
     private static Connection connect() throws Exception {
         Class.forName("com.mysql.cj.jdbc.Driver");
         return DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD);
     }
+
 
     // Method to validate user login
     public Users validateLogin(String username, String password) {
@@ -159,7 +160,7 @@ public class Facade {
 
     public static List<Product> getProductsFromDatabase() {
         List<Product> products = new ArrayList<>();
-        String query = "SELECT product_id, name, price, stock FROM products";
+        String query = "SELECT product_id, name, price, taxed_price, stock FROM products";
 
         try (Connection conn = connect();
              PreparedStatement pstmt = conn.prepareStatement(query);
@@ -169,11 +170,11 @@ public class Facade {
                 int productId = rs.getInt("product_id");
                 String name = rs.getString("name");
                 double price = rs.getDouble("price");
-                double taxedPrice = rs.getDouble("taxed_price");
+                double taxedPrice = rs.getDouble("taxed_price"); // Fetch taxed price
                 int stock = rs.getInt("stock");
 
-                // Create a Product object and add it to the list
-                Product product = new Product(productId, name, price, stock);
+                // Create a Product object with taxed price
+                Product product = new Product(productId, name, price, taxedPrice, stock);
                 products.add(product);
             }
         } catch (Exception e) {
@@ -183,45 +184,63 @@ public class Facade {
         return products;
     }
 
-    public List<Product> getProductsFromDb(String orderNo) {
-        List<Product> products = new ArrayList<>();
-        String query = "SELECT item_type, price_per_item, quantity FROM cart WHERE item_id = ?";
+    public List<Product> getItemsFromDb(String orderNo) {
+        List<Product> items = new ArrayList<>();
+        String query = "SELECT name, price_per_item, quantity FROM cart WHERE item_id = ?";
 
         try (Connection conn = connect(); PreparedStatement stmt = conn.prepareStatement(query)) {
             stmt.setString(1, orderNo);
             ResultSet rs = stmt.executeQuery();
 
             while (rs.next()) {
-                // Extract values from the ResultSet
-                String productName = rs.getString("item_type");
-                double productPrice = rs.getDouble("price_per_item");
-                int productQuantity = rs.getInt("quantity");
+                String name = rs.getString("name");
+                double taxedPrice = rs.getDouble("price_per_item");
+                int quantity = rs.getInt("quantity");
 
-                // Create a new Cart.Product object and add it to the list
-                Product product = new Product(productName, productPrice, productQuantity);
-                products.add(product);
+                // Create a Product object
+                Product item = new Product(name, taxedPrice, quantity);
+                items.add(item);
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
 
-        return products; // Return the list of products
+        return items;
     }
 
-    public static void addProductToCart(String orderNo, String productName, double productPrice, int quantity) {
-        String query = "INSERT INTO cart (item_id, item_type, price_per_item, quantity) VALUES (?, ?, ?, ?)";
+    public static void addProductToCart(String orderNo, String productName, double price, int quantity) {
+        String query = "INSERT INTO cart (item_id, item_type, name, price_per_item, quantity) VALUES (?, ?, ?, ?, ?)";
 
         try (Connection conn = connect(); PreparedStatement stmt = conn.prepareStatement(query)) {
             stmt.setString(1, orderNo);
-            stmt.setString(2, productName);
-            stmt.setDouble(3, productPrice);
-            stmt.setInt(4, quantity);
+            stmt.setString(2, "product"); // Set item_type to "product"
+            stmt.setString(3, productName);
+            stmt.setDouble(4, price);
+            stmt.setInt(5, quantity);
             stmt.executeUpdate();
         } catch (Exception e) {
             e.printStackTrace();
             System.err.println("Error adding product to the cart in the database.");
         }
     }
+
+
+    public static void addTicketToCart(String orderNo, String movieName, double price, int quantity) {
+        String query = "INSERT INTO cart (item_id, item_type, name, price_per_item, quantity) VALUES (?, ?, ?, ?, ?)";
+
+        try (Connection conn = connect(); PreparedStatement stmt = conn.prepareStatement(query)) {
+            stmt.setString(1, orderNo);
+            stmt.setString(2, "ticket"); // Set item_type to "ticket"
+            stmt.setString(3, movieName);
+            stmt.setDouble(4, price);
+            stmt.setInt(5, quantity);
+            stmt.executeUpdate();
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.err.println("Error adding ticket to the cart in the database.");
+        }
+    }
+
 
     public void saveCustomerInfo(String name, String surname, LocalDate birthdate) {
         String sql = "INSERT INTO customers (name, surname, birthdate) VALUES (?, ?, ?)";
@@ -245,7 +264,7 @@ public class Facade {
     }
 
     public static void updateProductQuantity(String orderNo, String productName, int newQuantity) {
-        String query = "UPDATE cart SET quantity = ? WHERE item_id = ? AND item_type = ?";
+        String query = "UPDATE cart SET quantity = ? WHERE item_id = ? AND name = ?";
 
         try (Connection conn = connect(); PreparedStatement stmt = conn.prepareStatement(query)) {
             stmt.setInt(1, newQuantity);
@@ -259,7 +278,7 @@ public class Facade {
     }
 
     public static int productExistsInCart(String orderNo, String productName) {
-        String query = "SELECT quantity FROM cart WHERE item_id = ? AND item_type = ?";
+        String query = "SELECT quantity FROM cart WHERE item_id = ? AND name = ?";
 
         try (Connection conn = connect(); PreparedStatement stmt = conn.prepareStatement(query)) {
             stmt.setString(1, orderNo);
@@ -444,11 +463,22 @@ public class Facade {
         }
     }
 
-    public static double getTaxedPrice(String productName)
-    {
-        double a =0;
-        return a;
+    public static double getTaxedPrice(String productName) {
+        String query = "SELECT taxed_price FROM products WHERE name = ?";
+        try (Connection conn = connect();
+             PreparedStatement pstmt = conn.prepareStatement(query)) {
+            pstmt.setString(1, productName);
+            try (ResultSet rs = pstmt.executeQuery()) {
+                if (rs.next()) {
+                    return rs.getDouble("taxed_price");
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return 0.0; // Return 0.0 if no taxed price is found or an error occurs
     }
+
 
 
     public static boolean isEnoughSeat(int numOfTickets, int session_id) {
@@ -481,5 +511,47 @@ public class Facade {
         // Check if there are enough seats
         System.out.println("Enough seats: " + (availableSeats >= numOfTickets)); // Debug statement
         return availableSeats >= numOfTickets;
+    }
+
+    public static double getTicketPriceFromDB() {
+        String query = "SELECT price FROM products WHERE name = ?";
+        try (Connection conn = connect(); PreparedStatement stmt = conn.prepareStatement(query)) {
+            stmt.setString(1, "Ticket");
+            ResultSet rs = stmt.executeQuery();
+            if (rs.next()) {
+                return rs.getDouble("price");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return 0.0;
+    }
+
+    public static double getDiscountRateByAge(int age) {
+        String query = "SELECT discount_rate FROM discounts WHERE ? BETWEEN min_age AND max_age";
+        try (Connection conn = connect(); PreparedStatement stmt = conn.prepareStatement(query)) {
+            stmt.setInt(1, age);
+            ResultSet rs = stmt.executeQuery();
+            if (rs.next()) {
+                return rs.getDouble("discount_rate");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return 0.0; // Return 0 if no discount is found
+    }
+
+    public static void removeProductFromCart(String orderNo, String productName) {
+        String query = "DELETE FROM cart WHERE item_id = ? AND name = ?";
+
+        try (Connection conn = connect(); PreparedStatement stmt = conn.prepareStatement(query)) {
+            stmt.setString(1, orderNo);
+            stmt.setString(2, productName);
+            stmt.executeUpdate();
+            System.out.println("Product removed from cart in the database.");
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.err.println("Error removing product from the cart in the database.");
+        }
     }
 }

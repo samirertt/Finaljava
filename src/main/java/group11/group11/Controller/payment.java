@@ -8,6 +8,7 @@ import javafx.stage.Stage;
 import java.time.LocalDate;
 import java.sql.Date;
 import java.sql.Time;
+import java.util.ArrayList;
 import java.util.List;
 
 public class payment {
@@ -141,8 +142,8 @@ public class payment {
     private void initialize() {
         // Initialize TableView columns
         payment_tableView_itemName.setCellValueFactory(new PropertyValueFactory<>("name"));
-        payment_tableView_Quantity.setCellValueFactory(new PropertyValueFactory<>("stock"));
-        payment_tableView_price.setCellValueFactory(new PropertyValueFactory<>("price"));
+        payment_tableView_Quantity.setCellValueFactory(new PropertyValueFactory<>("quantity"));
+        payment_tableView_price.setCellValueFactory(new PropertyValueFactory<>("price_per_item"));
     }
 
     private void initializeData() {
@@ -152,7 +153,7 @@ public class payment {
                 order_ID.setText("Order ID: " + mainApp.getOrderNo());
 
                 // Load cart items into the TableView
-                List<Product> products = facade.getProductsFromDb(mainApp.getOrderNo());
+                List<Product> products = facade.getItemsFromDb(mainApp.getOrderNo());
                 if (products != null && !products.isEmpty()) {
                     payment_TableView.getItems().addAll(products);
                 } else {
@@ -266,6 +267,17 @@ public class payment {
         }
 
         System.out.println("Payment processed for order: " + mainApp.getOrderNo());
+    }
+
+    private void TicketInfo()
+    {
+        List<Ticket> tickets = new ArrayList<>();
+        int ticketCount =
+
+        for(int i=0; i<ticketCount; i++)
+        {
+            Ticket ticket = new Ticket(session_id,mainApp.getSelectedHall(),)
+        }
     }
 
     private void showAlert(String message) {

@@ -1,33 +1,27 @@
 package group11.group11;
 
-public class Product
-{
+public class Product {
     private int productId;
     private String name;
     private double price;
     private double taxedPrice;
     private int stock;
+    private int quantity;
 
     // Constructor for all fields
-    public Product(int productId, String name, double price, int stock)
-    {
+    public Product(int productId, String name, double price, double taxedPrice, int stock) {
         this.productId = productId;
         this.name = name;
         this.price = price;
-        this.stock = stock;
-        this.taxedPrice = calculateTaxedPrice(price); // Calculate taxed price
-    }
-    public Product(String name, double price, int stock)
-    {
-        this.name = name;
-        this.price = price;
+        this.taxedPrice = taxedPrice;
         this.stock = stock;
     }
 
-    // Method to calculate taxed price (10% tax)
-    private double calculateTaxedPrice(double price) {
-        double taxRate = 0.10; // 10% tax
-        return price * (1 + taxRate); // Price + 10% of price
+    // Constructor for name, price, and stock
+    public Product(String name, double taxedPrice, int quantity) {
+        this.name = name;
+        this.taxedPrice = taxedPrice;
+        this.quantity = quantity;
     }
 
     // Getters and Setters
@@ -53,11 +47,14 @@ public class Product
 
     public void setPrice(double price) {
         this.price = price;
-        this.taxedPrice = calculateTaxedPrice(price); // Recalculate taxed price
     }
 
     public double getTaxedPrice() {
         return taxedPrice;
+    }
+
+    public void setTaxedPrice(double taxedPrice) {
+        this.taxedPrice = taxedPrice;
     }
 
     public int getStock() {
@@ -66,6 +63,13 @@ public class Product
 
     public void setStock(int stock) {
         this.stock = stock;
+    }
+
+    public int getQuantity() {return this.quantity;}
+
+    public void setQuantity(int quantity)
+    {
+        this.quantity=quantity;
     }
 
     @Override

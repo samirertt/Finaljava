@@ -36,10 +36,9 @@ public class customer_products {
     private TableColumn<Product, Double> totalColumn;
     @FXML
     private ObservableList<Product> productList;
+
     @FXML
-    private Map<String, Integer> productQuantities;
-    @FXML
-    private Map<String, Double> productPrices;
+    private List<Product> products;
 
     @FXML
     private Label movieSearch_profileName;
@@ -240,97 +239,42 @@ public class customer_products {
     public void setMainApp(Main mainApp) {
         System.out.println("Setting mainApp: " + mainApp);
         this.mainApp = mainApp;
+        this.facade = new Facade();
         this.cart = new Cart(mainApp.getOrderNo());
         initializeData(); // Call this after setting mainApp
     }
 
     @FXML
-    private void initialize()  {
+    private void initialize() {
 
-        productQuantities = new HashMap<>();
-        productPrices = new HashMap<>();
-
-        // Initialize only the components that do not depend on mainApp
         productList = FXCollections.observableArrayList();
         productColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
         quantityColumn.setCellValueFactory(new PropertyValueFactory<>("quantity"));
-        totalColumn.setCellValueFactory(cellData -> new SimpleDoubleProperty(cellData.getValue().getPrice() * cellData.getValue().getStock()).asObject());
+        totalColumn.setCellValueFactory(cellData -> new SimpleDoubleProperty(cellData.getValue().getTaxedPrice() * cellData.getValue().getQuantity()).asObject());
         productTable.setItems(productList);
 
-
         // Fetch products from the database
-        List<Product> products = Facade.getProductsFromDatabase();
+        products = Facade.getProductsFromDatabase();
 
-
-        // Initialize the labels with the starting counts
-        qty_drink1.setText("0");
-        qty_drink2.setText("0");
-        qty_drink3.setText("0");
-        qty_drink4.setText("0");
-        qty_food1.setText("0");
-        qty_food2.setText("0");
-        qty_food3.setText("0");
-        qty_food4.setText("0");
-        qty_toy1.setText("0");
-        qty_toy2.setText("0");
-        qty_toy3.setText("0");
-        qty_toy4.setText("0");
-
+        // Initialize product quantities and prices directly from the products list
         for (Product product : products) {
-            switch (product.getName()) {
-                case "Sprite":
-                    price_drink1.setText(String.format("%.2f₺", product.getPrice()));
-                    productPrices.put("Sprite", product.getPrice());
-                    break;
-                case "Coca-Cola":
-                    price_drink2.setText(String.format("%.2f₺", product.getPrice()));
-                    productPrices.put("Coca-Cola", product.getPrice());
-                    break;
-                case "Ice-tea":
-                    price_drink3.setText(String.format("%.2f₺", product.getPrice()));
-                    productPrices.put("Ice-tea", product.getPrice());
-                    break;
-                case "Water":
-                    price_drink4.setText(String.format("%.2f₺", product.getPrice()));
-                    productPrices.put("Water", product.getPrice());
-                    break;
-                case "Popcorn":
-                    price_food1.setText(String.format("%.2f₺", product.getPrice()));
-                    productPrices.put("Popcorn", product.getPrice());
-                    break;
-                case "Snickers":
-                    price_food2.setText(String.format("%.2f₺", product.getPrice()));
-                    productPrices.put("Snickers", product.getPrice());
-                    break;
-                case "Hanımeller":
-                    price_food3.setText(String.format("%.2f₺", product.getPrice()));
-                    productPrices.put("Hanımeller", product.getPrice());
-                    break;
-                case "Falım":
-                    price_food4.setText(String.format("%.2f₺", product.getPrice()));
-                    productPrices.put("Falım", product.getPrice());
-                    break;
-                case "Toy1":
-                    price_toy1.setText(String.format("%.2f₺", product.getPrice()));
-                    productPrices.put("Toy1", product.getPrice());
-                    break;
-                case "Toy2":
-                    price_toy2.setText(String.format("%.2f₺", product.getPrice()));
-                    productPrices.put("Toy2", product.getPrice());
-                    break;
-                case "Toy3":
-                    price_toy3.setText(String.format("%.2f₺", product.getPrice()));
-                    productPrices.put("Toy3", product.getPrice());
-                    break;
-                case "Toy4":
-                    price_toy4.setText(String.format("%.2f₺", product.getPrice()));
-                    productPrices.put("Toy4", product.getPrice());
-                    break;
-                default:
-                    System.out.println("Unknown product: " + product.getName());
-                    break;
+            product.setQuantity(0); // Initialize quantities to 0
+        }
+
+        // If the cart is already initialized, update product quantities with the cart's data
+        if (cart != null) {
+            for (Product cartProduct : cart.getItems()) {
+                for (Product product : products) {
+                    if (product.getName().equals(cartProduct.getName())) {
+                        product.setQuantity(cartProduct.getQuantity());
+                        break;
+                    }
+                }
             }
         }
+
+        updateLabelsFromProducts();
+        updateProductList();
 
         searchMovie_cart.setOnAction(event -> {
             System.out.println("Cart button clicked!");
@@ -350,36 +294,46 @@ public class customer_products {
         }
     }
 
-    private void initializeData()
-    {
-        // Initialize the cart with the order number from mainApp
-        if (mainApp != null)
-        {
+    private void initializeData() {
+        if (mainApp != null) {
             this.cart = new Cart(mainApp.getOrderNo());
-        } else
-        {
-            System.out.println("mainApp is null!"); // Debug statement
+
+            // Load existing cart items from the database
+            List<Product> cartItems = facade.getItemsFromDb(mainApp.getOrderNo());
+            for (Product cartProduct : cartItems) {
+                for (Product product : products) {
+                    if (product.getName().equals(cartProduct.getName())) {
+                        product.setQuantity(cartProduct.getQuantity());
+                        break;
+                    }
+                }
+            }
+
+            // Update the labels based on the products list
+            updateLabelsFromProducts();
+
+            // Update the product list in the table
+            updateProductList();
+        } else {
+            System.out.println("mainApp is null!");
         }
     }
 
     @FXML
-    private void increment(ActionEvent event)
-    {
+    private void increment(ActionEvent event) {
         Button button = (Button) event.getSource();
-        Label label = getLabelForButton(button);
-        if (label != null)
-        {
-            int count = Integer.parseInt(label.getText());
-            String productName = getProductNameForButton(button);
+        String productName = getProductNameForButton(button);
+        Product product = findProductByName(productName);
 
-            // Check stock before incrementing
+        if (product != null) {
+            int quantity = product.getQuantity();
             int currentStock = Facade.checkStock(productName);
-            if (currentStock > count) {
-                count++;
-                label.setText(Integer.toString(count));
-                updateTable(button, count);
 
-                // Update the stock in the database
+            if (currentStock > quantity) {
+                quantity++;
+                product.setQuantity(quantity);
+                updateLabelsFromProducts();
+                updateTable(productName, quantity);
                 Facade.updateStock(productName, currentStock - 1);
             } else {
                 showAlert("Not enough stock for " + productName);
@@ -388,56 +342,33 @@ public class customer_products {
     }
 
     @FXML
-    private void decrement(ActionEvent event)
-    {
+    private void decrement(ActionEvent event) {
         Button button = (Button) event.getSource();
-        Label label = getLabelForButton(button);
-        if (label != null)  {
-            int count = Integer.parseInt(label.getText());
-            if (count > 0)  {
-                String productName = getProductNameForButton(button);
+        String productName = getProductNameForButton(button);
+        Product product = findProductByName(productName);
 
-                // Check stock before decrementing
+        if (product != null) {
+            int quantity = product.getQuantity();
+            if (quantity > 0) {
                 int currentStock = Facade.checkStock(productName);
-                count--;
-                label.setText(Integer.toString(count));
-                updateTable(button, count);
-
-                // Update the stock in the database
+                quantity--;
+                product.setQuantity(quantity);
+                updateLabelsFromProducts();
+                updateTable(productName, quantity);
                 Facade.updateStock(productName, currentStock + 1);
             }
         }
     }
 
-    private Label getLabelForButton(Button button)
-    {
-        if (button == inc_drink1 || button == dec_drink1) {
-            return qty_drink1;
-        } else if (button == inc_drink2 || button == dec_drink2) {
-            return qty_drink2;
-        } else if (button == inc_drink3 || button == dec_drink3) {
-            return qty_drink3;
-        } else if (button == inc_drink4 || button == dec_drink4) {
-            return qty_drink4;
-        } else if (button == inc_food1 || button == dec_food1) {
-            return qty_food1;
-        } else if (button == inc_food2 || button == dec_food2) {
-            return qty_food2;
-        } else if (button == inc_food3 || button == dec_food3) {
-            return qty_food3;
-        } else if (button == inc_food4 || button == dec_food4) {
-            return qty_food4;
-        } else if (button == inc_toy1 || button == dec_toy1) {
-            return qty_toy1;
-        } else if (button == inc_toy2 || button == dec_toy2) {
-            return qty_toy2;
-        } else if (button == inc_toy3 || button == dec_toy3) {
-            return qty_toy3;
-        } else if (button == inc_toy4 || button == dec_toy4) {
-            return qty_toy4;
+    private Product findProductByName(String productName) {
+        for (Product product : products) {
+            if (product.getName().equals(productName)) {
+                return product;
+            }
         }
         return null;
     }
+
 
     private String getProductNameForButton(Button button) {
         if (button == inc_drink1 || button == dec_drink1) {
@@ -468,77 +399,47 @@ public class customer_products {
         return null;
     }
 
-    private void updateTable(Button button, int count)
-    {
-        String productName="";
-        double productPrice = 0.0;
+    private void updateTable(String productName, int count) {
+        Product product = findProductByName(productName);
+        if (product != null)
+        {
+            double productPrice = product.getTaxedPrice();
 
-        if (button == inc_drink1 || button == dec_drink1) {
-            productName = "Sprite";
-        } else if (button == inc_drink2 || button == dec_drink2) {
-            productName = "Coca-Cola";
-        } else if (button == inc_drink3 || button == dec_drink3) {
-            productName = "Ice-tea";
-        } else if (button == inc_drink4 || button == dec_drink4) {
-            productName = "Water";
-        } else if (button == inc_food1 || button == dec_food1) {
-            productName = "Popcorn";
-        } else if (button == inc_food2 || button == dec_food2) {
-            productName = "Snickers";
-        } else if (button == inc_food3 || button == dec_food3) {
-            productName = "Hanımeller";
-        } else if (button == inc_food4 || button == dec_food4) {
-            productName = "Falım";
-        } else if (button == inc_toy1 || button == dec_toy1) {
-            productName = "Toy1";
-        } else if (button == inc_toy2 || button == dec_toy2) {
-            productName = "Toy2";
-        } else if (button == inc_toy3 || button == dec_toy3) {
-            productName = "Toy3";
-        } else if (button == inc_toy4 || button == dec_toy4) {
-            productName = "Toy4";
-        }
-
-        productPrice = productPrices.get(productName);
-        productQuantities.put(productName, count);
-
-        // Add or update the product in the cart
-        if (count > 0) {
-            cart.addProduct(productName, productPrice, count);
-        } else {
-            cart.removeProduct(productName);
-        }
-
-        // Update the database
-        if (Facade.productExistsInCart(mainApp.getOrderNo(), productName) > 0) {
-            Facade.updateProductQuantity(mainApp.getOrderNo(), productName, count);
-        } else {
-            Facade.addProductToCart(mainApp.getOrderNo(), productName, productPrice, count);
-        }
-
-        // Update the product list in the table
-        boolean found = false;
-        for (Product product : productList) {
-            if (product.getName().equals(productName)) {
-                product.setStock(count);
-                found = true;
-                break;
+            // Update the database
+            if (Facade.productExistsInCart(mainApp.getOrderNo(), productName) > 0) {
+                Facade.updateProductQuantity(mainApp.getOrderNo(), productName, count);
+            } else {
+                Facade.addProductToCart(mainApp.getOrderNo(), productName, productPrice, 1);
             }
-        }
-        if (!found) {
-            productList.add(new Product(0, productName, productPrice, count));
-        }
-        productTable.refresh();
-        updateTotalAmount();
 
+            // Update the product list in the table
+            boolean found = false;
+            for (Product p : productList) {
+                if (p.getName().equals(productName)) {
+                    p.setQuantity(count);
+                    found = true;
+                    break;
+                }
+            }
+
+            if (!found)
+            {
+                // Only add the product to the list if the count is greater than 0
+                productList.add(new Product(product.getName(), product.getPrice(), product.getQuantity()));
+            }
+
+            // Refresh the table to reflect the changes
+            productTable.refresh();
+            updateTotalAmount();
+        }
     }
 
     private void updateTotalAmount() {
         double totalAmount = 0.0;
         for (Product product : productList) {
-            totalAmount += product.getPrice() * product.getStock();
+            totalAmount += product.getTaxedPrice() * product.getQuantity();
         }
-        totalAmountLabel.setText(String.format("Total: %.2f₺ ", totalAmount));
+        totalAmountLabel.setText(String.format("Total: %.2f₺", totalAmount));
     }
 
     private void showAlert(String message) {
@@ -549,9 +450,78 @@ public class customer_products {
         alert.showAndWait();
     }
 
+
+    private void updateProductList() {
+        productList.clear();
+        for (Product product : products) {
+            if (product.getQuantity() > 0) {
+                productList.add(new Product(product.getName(), product.getPrice(), product.getQuantity()));
+            }
+        }
+        productTable.refresh();
+    }
+
     @FXML
     public void btnPayScreen(ActionEvent event)
     {
         mainApp.btnPayScreen(sessionId, currentUser, selectedMovie);
+    }
+
+    private void updateLabelsFromProducts() {
+        for (Product product : products) {
+            switch (product.getName()) {
+                case "Sprite":
+                    qty_drink1.setText(Integer.toString(product.getQuantity()));
+                    price_drink1.setText(String.format("%.2f₺", product.getTaxedPrice()));
+                    break;
+                case "Coca-Cola":
+                    qty_drink2.setText(Integer.toString(product.getQuantity()));
+                    price_drink2.setText(String.format("%.2f₺", product.getTaxedPrice()));
+                    break;
+                case "Ice-tea":
+                    qty_drink3.setText(Integer.toString(product.getQuantity()));
+                    price_drink3.setText(String.format("%.2f₺", product.getTaxedPrice()));
+                    break;
+                case "Water":
+                    qty_drink4.setText(Integer.toString(product.getQuantity()));
+                    price_drink4.setText(String.format("%.2f₺", product.getTaxedPrice()));
+                    break;
+                case "Popcorn":
+                    qty_food1.setText(Integer.toString(product.getQuantity()));
+                    price_food1.setText(String.format("%.2f₺", product.getTaxedPrice()));
+                    break;
+                case "Snickers":
+                    qty_food2.setText(Integer.toString(product.getQuantity()));
+                    price_food2.setText(String.format("%.2f₺", product.getTaxedPrice()));
+                    break;
+                case "Hanımeller":
+                    qty_food3.setText(Integer.toString(product.getQuantity()));
+                    price_food3.setText(String.format("%.2f₺", product.getTaxedPrice()));
+                    break;
+                case "Falım":
+                    qty_food4.setText(Integer.toString(product.getQuantity()));
+                    price_food4.setText(String.format("%.2f₺", product.getTaxedPrice()));
+                    break;
+                case "Toy1":
+                    qty_toy1.setText(Integer.toString(product.getQuantity()));
+                    price_toy1.setText(String.format("%.2f₺", product.getTaxedPrice()));
+                    break;
+                case "Toy2":
+                    qty_toy2.setText(Integer.toString(product.getQuantity()));
+                    price_toy2.setText(String.format("%.2f₺", product.getTaxedPrice()));
+                    break;
+                case "Toy3":
+                    qty_toy3.setText(Integer.toString(product.getQuantity()));
+                    price_toy3.setText(String.format("%.2f₺", product.getTaxedPrice()));
+                    break;
+                case "Toy4":
+                    qty_toy4.setText(Integer.toString(product.getQuantity()));
+                    price_toy4.setText(String.format("%.2f₺", product.getTaxedPrice()));
+                    break;
+                default:
+                    System.out.println("Unknown product: " + product.getName());
+                    break;
+            }
+        }
     }
 }
