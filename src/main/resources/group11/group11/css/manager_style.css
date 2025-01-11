@@ -1,0 +1,42 @@
+/* Ana Arka Plan */
+.root {
+    -fx-background-color: linear-gradient(to bottom, #000000, #434343); /* Siyah geçiş efekti */
+}
+
+/* Başlık Stili */
+.title-label {
+    -fx-font-size: 24px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #96a725; /* Yeşil renk */
+    -fx-padding: 10px;
+}
+
+/* Düğme Temel Stili */
+.custom-button {
+    -fx-background-color: black;
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-font-size: 16px;
+    -fx-font-family: 'Arial Rounded MT Bold';
+    -fx-border-color: #96a725;
+    -fx-border-width: 2px;
+    -fx-border-radius: 25px;
+    -fx-background-radius: 25px;
+    -fx-padding: 10px;
+    -fx-pref-width: 250px;
+    -fx-pref-height: 40px;
+    -fx-cursor: hand;
+    -fx-transition: all 0.3s ease; /* Geçiş animasyonu */
+}
+
+/* Hover (Üzerine gelindiğinde) */
+.custom-button:hover {
+    -fx-background-color: #96a725; /* Yeşil renk */
+    -fx-text-fill: black;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.5), 10, 0, 0, 0); /* Hafif gölge */
+}
+
+/* İçerik Arka Planı (Varsa ek container) */
+.content {
+    -fx-background-color: transparent; /* Şeffaf */
+}

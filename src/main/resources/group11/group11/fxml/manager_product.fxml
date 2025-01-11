@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+
+<AnchorPane prefHeight="600" prefWidth="900" styleClass="root" stylesheets="@../css/manager_2_style.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.javafx1.ProductController">
+
+    <!-- Sol Tarafta Logo ve "Product" Butonu -->
+    <VBox alignment="CENTER" layoutX="20" layoutY="20" spacing="20">
+        <!-- Product Butonu -->
+        <Button styleClass="title-label" stylesheets="@../css/manager_2_style.css" text="PRODUCTS" />
+    </VBox>
+
+    <!-- Üst Kısım: Butonlar ve ComboBox -->
+    <HBox layoutX="250" layoutY="20" spacing="10">
+        <Button fx:id="addProductButton" prefHeight="40.0" prefWidth="136.0" styleClass="custom-button" stylesheets="@../css/manager_2_style.css" text="Add Product" />
+        <Button fx:id="deleteProductButton" prefHeight="40.0" prefWidth="148.0" styleClass="custom-button" stylesheets="@../css/manager_2_style.css" text="Delete Product" />
+        <Button fx:id="updateProductButton" prefHeight="40.0" prefWidth="160.0" styleClass="custom-button" stylesheets="@../css/manager_2_style.css" text="Update Product" />
+    </HBox>
+
+    <!-- TextField'ler -->
+    <HBox alignment="CENTER" layoutX="250" layoutY="70" spacing="10">
+        <TextField fx:id="idField" prefHeight="25.0" prefWidth="99.0" promptText="ID" />
+        <TextField fx:id="nameField" prefHeight="25.0" prefWidth="181.0" promptText="Name" />
+        <TextField fx:id="priceField" prefHeight="25.0" prefWidth="107.0" promptText="Price" />
+        <TextField fx:id="stockField" prefHeight="25.0" prefWidth="174.0" promptText="Stock" />
+    </HBox>
+
+    <!-- TableView: Ürün Listesi -->
+    <TableView fx:id="productTable" layoutX="250" layoutY="120" prefHeight="400" prefWidth="600" stylesheets="@../css/manager_2_style.css">
+        <columns>
+            <TableColumn fx:id="idColumn" prefWidth="94.0" text="Product ID" />
+            <TableColumn fx:id="nameColumn" prefWidth="195.0" text="Product Name" />
+            <TableColumn fx:id="priceColumn" prefWidth="119.0" text="Price" />
+            <TableColumn fx:id="stockColumn" prefWidth="191.0" text="Stock Count" />
+        </columns>
+    </TableView>
+
+
+    <!-- Menü Butonu -->
+    <Button fx:id="menuButton" layoutX="20" layoutY="500" prefHeight="40" prefWidth="100" styleClass="menu-button" stylesheets="@../css/manager_2_style.css" text="MENU" />
+
+</AnchorPane>

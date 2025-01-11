@@ -201,7 +201,9 @@ public class customer_products {
     @FXML
     public void handleBackButton(ActionEvent event) {
         if (mainApp != null && currentUser != null && selectedMovie != null) {
-            if ("A".equals(previousPage)) {
+            if ("seatSelection".equals(previousPage)) {
+                mainApp.openHallAPage(sessionId, selectedMovie, currentUser);
+            } else if ("A".equals(previousPage)) {
                 mainApp.openHallAPage(sessionId, selectedMovie, currentUser);
             } else if ("B".equals(previousPage)) {
                 mainApp.openHallBPage(sessionId, selectedMovie, currentUser);
@@ -334,7 +336,7 @@ public class customer_products {
                 product.setQuantity(quantity);
                 updateLabelsFromProducts();
                 updateTable(productName, quantity);
-                Facade.updateStock(productName, currentStock - 1);
+                //Facade.updateStock(productName, currentStock - 1);
             } else {
                 showAlert("Not enough stock for " + productName);
             }
@@ -355,7 +357,7 @@ public class customer_products {
                 product.setQuantity(quantity);
                 updateLabelsFromProducts();
                 updateTable(productName, quantity);
-                Facade.updateStock(productName, currentStock + 1);
+                //Facade.updateStock(productName, currentStock + 1);
             }
         }
     }
@@ -455,7 +457,7 @@ public class customer_products {
         productList.clear();
         for (Product product : products) {
             if (product.getQuantity() > 0) {
-                productList.add(new Product(product.getName(), product.getPrice(), product.getQuantity()));
+                productList.add(new Product(product.getName(), product.getTaxedPrice(), product.getQuantity()));
             }
         }
         productTable.refresh();

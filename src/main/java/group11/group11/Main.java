@@ -12,6 +12,8 @@ import javafx.stage.StageStyle;
 
 import java.sql.Date;
 import java.sql.Time;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
 public class Main extends Application {
@@ -24,6 +26,9 @@ public class Main extends Application {
     private String selectedHall;
     private int session_id;
     private int numOfTicket;
+    private List<Ticket> ticketList;
+    private List<String> selectedSeats = new ArrayList<>();
+
     public Movie getSelectedMovie() {
         return selecetedMovie;
     }
@@ -48,6 +53,10 @@ public class Main extends Application {
         return numOfTicket;
     }
 
+    public List<String> getSelectedSeats() {
+        return selectedSeats;
+    }
+
     public void setNumOfTicket(int numOfTicket)
     {
         this.numOfTicket = numOfTicket;
@@ -68,6 +77,10 @@ public class Main extends Application {
     public void setSelectedHall(String selectedHall) {
         this.selectedHall = selectedHall;
     }
+
+    public void setSelectedSeats(List<String> selectedSeats) { this.selectedSeats = selectedSeats;}
+
+    public void setTicketList(List<Ticket> ticketList) { this.ticketList = ticketList;}
     @Override
     public void start(Stage stage) {
         primaryStage = stage; // Store the primary stage
@@ -206,10 +219,10 @@ public class Main extends Application {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/group11/group11/fxml/seatSelectionA.fxml"));
             Parent root = loader.load();
             seatSelectionAController controller = loader.getController();
+            controller.setMainApp(this);
             controller.setSessionId(session_id);
             controller.setCurrentUser(user);
             controller.setProfileDetails();
-            controller.setMainApp(this);
             controller.setSelectedMovie(selectedMovie);
             primaryStage.setScene(new Scene(root));
             primaryStage.show();
@@ -245,11 +258,11 @@ public class Main extends Application {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("fxml/payment.fxml"));
             Parent root = loader.load();
             payment controller = loader.getController();
+            controller.setMainApp(this);
             controller.setSessionId(session_id);
             controller.setCurrentUser(user);
             controller.setProfileDetails();
             controller.setSelectedMovie(selectedMovie);
-            controller.setMainApp(this);
             primaryStage.setScene(new Scene(root));
             primaryStage.show();
         } catch (Exception e) {

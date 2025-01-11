@@ -201,6 +201,7 @@ public class seatSelectionController {
 
     public void setMainApp(Main mainApp) {
         this.mainApp = mainApp;
+        initializeAfterMainApp();
     }
 
     public void movieSearch_windowClose_btn() {
@@ -220,6 +221,7 @@ public class seatSelectionController {
         System.out.println("Session ID set to: " + sessionId); // Debugging
         initializeSeatAvailability();
     }
+
 
     @FXML
     public void handleLogoutButton(ActionEvent event) {
@@ -281,6 +283,15 @@ public class seatSelectionController {
             logoutButton.setOnAction(this::handleLogoutButton);
         }
     }
+
+    private void initializeAfterMainApp() {
+        if (mainApp.getSelectedSeats().size() == mainApp.getNumOfTicket()) {
+            productPurchase.setDisable(false);
+        } else {
+            productPurchase.setDisable(true);
+        }
+    }
+
     private void showAlert(String message) {
         Alert alert = new Alert(Alert.AlertType.WARNING);
         alert.setTitle("Invalid Selection");
@@ -305,6 +316,25 @@ public class seatSelectionController {
             } else {
                 System.out.println("Seat button not found for: " + seat); // Debugging
             }
+        }
+
+        if (mainApp != null && mainApp.getSelectedSeats() != null) {
+            for (String seat : mainApp.getSelectedSeats()) {
+                Button seatButton = getSelectedSeatButton(seat);
+                if (seatButton != null)
+                {
+                    seatButton.setStyle("-fx-background-color: #808080; "
+                            + "-fx-border-color: black; "
+                            + "-fx-border-width: 3px; "
+                            + "-fx-text-fill: white; "
+                            + "-fx-font-weight: bold;");
+                    seatButton.setDisable(false); // Ensure the seat is enabled
+                } else {
+                    System.out.println("Seat button not found for: " + seat); // Debugging
+                }
+            }
+        } else {
+            System.err.println("mainApp or selectedSeats is null. Cannot restore selected seats.");
         }
     }
 
@@ -363,31 +393,82 @@ public class seatSelectionController {
         }
     }
 
+    private Button getSelectedSeatButton(String seatName) {
+        switch (seatName) {
+            case "A1": return A1;
+            case "A2": return A2;
+            case "A3": return A3;
+            case "A4": return A4;
+            case "A5": return A5;
+            case "A6": return A6;
+            case "A7": return A7;
+            case "A8": return A8;
+            case "B1": return B1;
+            case "B2": return B2;
+            case "B3": return B3;
+            case "B4": return B4;
+            case "B5": return B5;
+            case "B6": return B6;
+            case "B7": return B7;
+            case "B8": return B8;
+            case "C1": return C1;
+            case "C2": return C2;
+            case "C3": return C3;
+            case "C4": return C4;
+            case "C5": return C5;
+            case "C6": return C6;
+            case "C7": return C7;
+            case "C8": return C8;
+            case "D1": return D1;
+            case "D2": return D2;
+            case "D3": return D3;
+            case "D4": return D4;
+            case "D5": return D5;
+            case "D6": return D6;
+            case "D7": return D7;
+            case "D8": return D8;
+            case "E1": return E1;
+            case "E2": return E2;
+            case "E3": return E3;
+            case "E4": return E4;
+            case "E5": return E5;
+            case "E6": return E6;
+            case "E7": return E7;
+            case "E8": return E8;
+            case "F1": return F1;
+            case "F2": return F2;
+            case "F3": return F3;
+            case "F4": return F4;
+            case "F5": return F5;
+            case "F6": return F6;
+            case "F7": return F7;
+            case "F8": return F8;
+            default: return null;
+        }
+    }
+
     @FXML
     public void onSeatClicked(ActionEvent event) {
         Button clickedButton = (Button) event.getSource();
         String seatName = clickedButton.getText();
 
-        if (selectedSeats.contains(seatName)) {
+        if (mainApp.getSelectedSeats().contains(seatName)) {
             // Deselect the seat
-            selectedSeats.remove(seatName);
+            mainApp.getSelectedSeats().remove(seatName);
             clickedButton.setStyle(""); // Reset the button style
             System.out.println("Seat " + seatName + " deselected.");
-            // Update the database
-            int number = Facade.productExistsInCart(mainApp.getOrderNo(), selectedMovie.getMovieName());
-            if (number > 0) {
-                Facade.updateProductQuantity(mainApp.getOrderNo(), selectedMovie.getMovieName(), number - 1);
-            }
 
+            // Remove the ticket from the cart
+            Facade.removeProductFromCart(mainApp.getOrderNo(), selectedMovie.getMovieName());
         } else {
             // Check if the number of selected seats has reached the limit
-            if (selectedSeats.size() >= mainApp.getNumOfTicket()) {
+            if (mainApp.getSelectedSeats().size() >= mainApp.getNumOfTicket()) {
                 showAlert("You have already selected the maximum number of seats (" + mainApp.getNumOfTicket() + ").");
                 return;
             }
 
             // Select the seat
-            selectedSeats.add(seatName);
+            mainApp.getSelectedSeats().add(seatName);
             productPurchase.setDisable(selectedSeats.isEmpty());
             clickedButton.setStyle("-fx-background-color: #808080; "
                     + "-fx-border-color: black; "
@@ -397,12 +478,9 @@ public class seatSelectionController {
             System.out.println("Seat " + seatName + " selected.");
 
             // Update the database
-            int number = Facade.productExistsInCart(mainApp.getOrderNo(), selectedMovie.getMovieName());
-            if (number > 0) {
-                Facade.updateProductQuantity(mainApp.getOrderNo(), selectedMovie.getMovieName(), number + 1);
-            } else {
-                Facade.addTicketToCart(mainApp.getOrderNo(), selectedMovie.getMovieName(), Facade.getTicketPriceFromDB(), 1);
-            }
+
+            Facade.addTicketToCart(mainApp.getOrderNo(), selectedMovie.getMovieName(), Facade.getTicketPriceFromDB(), 1);
+
         }
     }
 

@@ -56,7 +56,7 @@
              <TextField fx:id="surnameField" layoutX="44.0" layoutY="127.0" prefHeight="26.0" prefWidth="222.0" promptText="Enter a surname" />
              <DatePicker fx:id="birthdatePicker" layoutX="44.0" layoutY="167.0" prefHeight="26.0" prefWidth="222.0" promptText="Enter a birthdate (yyyy-mm-dd)" />
             <Button layoutX="44.0" layoutY="242.0" mnemonicParsing="false" text="CLEAR" />
-            <Button layoutX="214.0" layoutY="242.0" mnemonicParsing="false" text="ENTER" />
+            <Button layoutX="214.0" layoutY="242.0" mnemonicParsing="false" text="ENTER" onAction="#handleEnterButton" />
          </children>
       </AnchorPane>
       <Label fx:id="order_ID" layoutX="812.0" layoutY="26.0" text="Label">

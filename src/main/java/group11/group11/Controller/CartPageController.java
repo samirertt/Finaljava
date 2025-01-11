@@ -20,15 +20,6 @@ public class CartPageController {
     private Main mainApp;
 
     @FXML
-    private Button cart_Decrease;
-
-    @FXML
-    private Button cart_Increase;
-
-    @FXML
-    private Button cart_Remove;
-
-    @FXML
     private Label movieSearch_profileName;
 
     @FXML
@@ -117,8 +108,6 @@ public class CartPageController {
         cart_productPrice.setCellValueFactory(new PropertyValueFactory<>("taxedPrice"));
         cart_productQuantity.setCellValueFactory(new PropertyValueFactory<>("quantity"));
 
-        // Add event handlers for button actions
-        addEventHandlers();
 
         if (logoutButton != null) {
             logoutButton.setOnAction(this::handleLogoutButton);
@@ -132,52 +121,6 @@ public class CartPageController {
         if (mainApp != null) {
             initializeData();
         }
-    }
-
-    private void addEventHandlers() {
-        cart_Increase.setOnAction(event -> increaseQuantity());
-        cart_Decrease.setOnAction(event -> decreaseQuantity());
-        cart_Remove.setOnAction(event -> removeSelectedProduct());
-    }
-
-    private void increaseQuantity() {
-        Product selectedProduct = cart_orderTable.getSelectionModel().getSelectedItem();
-        if (selectedProduct != null) {
-            selectedProduct.setQuantity(selectedProduct.getQuantity() + 1);
-            Facade.updateProductQuantity(mainApp.getOrderNo(), selectedProduct.getName(), selectedProduct.getQuantity());
-            refreshTable();
-        }
-    }
-
-    public void decreaseQuantity() {
-        Product selectedProduct = cart_orderTable.getSelectionModel().getSelectedItem();
-        if (selectedProduct != null && selectedProduct.getQuantity() > 1) {
-            selectedProduct.setQuantity(selectedProduct.getQuantity() - 1);
-            Facade.updateProductQuantity(mainApp.getOrderNo(), selectedProduct.getName(), selectedProduct.getQuantity());
-            refreshTable();
-        }
-    }
-
-    private void removeSelectedProduct() {
-        Product selectedProduct = cart_orderTable.getSelectionModel().getSelectedItem();
-        if (selectedProduct != null) {
-            // Remove the product from the database
-            Facade.removeProductFromCart(mainApp.getOrderNo(), selectedProduct.getName());
-
-            // Remove the product from the cart
-            cart.removeItem(selectedProduct.getName());
-
-            // Remove the product from the ObservableList (UI)
-            cartData.remove(selectedProduct);
-
-            // Refresh the table to reflect the changes
-            refreshTable();
-        }
-    }
-
-    private void refreshTable() {
-        cart_orderTable.refresh();
-        cart_orderTable.setItems(cartData);
     }
 
     @FXML

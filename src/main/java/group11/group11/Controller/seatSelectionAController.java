@@ -53,10 +53,11 @@ public class seatSelectionAController {
     @FXML
     private Button movieSearch_windowMinimize_btn;
 
-    private List<String> selectedSeats = new ArrayList<>();
 
-    public void setMainApp(Main mainApp) {
+    public void setMainApp(Main mainApp)
+    {
         this.mainApp = mainApp;
+        initializeAfterMainApp();
     }
 
     public void movieSearch_windowClose_btn() {
@@ -103,6 +104,7 @@ public class seatSelectionAController {
         initializeSeatAvailability();
     }
 
+
     public void setCurrentUser(Users user) {
         this.currentUser = user;
     }
@@ -116,7 +118,7 @@ public class seatSelectionAController {
 
     @FXML
     public void initialize() {
-        productPurchase.setDisable(true);
+        productPurchase.setDisable(true); // Default state
 
         searchMovie_cart.setOnAction(event -> {
             System.out.println("Cart button clicked!");
@@ -140,6 +142,13 @@ public class seatSelectionAController {
             logoutButton.setOnAction(this::handleLogoutButton);
         }
     }
+    private void initializeAfterMainApp() {
+        if (mainApp.getSelectedSeats().size() == mainApp.getNumOfTicket()) {
+            productPurchase.setDisable(false);
+        } else {
+            productPurchase.setDisable(true);
+        }
+    }
 
     private void showAlert(String message) {
         Alert alert = new Alert(Alert.AlertType.WARNING);
@@ -149,7 +158,9 @@ public class seatSelectionAController {
         alert.showAndWait();
     }
 
-    private void initializeSeatAvailability() {
+    private void initializeSeatAvailability()
+    {
+
         List<String> unavailableSeats = Facade.getUnavailableSeats(sessionId);
         System.out.println("Unavailable seats: " + unavailableSeats); // Debugging
 
@@ -167,6 +178,26 @@ public class seatSelectionAController {
                 System.out.println("Seat button not found for: " + seat); // Debugging
             }
         }
+
+        if (mainApp != null && mainApp.getSelectedSeats() != null) {
+            for (String seat : mainApp.getSelectedSeats()) {
+                Button seatButton = getSelectedSeatButton(seat);
+                if (seatButton != null)
+                {
+                    seatButton.setStyle("-fx-background-color: #808080; "
+                            + "-fx-border-color: black; "
+                            + "-fx-border-width: 3px; "
+                            + "-fx-text-fill: white; "
+                            + "-fx-font-weight: bold;");
+                    seatButton.setDisable(false); // Ensure the seat is enabled
+                } else {
+                    System.out.println("Seat button not found for: " + seat); // Debugging
+                }
+            }
+        } else {
+            System.err.println("mainApp or selectedSeats is null. Cannot restore selected seats.");
+        }
+
     }
 
     private Button getSeatButton(String seatNumber) {
@@ -190,15 +221,36 @@ public class seatSelectionAController {
             default: return null;
         }
     }
+    private Button getSelectedSeatButton(String seatName) {
+        switch (seatName) {
+            case "A1": return A1;
+            case "A2": return A2;
+            case "A3": return A3;
+            case "A4": return A4;
+            case "B1": return B1;
+            case "B2": return B2;
+            case "B3": return B3;
+            case "B4": return B4;
+            case "C1": return C1;
+            case "C2": return C2;
+            case "C3": return C3;
+            case "C4": return C4;
+            case "D1": return D1;
+            case "D2": return D2;
+            case "D3": return D3;
+            case "D4": return D4;
+            default: return null;
+        }
+    }
 
     @FXML
     public void onSeatClicked(ActionEvent event) {
         Button clickedButton = (Button) event.getSource();
         String seatName = clickedButton.getText();
 
-        if (selectedSeats.contains(seatName)) {
+        if (mainApp.getSelectedSeats().contains(seatName)) {
             // Deselect the seat
-            selectedSeats.remove(seatName);
+            mainApp.getSelectedSeats().remove(seatName);
             clickedButton.setStyle(""); // Reset the button style
             System.out.println("Seat " + seatName + " deselected.");
 
@@ -206,14 +258,14 @@ public class seatSelectionAController {
             Facade.removeProductFromCart(mainApp.getOrderNo(), selectedMovie.getMovieName());
         } else {
             // Check if the number of selected seats has reached the limit
-            if (selectedSeats.size() >= mainApp.getNumOfTicket()) {
+            if (mainApp.getSelectedSeats().size() >= mainApp.getNumOfTicket()) {
                 showAlert("You have already selected the maximum number of seats (" + mainApp.getNumOfTicket() + ").");
                 return;
             }
 
             // Select the seat
-            selectedSeats.add(seatName);
-            productPurchase.setDisable(selectedSeats.isEmpty());
+            mainApp.getSelectedSeats().add(seatName);
+            productPurchase.setDisable(mainApp.getSelectedSeats().isEmpty());
             clickedButton.setStyle("-fx-background-color: #808080; "
                     + "-fx-border-color: black; "
                     + "-fx-border-width: 3px; "
@@ -222,14 +274,11 @@ public class seatSelectionAController {
             System.out.println("Seat " + seatName + " selected.");
 
             /// Update the database
-            int number = Facade.productExistsInCart(mainApp.getOrderNo(), selectedMovie.getMovieName());
-            if (number > 0) {
-                Facade.updateProductQuantity(mainApp.getOrderNo(), selectedMovie.getMovieName(), number + 1);
-            } else {
-                Facade.addTicketToCart(mainApp.getOrderNo(), selectedMovie.getMovieName(), Facade.getTicketPriceFromDB(), 1);
-            }
+            Facade.addTicketToCart(mainApp.getOrderNo(), selectedMovie.getMovieName(), Facade.getTicketPriceFromDB(), 1);
+
         }
     }
+
 
     @FXML
     public void btnProductPurchase(ActionEvent event) {

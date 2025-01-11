@@ -8,6 +8,8 @@ import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 
+import java.util.Objects;
+
 public class LoginPageController {
 
     private Main mainApp;
@@ -34,10 +36,25 @@ public class LoginPageController {
         Users user= facade.validateLogin(username, password);
 
         if (user != null) {
-            // Proceed with successful login actions
-            errorLabel.setText("Login successful!");
-            mainApp.showMoviePage(user);
-            errorLabel.setDisable(false);
+            if (Objects.equals(user.getrole(), "cashier")){
+                // Proceed with successful login actions
+                errorLabel.setText("Login successful!");
+                mainApp.showMoviePage(user);
+                errorLabel.setDisable(false);
+            }
+            /*
+            else if (Objects.equals(user.getrole(), "manager")){
+                // Proceed with successful login actions
+                errorLabel.setText("Login successful!");
+                mainApp.showManagerPage(user);
+                errorLabel.setDisable(false);
+            }
+            else {
+                // Proceed with successful login actions
+                errorLabel.setText("Login successful!");
+                mainApp.showAdminPage(user);
+                errorLabel.setDisable(false);
+            }*/
         } else {
             // Display error message for invalid credentials
             errorLabel.setText("Invalid username or password. Please try again.");

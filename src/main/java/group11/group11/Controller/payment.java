@@ -8,6 +8,7 @@ import javafx.stage.Stage;
 import java.time.LocalDate;
 import java.sql.Date;
 import java.sql.Time;
+import java.time.Period;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -20,7 +21,7 @@ public class payment {
     private Button payButton;
 
     @FXML
-    private TableView<Product> payment_TableView;
+    private TableView<Ticket> payment_TableView;
 
     @FXML
     private TextField nameField;
@@ -62,13 +63,15 @@ public class payment {
     private Button movieSearch_windowMinimize_btn;
 
     @FXML
-    private TableColumn<Product, Integer> payment_tableView_Quantity;
+    private TableColumn<Ticket, String> payment_tableView_Quantity;
 
     @FXML
-    private TableColumn<Product, String> payment_tableView_itemName;
+    private TableColumn<Ticket, String> payment_tableView_itemName;
 
     @FXML
-    private TableColumn<Product, Double> payment_tableView_price;
+    private TableColumn<Ticket, Double> payment_tableView_price;
+
+    private List<Ticket> tickets;
 
     private Main mainApp;
     private Facade facade;
@@ -78,6 +81,7 @@ public class payment {
     private String previousPage;
     private Cart cart;
     private int session_id;
+    private Ticket selectedTicket;
 
     public void setSelectedMovie(Movie selectedMovie)
     {
@@ -108,7 +112,7 @@ public class payment {
     @FXML
     public void handleBackButton(ActionEvent event) {
         if (mainApp != null && currentUser != null) {
-            mainApp.ProductPurchase(session_id, selectedMovie, currentUser,"payment");
+            mainApp.ProductPurchase(session_id, selectedMovie, currentUser,"seatSelection");
         }
     }
 
@@ -139,25 +143,51 @@ public class payment {
     }
 
     @FXML
-    private void initialize() {
-        // Initialize TableView columns
-        payment_tableView_itemName.setCellValueFactory(new PropertyValueFactory<>("name"));
-        payment_tableView_Quantity.setCellValueFactory(new PropertyValueFactory<>("quantity"));
-        payment_tableView_price.setCellValueFactory(new PropertyValueFactory<>("price_per_item"));
+    private void initialize()
+    {
+        // Initialize TableView columns for Ticket
+        payment_tableView_itemName.setCellValueFactory(new PropertyValueFactory<>("movieName")); // Example property
+        payment_tableView_Quantity.setCellValueFactory(new PropertyValueFactory<>("seatNumber")); // Example property
+        payment_tableView_price.setCellValueFactory(new PropertyValueFactory<>("ticketPrice")); // Example property
+
+        payment_TableView.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {
+            if (newSelection != null) {
+                selectedTicket = newSelection;
+            }
+        });
+
     }
 
-    private void initializeData() {
+
+    private void initializeData()
+    {
         if (mainApp != null) {
             try {
-                // Set order ID
+
+                tickets = new ArrayList<>();
                 order_ID.setText("Order ID: " + mainApp.getOrderNo());
 
-                // Load cart items into the TableView
-                List<Product> products = facade.getItemsFromDb(mainApp.getOrderNo());
-                if (products != null && !products.isEmpty()) {
-                    payment_TableView.getItems().addAll(products);
+                int ticketCount = mainApp.getNumOfTicket();
+                for (int i = 0; i < ticketCount; i++)
+                {
+                    Ticket ticket = new Ticket(
+                            i,
+                            session_id,
+                            mainApp.getSelectedHall(),
+                            mainApp.getSelectedSeats().get(i),
+                            "name",
+                            "surname",
+                            0,
+                            mainApp.getOrderNo(),
+                            mainApp.getSelectedMovie().getMovieName()
+                    );
+                    tickets.add(ticket);
+                }
+
+                if (tickets != null && !tickets.isEmpty()) {
+                    payment_TableView.getItems().addAll(tickets);
                 } else {
-                    System.out.println("No products found for the order.");
+                    System.out.println("No tickets found for the order.");
                 }
 
                 // Set movie details
@@ -197,87 +227,120 @@ public class payment {
                 } else {
                     payment_movieHall.setText("Hall: Not Available");
                 }
-            } catch (Exception e) {
+            } catch(Exception e){
                 System.err.println("Error initializing data: " + e.getMessage());
                 e.printStackTrace();
             }
-        } else {
+        }
+        else
+        {
             System.err.println("MainApp is null. Cannot initialize data.");
         }
     }
 
     @FXML
-    private void handlePayButton() {
+    private void handleEnterButton(ActionEvent event) {
+        if (selectedTicket == null) {
+            showAlert("No ticket selected!");
+            return;
+        }
+
         String name = nameField.getText();
         String surname = surnameField.getText();
         LocalDate birthdate = birthdatePicker.getValue();
 
+        // Validate input fields
         if (name == null || name.trim().isEmpty()) {
-            System.out.println("Name cannot be empty!");
             showAlert("Name cannot be empty!");
             return;
         }
 
         if (surname == null || surname.trim().isEmpty()) {
-            System.out.println("Surname cannot be empty!");
             showAlert("Surname cannot be empty!");
             return;
         }
 
         if (!name.matches("[a-zA-ZçÇğĞıİöÖşŞüÜ\\s]+")) {
-            System.out.println("Name can only contain letters and spaces!");
             showAlert("Name can only contain letters and spaces!");
             return;
         }
 
         if (!surname.matches("[a-zA-ZçÇğĞıİöÖşŞüÜ\\s]+")) {
-            System.out.println("Surname can only contain letters and spaces!");
             showAlert("Surname can only contain letters and spaces!");
             return;
         }
 
         if (birthdate == null) {
-            System.out.println("Birthdate cannot be empty!");
             showAlert("Birthdate cannot be empty!");
             return;
         }
 
         LocalDate today = LocalDate.now();
         if (birthdate.isAfter(today)) {
-            System.out.println("Birthdate cannot be in the future!");
             showAlert("Birthdate cannot be in the future!");
             return;
         }
 
-        LocalDate minimumDate = today.minusYears(18);
-        if (birthdate.isAfter(minimumDate)) {
-            System.out.println("You must be at least 18 years old!");
-            showAlert("You must be at least 18 years old!");
-            return;
+        // Update the selected ticket
+        selectedTicket.setName(name);
+        selectedTicket.setSurname(surname);
+        selectedTicket.setAge(calculateAge(birthdate));
+        selectedTicket.calculateTicketPrice();
+
+        // Update the ticket in the tickets list
+        int selectedIndex = payment_TableView.getSelectionModel().getSelectedIndex();
+        if (selectedIndex >= 0 && selectedIndex < tickets.size()) {
+            tickets.set(selectedIndex, selectedTicket);
         }
 
-        try {
-            facade.saveCustomerInfo(name, surname, birthdate);
-            System.out.println("Customer information saved to database!");
-            showAlert("Customer information saved successfully!");
-        } catch (Exception e) {
-            System.err.println("Error saving customer information: " + e.getMessage());
-            e.printStackTrace();
-            showAlert("An error occurred while saving customer information.");
-        }
+        // Refresh the TableView to reflect the changes
+        payment_TableView.refresh();
 
-        System.out.println("Payment processed for order: " + mainApp.getOrderNo());
+        // Debugging: Print ticket details
+        System.out.println("Updated Ticket: " + selectedTicket.getName() + " " + selectedTicket.getSurname() + ", Age: " + selectedTicket.getAge());
     }
 
-    private void TicketInfo()
+    @FXML
+    private void handlePayButton()
     {
-        List<Ticket> tickets = new ArrayList<>();
-        int ticketCount =
-
-        for(int i=0; i<ticketCount; i++)
-        {
-            Ticket ticket = new Ticket(session_id,mainApp.getSelectedHall(),)
+        if (!areAllTicketsValid(tickets)) {
+            showAlert("Please fill in all ticket information before proceeding with payment.");
+            return;
         }
+        completeOrder(mainApp.getOrderNo(), tickets);
+        System.out.println("Payment processed for order: " + mainApp.getOrderNo());
+        showAlert("Payment processed successfully!");
+    }
+
+    private int calculateAge(LocalDate birthdate) {
+        LocalDate today = LocalDate.now();
+        return Period.between(birthdate, today).getYears();
+    }
+
+    public static void completeOrder(String orderNo, List<Ticket> tickets)
+    {
+        Facade.createOrder(orderNo);
+        Facade.buySeats(tickets);
+        Facade.addCartItemsToOrderItems(orderNo);
+        Facade.addTicketsToTicketsTable(orderNo, tickets);
+        Facade.clearCart();
+    }
+
+    private boolean areAllTicketsValid(List<Ticket> tickets) {
+        if (tickets == null || tickets.isEmpty()) {
+            return false; // No tickets to validate
+        }
+
+        for (Ticket ticket : tickets) {
+            // Check if name, surname, and age are filled in
+            if (ticket.getName() == null || ticket.getName().trim().isEmpty() ||
+                    ticket.getSurname() == null || ticket.getSurname().trim().isEmpty() ||
+                    ticket.getAge() <= 0) {
+                return false; // At least one ticket is missing required information
+            }
+        }
+
+        return true; // All tickets are valid
     }
 
     private void showAlert(String message) {

@@ -22,17 +22,6 @@
             <Font name="System Bold" size="25.0" />
          </font>
       </Label>
-      <Button fx:id="cart_Remove" layoutX="547.0" layoutY="436.0" mnemonicParsing="false" styleClass="minus_btn" stylesheets="@../css/cart.css" text="Remove" />
-      <Button fx:id="cart_Decrease" layoutX="81.0" layoutY="436.0" mnemonicParsing="false" prefHeight="24.0" prefWidth="56.0" styleClass="minus_btn" stylesheets="@../css/cart.css">
-         <graphic>
-            <FontAwesomeIcon glyphName="MINUS" />
-         </graphic>
-      </Button>
-      <Button fx:id="cart_Increase" layoutX="166.0" layoutY="436.0" mnemonicParsing="false" prefHeight="24.0" prefWidth="56.0" styleClass="add_btn" stylesheets="@../css/cart.css">
-         <graphic>
-            <FontAwesomeIcon glyphName="PLUS" wrappingWidth="11.214285850524902" />
-         </graphic>
-      </Button>
       <Label layoutX="447.0" layoutY="40.0" text="Order No:">
          <font>
             <Font size="15.0" />

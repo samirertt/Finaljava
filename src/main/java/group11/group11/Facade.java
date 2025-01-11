@@ -1,5 +1,7 @@
 package group11.group11;
 
+import javafx.scene.control.Alert;
+
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -48,6 +50,83 @@ public class Facade {
             e.printStackTrace();
         }
         return null;
+    }
+    public void addEmployee(int id, String firstName, String lastName, String password, String role )
+    {
+        String query = "INSERT INTO employee (first_name, last_name, password, role) VALUES (?, ?, ?, ?)";
+        try (Connection conn = connect();
+             PreparedStatement ps = conn.prepareStatement(query)) {
+
+            ps.setString(1, firstName);
+            ps.setString(2, lastName);
+            ps.setString(3, password);
+            ps.setString(4, role);
+
+            ps.executeUpdate();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+    public void deleteEmployee(int id)
+    {
+        String query = "DELETE FROM employee WHERE id = ?";
+
+        try (Connection connection = connect();
+             PreparedStatement ps = connection.prepareStatement(query)) {
+
+            ps.setInt(1, id);
+            ps.executeUpdate();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    public List<Employee> loadEmployees()
+    {
+        String query = "SELECT * FROM employee";
+        List<Employee> Employees = new ArrayList<>();
+
+        try (Connection connection = connect();
+             PreparedStatement ps = connection.prepareStatement(query);
+             ResultSet rs = ps.executeQuery()) {
+
+            while (rs.next()) {
+                Employee employee = new Employee(
+                        rs.getInt("id"),
+                        rs.getString("first_name"),
+                        rs.getString("last_name"),
+                        rs.getString("password"),
+                        rs.getString("role")
+                );
+                Employees.add(employee);
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return Employees;
+    }
+
+    public void UpdateEmployee(String firstName,String lastName, String password, String role, int id)
+    {
+        String query = "UPDATE employee SET first_name = ?, last_name = ?, password = ?, role = ? WHERE id = ?";
+        try (Connection connection = connect();
+             PreparedStatement ps = connection.prepareStatement(query)) {
+
+            ps.setString(1, firstName);
+            ps.setString(2, lastName);
+            ps.setString(3, password);
+            ps.setString(4, role);
+            ps.setInt(5, id);
+
+            ps.executeUpdate();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     public Movie searchMovieByFullName(String fullName) {
@@ -479,8 +558,6 @@ public class Facade {
         return 0.0; // Return 0.0 if no taxed price is found or an error occurs
     }
 
-
-
     public static boolean isEnoughSeat(int numOfTickets, int session_id) {
         String query = "SELECT COUNT(*) AS available_seats FROM Seats WHERE is_available = 1 AND session_id = ?";
         int availableSeats = 0;
@@ -552,6 +629,95 @@ public class Facade {
         } catch (Exception e) {
             e.printStackTrace();
             System.err.println("Error removing product from the cart in the database.");
+        }
+    }
+
+    public static void addCartItemsToOrderItems(String orderNo) {
+        String query = "INSERT INTO orderitems (order_no, item_type, item_id, quantity, price_per_item) " +
+                "SELECT ?, item_type, item_id, quantity, price_per_item FROM cart";
+
+        try (Connection conn = connect(); PreparedStatement stmt = conn.prepareStatement(query)) {
+            stmt.setString(1, orderNo); // Set the order_no for all rows
+            stmt.executeUpdate();
+            System.out.println("Cart items added to orderitems table successfully.");
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.err.println("Error adding cart items to orderitems table.");
+        }
+    }
+
+    public static void addTicketsToTicketsTable(String orderNo, List<Ticket> tickets) {
+        String query = "INSERT INTO tickets (session_id, hall, seat_number, name, surname, age, order_no) " +
+                "VALUES (?, ?, ?, ?, ?, ?, ?)";
+
+        try (Connection conn = connect()) {
+            conn.setAutoCommit(false); // Disable auto-commit for transaction management
+
+            try (PreparedStatement stmt = conn.prepareStatement(query)) {
+                for (Ticket ticket : tickets) {
+                    stmt.setInt(1, ticket.getSessionId());
+                    stmt.setString(2, ticket.getHall());
+                    stmt.setInt(3, ticket.getSeat()); // Use setString for seat_number
+                    stmt.setString(4, ticket.getName());
+                    stmt.setString(5, ticket.getSurname());
+                    stmt.setInt(6, ticket.getAge());
+                    stmt.setString(7, orderNo);
+                    stmt.addBatch();
+                }
+
+                stmt.executeBatch(); // Execute the batch
+                conn.commit(); // Commit the transaction
+                System.out.println("Tickets added to tickets table successfully.");
+            } catch (SQLException e) {
+                conn.rollback(); // Rollback in case of error
+                e.printStackTrace();
+                System.err.println("Error adding tickets to tickets table.");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.err.println("Error connecting to the database.");
+        }
+    }
+
+    public static void buySeats(List<Ticket> tickets) {
+        String query = "UPDATE seats SET is_available = 0 WHERE session_id = ? AND hall = ? AND seat_number = ?";
+
+        try (Connection conn = connect()) {
+            conn.setAutoCommit(false); // Disable auto-commit for transaction management
+
+            try (PreparedStatement stmt = conn.prepareStatement(query)) {
+                for (Ticket ticket : tickets) {
+                    stmt.setInt(1, ticket.getSessionId()); // Set session_id
+                    stmt.setString(2, ticket.getHall()); // Set hall
+                    stmt.setInt(3, ticket.getSeat()); // Set seat_number
+                    stmt.addBatch(); // Add the update to the batch
+                }
+
+                stmt.executeBatch(); // Execute the batch
+                conn.commit(); // Commit the transaction
+                System.out.println("Seats updated successfully.");
+            } catch (SQLException e) {
+                conn.rollback(); // Rollback in case of error
+                e.printStackTrace();
+                System.err.println("Error updating seats.");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.err.println("Error connecting to the database.");
+        }
+    }
+
+    public static void createOrder(String orderNo) {
+        String query = "INSERT INTO orders (order_no, order_date, total_price) VALUES (?, NOW(), ?)";
+
+        try (Connection conn = connect(); PreparedStatement stmt = conn.prepareStatement(query)) {
+            stmt.setString(1, orderNo);
+            stmt.setDouble(2, 200.0 ); // Assuming you have a currentUser object
+            stmt.executeUpdate();
+            System.out.println("Order created successfully.");
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.err.println("Error creating order.");
         }
     }
 }

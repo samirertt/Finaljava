@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+
+<AnchorPane prefHeight="600" prefWidth="900" styleClass="root" stylesheets="@../css/manager_2_style.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.javafx1.RevenueAndTaxController">
+
+    <Button fx:id="menuButton" layoutX="20" layoutY="500" prefHeight="40" prefWidth="100" styleClass="menu-button" stylesheets="@../css/manager_2_style.css" text="MENU" />
+
+    <!-- Revenue ve Tax Alanları -->
+    <VBox alignment="CENTER" layoutX="300" layoutY="200" spacing="20">
+        <!-- Revenue -->
+        <HBox alignment="CENTER_LEFT" spacing="10">
+            <Label styleClass="title-label" stylesheets="@../css/manager_2_style.css" text="TOTAL REVENUE:" />
+            <TextField fx:id="totalRevenueField" editable="false" prefWidth="200" styleClass="text-field" stylesheets="@../css/manager_2_style.css" />
+        </HBox>
+
+        <!-- Tax -->
+        <HBox alignment="CENTER_LEFT" spacing="10">
+            <Label styleClass="title-label" stylesheets="@../css/manager_2_style.css" text="TOTAL TAX:" />
+            <TextField fx:id="totalTaxField" editable="false" prefWidth="200" styleClass="text-field" stylesheets="@../css/manager_2_style.css" />
+        </HBox>
+    </VBox>
+</AnchorPane>

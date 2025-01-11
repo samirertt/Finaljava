@@ -1,0 +1,76 @@
+/* Ana Arka Plan */
+.root {
+    -fx-background-color: linear-gradient(to bottom, #000000, #434343); /* Siyah geçiş */
+}
+
+/* Başlık Stili */
+.title-label {
+    -fx-font-size: 24px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #96a725; /* Yeşil */
+}
+
+/* TextField Stili */
+.text-field {
+    -fx-background-color: #000000; /* Siyah arka plan */
+    -fx-text-fill: white; /* Beyaz yazı */
+    -fx-border-color: #96a725; /* Yeşil çerçeve */
+    -fx-border-width: 1px;
+    -fx-border-radius: 5px;
+    -fx-padding: 5px;
+    -fx-font-size: 12px;
+}
+
+/* Düğme Temel Stili */
+.custom-button {
+    -fx-background-color: black;
+    -fx-text-fill: #96a725; /* Yeşil yazı */
+    -fx-font-weight: bold;
+    -fx-font-size: 14px;
+    -fx-border-color: #96a725;
+    -fx-border-width: 2px;
+    -fx-border-radius: 15px;
+    -fx-background-radius: 15px;
+    -fx-padding: 10px 20px;
+    -fx-cursor: hand;
+    -fx-transition: all 0.3s ease; /* Geçiş animasyonu */
+}
+
+/* Düğme Hover Efekti */
+.custom-button:hover {
+    -fx-background-color: #96a725; /* Yeşil arka plan */
+    -fx-text-fill: black; /* Siyah yazı */
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.5), 10, 0, 0, 0); /* Gölge efekti */
+}
+
+/* Menü Butonu */
+.menu-button {
+    -fx-background-color: black;
+    -fx-text-fill: #96a725; /* Yeşil yazı */
+    -fx-font-weight: bold;
+    -fx-font-size: 14px;
+    -fx-border-color: #96a725;
+    -fx-border-width: 2px;
+    -fx-border-radius: 15px;
+    -fx-background-radius: 15px;
+    -fx-padding: 5px 15px;
+    -fx-cursor: hand;
+}
+
+.menu-button:hover {
+    -fx-background-color: #96a725; /* Yeşil arka plan */
+    -fx-text-fill: black; /* Siyah yazı */
+}
+
+/* TableView Stili */
+.table-view {
+    -fx-border-color: #96a725; /* Yeşil çerçeve */
+    -fx-border-width: 1px;
+    -fx-background-color: transparent; /* Şeffaf arka plan */
+}
+
+.table-column-header {
+    -fx-background-color: #96a725; /* Yeşil sütun başlığı */
+    -fx-text-fill: black; /* Siyah yazı */
+    -fx-font-weight: bold;
+}
