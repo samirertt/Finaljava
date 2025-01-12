@@ -1,16 +1,13 @@
 .anchor-pane {
-    -fx-background-color: linear-gradient(to right, #ff80ab, #81d4fa); /* Soft pink to blue gradient */
+    -fx-background-color: #000000; /* Soft pink to blue gradient */
     -fx-padding: 10px; /* Padding inside the pane */
-    -fx-border-color: #ccc; /* Light grey border */
-    -fx-border-width: 2px;
-    -fx-border-radius: 5px;
     -fx-background-radius: 5px;
     -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.15), 4, 0, 0, 2);
 }
 .anchor-pane2 {
-    -fx-background-color: linear-gradient(to right, #ffffff, #b3e5fc); /* Soft pink to blue gradient */
+    -fx-background-color: #00000026; /* Soft pink to blue gradient */
     -fx-padding: 10px; /* Padding inside the pane */
-    -fx-border-color: #ccc; /* Light grey border */
+    -fx-border-color: #000000; /* Light grey border */
     -fx-pref-height: 135px;
     -fx-pref-width: 150px;
     -fx-border-width: 2px;
@@ -21,8 +18,8 @@
 
 /* Label Styles */
 .label-qty, .label-total {
-    -fx-background-color: linear-gradient(to right, #ffffff, #b3e5fc);
-    -fx-text-fill: #ff4081; /* Vibrant pink text to complement the background */
+    -fx-background-color: linear-gradient(to right, #000000, #4f5728);
+    -fx-text-fill: #ffffff; /* Vibrant pink text to complement the background */
     -fx-font-size: 16px;
     -fx-pref-height: 60px;
     -fx-font-family: "Arial";
@@ -34,7 +31,7 @@
     -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.15), 4, 0, 0, 2);
 }
 .label-text {
-    -fx-text-fill: #ff4081; /* Vibrant pink text to complement the background */
+    -fx-text-fill: #ffffff; /* Vibrant pink text to complement the background */
     -fx-font-size: 13px;
     -fx-font-family: "Arial";
     -fx-font-weight: bold;
@@ -45,8 +42,8 @@
 .button-inc, .button-dec {
     -fx-pref-width: 60px;
     -fx-pref-height: 30px;
-    -fx-background-color: linear-gradient(to right, #ffffff, #b3e5fc);
-    -fx-text-fill: #ff4081; /* Vibrant pink text to complement the background */
+    -fx-background-color: linear-gradient(to right, #ffffff, #ffffff);
+    -fx-text-fill: #000000; /* Vibrant pink text to complement the background */
     -fx-font-size: 16px;
     -fx-font-family: "Arial";
     -fx-font-weight: bold;
@@ -61,8 +58,8 @@
 {
     -fx-pref-width: 200px;
     -fx-pref-height: 60px;
-    -fx-background-color: linear-gradient(to right, #ffffff, #b3e5fc);
-    -fx-text-fill: #ff4081; /* Vibrant pink text to complement the background */
+    -fx-background-color: linear-gradient(to right, #000000, #6e7829);
+    -fx-text-fill: #000000; /* Vibrant pink text to complement the background */
     -fx-font-size: 14px;
     -fx-font-family: "Arial";
     -fx-font-weight: bold;
@@ -76,7 +73,7 @@
 
 /* Hover Effect */
 .button-inc:hover, .button-dec:hover, .button-pay:hover {
-    -fx-background-color: linear-gradient(to right, #ff80ab, #81d4fa); /* Soft pink to blue gradient */
+    -fx-background-color: linear-gradient(to right, #4f5728, #000000); /* Soft pink to blue gradient */
     -fx-text-fill: #ffffff; /* Switch text to white for better contrast */
     -fx-border-color: #ffffff;
     -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.25), 6, 0, 0, 4);
@@ -84,7 +81,7 @@
 
 /* Pressed Effect */
 .button-inc:pressed, .button-dec:pressed, .button-pay:pressed {
-    -fx-background-color: #ff4081; /* Solid pink when pressed */
+    -fx-background-color: #4f5728; /* Solid pink when pressed */
     -fx-text-fill: #ffffff;
     -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.2), 2, 0, 0, 1);
 }
@@ -94,35 +91,36 @@
     -fx-background-color: #e1bee7; /* Light lavender for disabled state */
     -fx-text-fill: #999;
 
-.table-view
-{
-    -fx-background-color:#fff;
-    -fx-background-radius:10px;
-    -fx-border-color:white;
-    -fx-border-radius:10px;
-}
+    .table-view {
+        -fx-background-color: #fff;
+        -fx-background-radius: 10px;
+        -fx-border-color: white;
+        -fx-border-radius: 10px;
+    }
 
-.table-view .column-header-background
-{
-    -fx-background-color: linear-gradient(to top right, #62aec5,#e64072);
-    -fx-background-insets: 0 0 0 0;
-    -fx-background-radius: 10px 10px 0px 0px;
-}
-.table-view .column-header, .table-view .filter{
-    -fx-background-color: transparent;
-    -fx-size:50px;
-    -fx-fill:#fff;
-}
+    .table-view .column-header-background {
+        -fx-background-color: linear-gradient(to top right, #ffffff, #ffffff);
+        -fx-background-insets: 0 0 0 0;
+        -fx-background-radius: 10px 10px 0px 0px;
+    }
 
-/* Style for the total label */
-.label-total {
-    -fx-font-size: 16px;
-    -fx-font-weight: bold;
-    -fx-text-fill: #ff4081;
-    -fx-background-color: linear-gradient(to right, #ffffff, #ffb27f);
-    -fx-padding: 10px;
-    -fx-border-color: #ccc;
-    -fx-border-width: 1px;
-    -fx-border-radius: 5px;
-    -fx-background-radius: 5px;
+    .table-view .column-header, .table-view .filter {
+        -fx-background-color: transparent;
+        -fx-size: 50px;
+        -fx-fill: #fff;
+    }
+
+    /* Style for the total label */
+
+    .label-total {
+        -fx-font-size: 16px;
+        -fx-font-weight: bold;
+        -fx-text-fill: #4f5728;
+        -fx-background-color: linear-gradient(to right, #ffffff, #96a723);
+        -fx-padding: 10px;
+        -fx-border-color: #ccc;
+        -fx-border-width: 1px;
+        -fx-border-radius: 5px;
+        -fx-background-radius: 5px;
+    }
 }
