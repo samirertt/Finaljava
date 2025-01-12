@@ -190,7 +190,7 @@ public class DiscountController {
                 loadDiscounts();
                 showAlert(Alert.AlertType.INFORMATION, "Success", "Discount deleted successfully!");
             }
-             catch (Exception e) {
+            catch (Exception e) {
                 e.printStackTrace();
                 showAlert(Alert.AlertType.ERROR, "Error", "Error deleting discount: " + e.getMessage());
             }
