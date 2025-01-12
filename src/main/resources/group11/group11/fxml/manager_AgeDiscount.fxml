@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TableColumn?>
@@ -8,16 +9,15 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="600" prefWidth="900" style="-fx-background-color: black;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="group11.group11.Controller.DiscountController">
+<AnchorPane prefHeight="700.0" prefWidth="1100.0" style="-fx-background-color: black;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="group11.group11.Controller.DiscountController">
 
     <!-- Sol Kısım: Menü Butonu ve Başlık -->
-    <VBox alignment="CENTER" layoutX="20" layoutY="20" spacing="20">
-        <Label styleClass="title-label" stylesheets="@../css/manager_2_style.css" text="DISCOUNTS" />
-    </VBox>
+    <VBox alignment="CENTER" layoutX="20" layoutY="20" spacing="20" />
 
     <!-- Üst Kısım: İşlem Butonları ve TextField'ler -->
-    <HBox layoutX="250" layoutY="20" spacing="10">
+    <HBox layoutX="62.0" layoutY="155.0" spacing="10">
         <TextField fx:id="minAgeField" prefHeight="30.0" prefWidth="151.0" promptText="Min. Age" stylesheets="@../css/manager_2_style.css" />
         <TextField fx:id="maxAgeField" prefHeight="28.0" prefWidth="133.0" promptText="Max. Age" stylesheets="@../css/manager_2_style.css" />
         <TextField fx:id="discountRateField" prefHeight="29.0" prefWidth="148.0" promptText="Discount Rate" stylesheets="@../css/manager_2_style.css" />
@@ -27,13 +27,48 @@
     </HBox>
 
     <!-- TableView: İndirim Tablosu -->
-    <TableView fx:id="discountTable" layoutX="250" layoutY="70" prefHeight="400" prefWidth="600" stylesheets="@../css/manager_2_style.css">
+    <TableView fx:id="discountTable" layoutX="250.0" layoutY="223.0" prefHeight="400.0" prefWidth="600.0" stylesheets="@../css/manager_2_style.css">
         <columns>
-            <TableColumn fx:id="minAgeColumn" prefWidth="150" text="Min. Age" />
-            <TableColumn fx:id="maxAgeColumn" prefWidth="150" text="Max. Age" />
-            <TableColumn fx:id="discountRateColumn" prefWidth="150" text="Discount Rate" />
+            <TableColumn fx:id="minAgeColumn" prefWidth="204.0" text="Min. Age" />
+            <TableColumn fx:id="maxAgeColumn" prefWidth="191.0" text="Max. Age" />
+            <TableColumn fx:id="discountRateColumn" prefWidth="200.0" text="Discount Rate" />
         </columns>
     </TableView>
 
-    <Button fx:id="menuButton" layoutX="20" layoutY="500" prefHeight="40" prefWidth="100" styleClass="menu-button" stylesheets="@../css/manager_2_style.css" text="MENU" />
+    <Button fx:id="menuButton" layoutX="49.0" layoutY="558.0" prefHeight="40" prefWidth="100" styleClass="menu-button" stylesheets="@../css/manager_2_style.css" text="MENU" />
+     <Label layoutX="20.0" layoutY="99.0" styleClass="title-label" stylesheets="@../css/manager_2_style.css" text="DISCOUNTS" />
+   <AnchorPane layoutX="-1.0" prefHeight="54.0" prefWidth="1103.0" style="-fx-background-color: #4f5728;">
+      <children>
+         <Button fx:id="movieSearch_windowClose_btn" alignment="TOP_RIGHT" layoutX="1033.0" layoutY="2.0" mnemonicParsing="false" onAction="#movieSearch_windowClose_btn" prefHeight="24.0" prefWidth="70.0" styleClass="close-form" stylesheets="@../css/moviePage.css" AnchorPane.leftAnchor="1033.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="2.0">
+            <graphic>
+               <FontAwesomeIcon glyphName="CLOSE" size="1.2em" text="" wrappingWidth="33.25714302062988" />
+            </graphic>
+         </Button>
+         <Button fx:id="movieSearch_windowMinimize_btn" layoutX="974.0" layoutY="2.0" mnemonicParsing="false" onAction="#MovieSearch_windowMinimize" prefHeight="24.0" prefWidth="59.0" styleClass="close-form" stylesheets="@../css/moviePage.css" AnchorPane.rightAnchor="70.0" AnchorPane.topAnchor="2.0">
+            <graphic>
+               <FontAwesomeIcon glyphName="MINUS" />
+            </graphic>
+         </Button>
+         <Button fx:id="logoutButton" layoutX="130.0" layoutY="-1.0" mnemonicParsing="false" onAction="#handleLogoutButton" style="-fx-text-fill: #000000;" styleClass="close-form" stylesheets="@../css/moviePage.css" text="Logout">
+            <graphic>
+               <FontAwesomeIcon glyphName="SIGN_OUT" size="1.5em" />
+            </graphic>
+         </Button>
+         <FontAwesomeIcon glyphName="USER" layoutX="14.0" layoutY="35.0" size="2.3em" />
+         <AnchorPane layoutX="28.0" layoutY="1.0" prefHeight="53.0" prefWidth="75.0">
+            <children>
+               <Label fx:id="movieSearch_profileName" layoutX="20.0" prefHeight="25.0" prefWidth="82.0" style="-fx-text-fill: #000000;" text="NAME">
+                  <font>
+                     <Font name="System Bold" size="15.0" />
+                  </font>
+               </Label>
+               <Label fx:id="movieSearch_profileRole" layoutX="20.0" layoutY="23.0" prefHeight="30.0" prefWidth="82.0" style="-fx-text-fill: #000000;" text="ROLE">
+                  <font>
+                     <Font name="System Bold" size="13.0" />
+                  </font>
+               </Label>
+            </children>
+         </AnchorPane>
+      </children>
+   </AnchorPane>
 </AnchorPane>

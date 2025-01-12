@@ -1,18 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="600" prefWidth="900" styleClass="root" stylesheets="@../css/manager_2_style.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="group11.group11.Controller.RevenueAndTaxController">
+<AnchorPane prefHeight="700.0" prefWidth="1100.0" styleClass="root" stylesheets="@../css/manager_2_style.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="group11.group11.Controller.RevenueAndTaxController">
 
-    <Button fx:id="menuButton" layoutX="20" layoutY="500" prefHeight="40" prefWidth="100" styleClass="menu-button" stylesheets="@../css/manager_2_style.css" text="MENU" />
+    <Button fx:id="menuButton" layoutX="22.0" layoutY="631.0" prefHeight="40" prefWidth="100" styleClass="menu-button" stylesheets="@../css/manager_2_style.css" text="MENU" />
 
     <!-- Revenue ve Tax Alanları -->
-    <VBox alignment="CENTER" layoutX="300" layoutY="200" spacing="20">
+    <VBox alignment="CENTER" layoutX="331.0" layoutY="310.0" spacing="20">
         <!-- Revenue -->
         <HBox alignment="CENTER_LEFT" spacing="10">
             <Label styleClass="title-label" stylesheets="@../css/manager_2_style.css" text="TOTAL REVENUE:" />
@@ -25,4 +27,38 @@
             <TextField fx:id="totalTaxField" editable="false" prefWidth="200" styleClass="text-field" stylesheets="@../css/manager_2_style.css" />
         </HBox>
     </VBox>
+   <AnchorPane prefHeight="54.0" prefWidth="1103.0" style="-fx-background-color: #4f5728;">
+      <children>
+         <Button fx:id="movieSearch_windowClose_btn" alignment="TOP_RIGHT" layoutX="1035.0" layoutY="2.0" mnemonicParsing="false" onAction="#movieSearch_windowClose_btn" prefHeight="24.0" prefWidth="68.0" styleClass="close-form" stylesheets="@../css/moviePage.css" AnchorPane.leftAnchor="1035.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="2.0">
+            <graphic>
+               <FontAwesomeIcon glyphName="CLOSE" size="1.2em" text="" wrappingWidth="33.25714302062988" />
+            </graphic>
+         </Button>
+         <Button fx:id="movieSearch_windowMinimize_btn" layoutX="976.0" layoutY="1.0" mnemonicParsing="false" onAction="#MovieSearch_windowMinimize" prefHeight="24.0" prefWidth="59.0" styleClass="close-form" stylesheets="@../css/moviePage.css" AnchorPane.rightAnchor="68.0" AnchorPane.topAnchor="1.0">
+            <graphic>
+               <FontAwesomeIcon glyphName="MINUS" />
+            </graphic>
+         </Button>
+         <Button fx:id="logoutButton" layoutX="130.0" layoutY="-1.0" mnemonicParsing="false" onAction="#handleLogoutButton" style="-fx-text-fill: #000000;" styleClass="close-form" stylesheets="@../css/moviePage.css" text="Logout">
+            <graphic>
+               <FontAwesomeIcon glyphName="SIGN_OUT" size="1.5em" />
+            </graphic>
+         </Button>
+         <FontAwesomeIcon glyphName="USER" layoutX="14.0" layoutY="35.0" size="2.3em" />
+         <AnchorPane layoutX="28.0" layoutY="1.0" prefHeight="53.0" prefWidth="75.0">
+            <children>
+               <Label fx:id="movieSearch_profileName" layoutX="20.0" prefHeight="25.0" prefWidth="82.0" style="-fx-text-fill: #000000;" text="NAME">
+                  <font>
+                     <Font name="System Bold" size="15.0" />
+                  </font>
+               </Label>
+               <Label fx:id="movieSearch_profileRole" layoutX="20.0" layoutY="23.0" prefHeight="30.0" prefWidth="82.0" style="-fx-text-fill: #000000;" text="ROLE">
+                  <font>
+                     <Font name="System Bold" size="13.0" />
+                  </font>
+               </Label>
+            </children>
+         </AnchorPane>
+      </children>
+   </AnchorPane>
 </AnchorPane>
