@@ -18,15 +18,12 @@
 
     <!-- Üst Kısım: Butonlar ve ComboBox -->
     <HBox layoutX="250" layoutY="20" spacing="10">
-        <Button fx:id="addProductButton" prefHeight="40.0" prefWidth="136.0" styleClass="custom-button" stylesheets="@../css/manager_2_style.css" text="Add Product" />
-        <Button fx:id="deleteProductButton" prefHeight="40.0" prefWidth="148.0" styleClass="custom-button" stylesheets="@../css/manager_2_style.css" text="Delete Product" />
         <Button fx:id="updateProductButton" prefHeight="40.0" prefWidth="160.0" styleClass="custom-button" stylesheets="@../css/manager_2_style.css" text="Update Product" />
     </HBox>
 
     <!-- TextField'ler -->
     <HBox alignment="CENTER" layoutX="250" layoutY="70" spacing="10">
         <TextField fx:id="idField" prefHeight="25.0" prefWidth="99.0" promptText="ID" />
-        <TextField fx:id="nameField" prefHeight="25.0" prefWidth="181.0" promptText="Name" />
         <TextField fx:id="priceField" prefHeight="25.0" prefWidth="107.0" promptText="Price" />
         <TextField fx:id="stockField" prefHeight="25.0" prefWidth="174.0" promptText="Stock" />
     </HBox>

@@ -1,9 +1,6 @@
 package group11.group11.Controller;
-
-import group11.group11.Facade;
-import group11.group11.Main;
-import group11.group11.Movie;
-import group11.group11.Users;
+import group11.group11.*;
+import group11.group11.Controller.CartPageController;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
@@ -11,6 +8,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
+
 import java.sql.Time;
 import java.util.ArrayList;
 import java.util.List;
@@ -19,7 +17,8 @@ public class seatSelectionController {
 
     private Movie selectedMovie;
     private Users currentUser;
-    private int session_id;
+    private Time sessionTime;
+    private int sessionId;
     private String previousPage;
 
     Facade facade = new Facade();
@@ -31,148 +30,17 @@ public class seatSelectionController {
     private Label movieSearch_profileRole;
 
     @FXML
-    private Button A1;
-
+    private Button A1, A2, A3, A4, A5, A6, A7, A8;
     @FXML
-    private Button A2;
-
+    private Button B1, B2, B3, B4, B5, B6, B7, B8;
     @FXML
-    private Button A3;
-
+    private Button C1, C2, C3, C4, C5, C6, C7, C8;
     @FXML
-    private Button A4;
-
+    private Button D1, D2, D3, D4, D5, D6, D7, D8;
     @FXML
-    private Button A5;
-
+    private Button E1, E2, E3, E4, E5, E6, E7, E8;
     @FXML
-    private Button A6;
-
-    @FXML
-    private Button A7;
-
-    @FXML
-    private Button A8;
-
-    @FXML
-    private Button B1;
-
-    @FXML
-    private Button B2;
-
-    @FXML
-    private Button B3;
-
-    @FXML
-    private Button B4;
-
-    @FXML
-    private Button B5;
-
-    @FXML
-    private Button B6;
-
-    @FXML
-    private Button B7;
-
-    @FXML
-    private Button B8;
-
-    @FXML
-    private Button C1;
-
-    @FXML
-    private Button C2;
-
-    @FXML
-    private Button C3;
-
-    @FXML
-    private Button C4;
-
-    @FXML
-    private Button C5;
-
-    @FXML
-    private Button C6;
-
-    @FXML
-    private Button C7;
-
-    @FXML
-    private Button C8;
-
-    @FXML
-    private Button D1;
-
-    @FXML
-    private Button D2;
-
-    @FXML
-    private Button D3;
-
-    @FXML
-    private Button D4;
-
-    @FXML
-    private Button D5;
-
-    @FXML
-    private Button D6;
-
-    @FXML
-    private Button D7;
-
-    @FXML
-    private Button D8;
-
-    @FXML
-    private Button E1;
-
-    @FXML
-    private Button E2;
-
-    @FXML
-    private Button E3;
-
-    @FXML
-    private Button E4;
-
-    @FXML
-    private Button E5;
-
-    @FXML
-    private Button E6;
-
-    @FXML
-    private Button E7;
-
-    @FXML
-    private Button E8;
-
-    @FXML
-    private Button F1;
-
-    @FXML
-    private Button F2;
-
-    @FXML
-    private Button F3;
-
-    @FXML
-    private Button F4;
-
-    @FXML
-    private Button F5;
-
-    @FXML
-    private Button F6;
-
-    @FXML
-    private Button F7;
-
-    @FXML
-    private Button F8;
+    private Button F1, F2, F3, F4, F5, F6, F7, F8;
 
     @FXML
     private Button searchMovie_cart;
@@ -192,14 +60,12 @@ public class seatSelectionController {
     @FXML
     private Main mainApp;
 
-    public void setSelectedMovie(Movie selectedMovie)
-    {
-        this.selectedMovie = selectedMovie;
-    }
     @FXML
     private Button movieSearch_windowMinimize_btn;
 
-    public void setMainApp(Main mainApp) {
+
+    public void setMainApp(Main mainApp)
+    {
         this.mainApp = mainApp;
         initializeAfterMainApp();
     }
@@ -212,16 +78,6 @@ public class seatSelectionController {
         Stage stage = (Stage) movieSearch_windowMinimize_btn.getScene().getWindow();
         stage.setIconified(true);
     }
-
-    private List<String> selectedSeats = new ArrayList<>();
-    private int sessionId; // Add this field to store the session ID
-
-    public void setSessionId(int sessionId) {
-        this.sessionId = sessionId;
-        System.out.println("Session ID set to: " + sessionId); // Debugging
-        initializeSeatAvailability();
-    }
-
 
     @FXML
     public void handleLogoutButton(ActionEvent event) {
@@ -242,9 +98,22 @@ public class seatSelectionController {
         System.out.println("Cart button clicked! movie");
         if (mainApp != null) {
             System.out.println("is not null");
-            mainApp.showCartPage(session_id, selectedMovie, currentUser, "B");
+            mainApp.showCartPage(sessionId, selectedMovie, currentUser, "A");
         }
     }
+
+    public void setSelectedMovie(Movie selectedMovie) {
+        this.selectedMovie = selectedMovie;
+        if (mainApp != null) {
+            mainApp.setSelectedMovie(selectedMovie);
+        }
+    }
+
+    public void setSessionId(int sessionId) {
+        this.sessionId = sessionId;
+        initializeSeatAvailability();
+    }
+
 
     public void setCurrentUser(Users user) {
         this.currentUser = user;
@@ -259,7 +128,7 @@ public class seatSelectionController {
 
     @FXML
     public void initialize() {
-        productPurchase.setDisable(true);
+        productPurchase.setDisable(true); // Default state
 
         searchMovie_cart.setOnAction(event -> {
             System.out.println("Cart button clicked!");
@@ -283,7 +152,6 @@ public class seatSelectionController {
             logoutButton.setOnAction(this::handleLogoutButton);
         }
     }
-
     private void initializeAfterMainApp() {
         if (mainApp.getSelectedSeats().size() == mainApp.getNumOfTicket()) {
             productPurchase.setDisable(false);
@@ -299,7 +167,10 @@ public class seatSelectionController {
         alert.setContentText(message);
         alert.showAndWait();
     }
-    private void initializeSeatAvailability() {
+
+    private void initializeSeatAvailability()
+    {
+
         List<String> unavailableSeats = Facade.getUnavailableSeats(sessionId);
         System.out.println("Unavailable seats: " + unavailableSeats); // Debugging
 
@@ -336,10 +207,10 @@ public class seatSelectionController {
         } else {
             System.err.println("mainApp or selectedSeats is null. Cannot restore selected seats.");
         }
+
     }
 
     private Button getSeatButton(String seatNumber) {
-        // Map integer seat numbers to seat button IDs
         switch (seatNumber) {
             case "1": return A1;
             case "2": return A2;
@@ -469,7 +340,7 @@ public class seatSelectionController {
 
             // Select the seat
             mainApp.getSelectedSeats().add(seatName);
-            productPurchase.setDisable(selectedSeats.isEmpty());
+            productPurchase.setDisable(mainApp.getSelectedSeats().isEmpty());
             clickedButton.setStyle("-fx-background-color: #808080; "
                     + "-fx-border-color: black; "
                     + "-fx-border-width: 3px; "
@@ -477,18 +348,15 @@ public class seatSelectionController {
                     + "-fx-font-weight: bold;");
             System.out.println("Seat " + seatName + " selected.");
 
-            // Update the database
-
+            /// Update the database
             Facade.addTicketToCart(mainApp.getOrderNo(), selectedMovie.getMovieName(), Facade.getTicketPriceFromDB(), 1);
 
         }
     }
 
-    // check if seats are selected
+
     @FXML
     public void btnProductPurchase(ActionEvent event) {
-        if (mainApp != null && currentUser != null) {
-            mainApp.ProductPurchase(sessionId, selectedMovie, currentUser, "B");
-        }
+        mainApp.ProductPurchase(sessionId, selectedMovie, currentUser, "B");
     }
 }

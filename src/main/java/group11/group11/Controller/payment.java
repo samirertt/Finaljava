@@ -1,5 +1,8 @@
 package group11.group11.Controller;
 import group11.group11.*;
+import javafx.beans.property.SimpleDoubleProperty;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
@@ -63,6 +66,12 @@ public class payment {
     private Button movieSearch_windowMinimize_btn;
 
     @FXML
+    private Button EnterButton;
+
+    @FXML
+    private TableView<Product> product_TableView;
+
+    @FXML
     private TableColumn<Ticket, String> payment_tableView_Quantity;
 
     @FXML
@@ -70,6 +79,18 @@ public class payment {
 
     @FXML
     private TableColumn<Ticket, Double> payment_tableView_price;
+
+    @FXML
+    private TableColumn<Product, String> cartProduct;
+
+    @FXML
+    private TableColumn<Product, Integer> cartQuantity;
+
+    @FXML
+    private TableColumn<Product, Double> cartPrice;
+
+    @FXML
+    private Label totalLabel;
 
     private List<Ticket> tickets;
 
@@ -157,6 +178,8 @@ public class payment {
             }
         });
 
+
+
     }
 
 
@@ -194,6 +217,8 @@ public class payment {
                 } else {
                     System.out.println("No tickets found for the order.");
                 }
+
+
 
 
                 // Set movie details
@@ -310,15 +335,44 @@ public class payment {
     }
 
     @FXML
-    private void handlePayButton()
-    {
+    private void handlePayButton() {
         if (!areAllTicketsValid(tickets)) {
             showAlert("Please fill in all ticket information before proceeding with payment.");
             return;
         }
+
+        // Get the list of products from the cart
+        List<Product> products = facade.getItemsFromDb(mainApp.getOrderNo());
+
+        for(Product product : products)
+        {
+            facade.decrementStock(product.getName(), product.getQuantity());
+        }
+
+        // Generate tickets and invoice
+        try {
+            // Generate an HTML file for each ticket
+            for (int i = 0; i < tickets.size(); i++) {
+                String ticketFilePath = "Ticket_" + mainApp.getOrderNo() + "_" + (i + 1) + ".html";
+                HTMLGenerator.generateTicketHTML(tickets.get(i), ticketFilePath);
+                System.out.println("Generated ticket: " + ticketFilePath);
+            }
+
+            // Generate an HTML invoice for the entire order
+            String invoiceFilePath = "Invoice_" + mainApp.getOrderNo() + ".html";
+            double totalPrice = Facade.calculateOrderPrice(mainApp.getOrderNo());
+            HTMLGenerator.generateInvoiceHTML(mainApp.getOrderNo(), totalPrice, tickets, products, invoiceFilePath);
+            System.out.println("Generated invoice: " + invoiceFilePath);
+
+            showAlert("Payment processed successfully! Tickets and invoice generated.");
+        } catch (Exception e) {
+            e.printStackTrace();
+            showAlert("Error generating tickets or invoice. Please contact support.");
+        }
+
+        // Complete the order
         completeOrder(mainApp.getOrderNo(), tickets);
         System.out.println("Payment processed for order: " + mainApp.getOrderNo());
-        showAlert("Payment processed successfully!");
     }
 
     private int calculateAge(LocalDate birthdate) {

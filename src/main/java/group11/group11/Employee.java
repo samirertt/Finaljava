@@ -2,20 +2,19 @@ package group11.group11;
 
 public class Employee {
     private int id;
-    private String firstName;
-    private String lastName;
+    private String fullname;
+    private String username;
     private String password;
     private String role;
 
-
-    public Employee(int id, String firstName, String lastName, String password, String role) {
+    // Updated constructor
+    public Employee(int id, String fullname, String username, String password, String role) {
         this.id = id;
-        this.firstName = firstName;
-        this.lastName = lastName;
+        this.fullname = fullname;
+        this.username = username;
         this.password = password;
         this.role = role;
     }
-
 
     public int getId() {
         return id;
@@ -25,20 +24,22 @@ public class Employee {
         this.id = id;
     }
 
-    public String getFirstName() {
-        return firstName;
+    // Updated getter and setter for fullname
+    public String getFullname() {
+        return fullname;
     }
 
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
+    public void setFullname(String fullname) {
+        this.fullname = fullname;
     }
 
-    public String getLastName() {
-        return lastName;
+    // Updated getter and setter for username
+    public String getUsername() {
+        return username;
     }
 
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
+    public void setUsername(String username) {
+        this.username = username;
     }
 
     public String getPassword() {
@@ -57,12 +58,13 @@ public class Employee {
         this.role = role;
     }
 
+    // Updated toString method
     @Override
     public String toString() {
         return "Employee{" +
                 "id=" + id +
-                ", firstName='" + firstName + '\'' +
-                ", lastName='" + lastName + '\'' +
+                ", fullname='" + fullname + '\'' +
+                ", username='" + username + '\'' +
                 ", password='" + password + '\'' +
                 ", role='" + role + '\'' +
                 '}';

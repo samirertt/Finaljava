@@ -102,7 +102,9 @@ public class CartPageController {
     }
 
     @FXML
-    public void initialize() {
+    public void initialize()
+    {
+        Facade.fixCart();
         // Set up the TableView columns
         cart_productName.setCellValueFactory(new PropertyValueFactory<>("name"));
         cart_productPrice.setCellValueFactory(new PropertyValueFactory<>("taxedPrice"));

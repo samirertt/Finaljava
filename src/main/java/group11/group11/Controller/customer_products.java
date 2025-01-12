@@ -254,15 +254,13 @@ public class customer_products {
         totalColumn.setCellValueFactory(cellData -> new SimpleDoubleProperty(cellData.getValue().getTaxedPrice() * cellData.getValue().getQuantity()).asObject());
         productTable.setItems(productList);
 
-        // Fetch products from the database
+
         products = facade.getProductsFromDatabase();
 
-        // Initialize product quantities and prices directly from the products list
         for (Product product : products) {
             product.setQuantity(0); // Initialize quantities to 0
         }
 
-        // If the cart is already initialized, update product quantities with the cart's data
         if (cart != null) {
             for (Product cartProduct : cart.getItems()) {
                 for (Product product : products) {
@@ -273,7 +271,6 @@ public class customer_products {
                 }
             }
         }
-
         updateLabelsFromProducts();
         updateProductList();
 
@@ -335,7 +332,6 @@ public class customer_products {
                 product.setQuantity(quantity);
                 updateLabelsFromProducts();
                 updateTable(productName, quantity);
-                //Facade.updateStock(productName, currentStock - 1);
             } else {
                 showAlert("Not enough stock for " + productName);
             }
@@ -351,12 +347,10 @@ public class customer_products {
         if (product != null) {
             int quantity = product.getQuantity();
             if (quantity > 0) {
-                int currentStock = Facade.checkStock(productName);
                 quantity--;
                 product.setQuantity(quantity);
                 updateLabelsFromProducts();
                 updateTable(productName, quantity);
-                //Facade.updateStock(productName, currentStock + 1);
             }
         }
     }
@@ -389,18 +383,20 @@ public class customer_products {
         } else if (button == inc_food4 || button == dec_food4) {
             return "Falım";
         } else if (button == inc_toy1 || button == dec_toy1) {
-            return "Toy1";
+            return "3D Glasses";
         } else if (button == inc_toy2 || button == dec_toy2) {
-            return "Toy2";
+            return "Teddy Bear";
         } else if (button == inc_toy3 || button == dec_toy3) {
-            return "Toy3";
+            return "Action Figure";
         } else if (button == inc_toy4 || button == dec_toy4) {
-            return "Toy4";
+            return "Lego Set";
         }
         return null;
     }
 
-    private void updateTable(String productName, int count) {
+    private void updateTable(String productName, int count)
+    {
+
         Product product = findProductByName(productName);
         if (product != null)
         {
@@ -430,6 +426,7 @@ public class customer_products {
             }
 
             // Refresh the table to reflect the changes
+
             productTable.refresh();
             updateTotalAmount();
         }
@@ -465,6 +462,7 @@ public class customer_products {
     @FXML
     public void btnPayScreen(ActionEvent event)
     {
+        mainApp.setSelectedMovie(selectedMovie);
         mainApp.btnPayScreen(sessionId, currentUser, selectedMovie);
     }
 
@@ -503,19 +501,19 @@ public class customer_products {
                     qty_food4.setText(Integer.toString(product.getQuantity()));
                     price_food4.setText(String.format("%.2f₺", product.getTaxedPrice()));
                     break;
-                case "Toy1":
+                case "3D Glasses":
                     qty_toy1.setText(Integer.toString(product.getQuantity()));
                     price_toy1.setText(String.format("%.2f₺", product.getTaxedPrice()));
                     break;
-                case "Toy2":
+                case "Teddy Bear":
                     qty_toy2.setText(Integer.toString(product.getQuantity()));
                     price_toy2.setText(String.format("%.2f₺", product.getTaxedPrice()));
                     break;
-                case "Toy3":
+                case "Action Figure":
                     qty_toy3.setText(Integer.toString(product.getQuantity()));
                     price_toy3.setText(String.format("%.2f₺", product.getTaxedPrice()));
                     break;
-                case "Toy4":
+                case "Lego Set":
                     qty_toy4.setText(Integer.toString(product.getQuantity()));
                     price_toy4.setText(String.format("%.2f₺", product.getTaxedPrice()));
                     break;
