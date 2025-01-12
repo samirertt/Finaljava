@@ -18,8 +18,8 @@
 
     <!-- Üst Kısım: İşlem Butonları ve TextField'ler -->
     <HBox layoutX="250" layoutY="20" spacing="10">
-        <TextField fx:id="minAgeField" prefHeight="30.0" prefWidth="151.0" promptText="Min. Age" />
-        <TextField fx:id="maxAgeField" prefHeight="28.0" prefWidth="133.0" promptText="Max. Age" />
+        <TextField fx:id="minAgeField" prefHeight="30.0" prefWidth="151.0" promptText="Min. Age" stylesheets="@../css/manager_2_style.css" />
+        <TextField fx:id="maxAgeField" prefHeight="28.0" prefWidth="133.0" promptText="Max. Age" stylesheets="@../css/manager_2_style.css" />
         <TextField fx:id="discountRateField" prefHeight="29.0" prefWidth="148.0" promptText="Discount Rate" stylesheets="@../css/manager_2_style.css" />
         <Button fx:id="addDiscountButton" styleClass="custom-button" stylesheets="@../css/manager_2_style.css" text="Add Discount" />
         <Button fx:id="deleteDiscountButton" styleClass="custom-button" stylesheets="@../css/manager_2_style.css" text="Delete Discount" />

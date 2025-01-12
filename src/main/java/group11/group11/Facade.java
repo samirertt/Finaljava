@@ -3,16 +3,15 @@ package group11.group11;
 import javafx.scene.control.Alert;
 
 import java.sql.*;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
+import java.sql.Date;
+import java.util.*;
 import java.time.LocalDate;
 import java.sql.PreparedStatement;
 
 public class Facade {
     private static final String DB_URL = "jdbc:mysql://localhost:3306/cinemacenter";
     private static final String DB_USER = "root"; // Replace with your username
-    private static final String DB_PASSWORD = "addnone2013"; // Replace with your password
+    private static final String DB_PASSWORD = "blodreina"; // Replace with your password
 
     private static Connection connect() throws Exception {
         Class.forName("com.mysql.cj.jdbc.Driver");
@@ -51,14 +50,14 @@ public class Facade {
         }
         return null;
     }
-    public void addEmployee(int id, String firstName, String lastName, String password, String role )
+    public void addEmployee(int id, String fullname, String username, String password, String role )
     {
-        String query = "INSERT INTO employee (first_name, last_name, password, role) VALUES (?, ?, ?, ?)";
+        String query = "INSERT INTO users (fullname, username, password, role) VALUES (?, ?, ?, ?)";
         try (Connection conn = connect();
              PreparedStatement ps = conn.prepareStatement(query)) {
 
-            ps.setString(1, firstName);
-            ps.setString(2, lastName);
+            ps.setString(1, fullname);
+            ps.setString(2, username);
             ps.setString(3, password);
             ps.setString(4, role);
 
@@ -70,7 +69,7 @@ public class Facade {
     }
     public void deleteEmployee(int id)
     {
-        String query = "DELETE FROM employee WHERE id = ?";
+        String query = "DELETE FROM users WHERE id = ?";
 
         try (Connection connection = connect();
              PreparedStatement ps = connection.prepareStatement(query)) {
@@ -86,7 +85,7 @@ public class Facade {
 
     public List<Employee> loadEmployees()
     {
-        String query = "SELECT * FROM employee";
+        String query = "SELECT * FROM users";
         List<Employee> Employees = new ArrayList<>();
 
         try (Connection connection = connect();
@@ -96,8 +95,8 @@ public class Facade {
             while (rs.next()) {
                 Employee employee = new Employee(
                         rs.getInt("id"),
-                        rs.getString("first_name"),
-                        rs.getString("last_name"),
+                        rs.getString("fullname"),
+                        rs.getString("username"),
                         rs.getString("password"),
                         rs.getString("role")
                 );
@@ -111,14 +110,14 @@ public class Facade {
     }
 
 
-    public void UpdateEmployee(String firstName,String lastName, String password, String role, int id)
+    public void UpdateEmployee(String fullname,String username, String password, String role, int id)
     {
-        String query = "UPDATE employee SET first_name = ?, last_name = ?, password = ?, role = ? WHERE id = ?";
+        String query = "UPDATE users SET fullname = ?, username = ?, password = ?, role = ? WHERE id = ?";
         try (Connection connection = connect();
              PreparedStatement ps = connection.prepareStatement(query)) {
 
-            ps.setString(1, firstName);
-            ps.setString(2, lastName);
+            ps.setString(1, fullname);
+            ps.setString(2, username);
             ps.setString(3, password);
             ps.setString(4, role);
             ps.setInt(5, id);
@@ -628,7 +627,6 @@ public class Facade {
             System.err.println("Error clearing the cart table.");
         }
     }
-
     public static int checkStock(String productName)
     {
         String query = "SELECT stock FROM products WHERE name = ?";
@@ -761,6 +759,19 @@ public class Facade {
         }
     }
 
+    public static void fixCart()
+    {
+        String query = "DELETE FROM cart where quantity = 0";
+        try (Connection conn = connect(); PreparedStatement stmt = conn.prepareStatement(query)) {
+            stmt.executeUpdate();
+        }
+        catch(Exception e)
+        {
+            e.printStackTrace();
+            System.err.println("Error removing product from the cart in the database.");
+        }
+    }
+
     public static void addCartItemsToOrderItems(String orderNo) {
         String query = "INSERT INTO orderitems (order_no, item_type, item_id, quantity, price_per_item) " +
                 "SELECT ?, item_type, item_id, quantity, price_per_item FROM cart";
@@ -858,6 +869,50 @@ public class Facade {
         }
 
         return totalPrice;
+    }
+
+    public static Map<String, Double> calculateTaxAmount()
+    {
+        double totalTax = 0;
+        double revenue = 0;
+        String query = "SELECT price_per_item, item_type FROM orderitems ";
+        try (Connection conn = connect();
+             PreparedStatement pstmt = conn.prepareStatement(query);
+             ResultSet rs = pstmt.executeQuery()) {
+
+            while (rs.next()) {
+                double pricePerItem = rs.getDouble("price_per_item");
+                String itemType = rs.getString("item_type");
+
+                // Calculate tax amount based on item type
+                double taxRate;
+                if ("product".equalsIgnoreCase(itemType)) {
+                    taxRate = 0.10; // 10% tax for products
+                } else if ("ticket".equalsIgnoreCase(itemType)) {
+                    taxRate = 0.20; // 20% tax for tickets
+                } else {
+                    throw new IllegalArgumentException("Invalid item type: " + itemType);
+                }
+
+                revenue += pricePerItem;
+                // Calculate the original price (before tax)
+                double originalPrice = pricePerItem / (1 + taxRate);
+
+                // Calculate the tax amount
+                double taxAmount = pricePerItem - originalPrice;
+
+                // Add it to the total tax amount
+                totalTax += taxAmount;
+            }
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        Map<String, Double> result = new HashMap<>();
+        result.put("totalTax", totalTax);
+        result.put("revenue", revenue);
+        return result;
     }
 
     public static void createOrder(String orderNo,double total_price) {
@@ -978,9 +1033,84 @@ public class Facade {
         return false;
     }
 
+    public boolean usernameCheck(String username) {
+        String query = "SELECT COUNT(*) FROM users WHERE username = ?";
+        try (Connection conn = connect(); PreparedStatement stmt = conn.prepareStatement(query)) {
+            stmt.setString(1, username); // Set the username parameter
+            ResultSet rs = stmt.executeQuery();
 
+            if (rs.next()) {
+                int count = rs.getInt(1); // Get the count of rows with the given username
+                return count > 0; // Return true if the username exists
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return false; // Return false if the username does not exist or an error occurs
+    }
 
+    public void updateProductTaxedPrice(String name,double newPrice)
+    {
+        double taxRate = 0.10;
+        if ("ticket".equalsIgnoreCase(name))
+            taxRate = 0.20;
 
+        double taxedPrice = newPrice * (1 + taxRate);
+
+        String query = "UPDATE products SET taxed_price = ? WHERE name = ?";
+
+        try (Connection conn = connect();
+             PreparedStatement pstmt = conn.prepareStatement(query)) {
+
+            pstmt.setDouble(1, taxedPrice);
+            pstmt.setString(2, name);
+
+            int rowsUpdated = pstmt.executeUpdate();
+            if (rowsUpdated > 0) {
+                System.out.println("Product updated successfully!");
+            } else {
+                System.out.println("No product found with the given name.");
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static void saveDocumentToDatabase(String orderNo, String type, String htmlContent) {
+        String query = "INSERT INTO documents (order_no, type, html_content) VALUES (?, ?, ?)";
+
+        try (Connection conn = connect();
+             PreparedStatement pstmt = conn.prepareStatement(query)) {
+            pstmt.setString(1, orderNo);
+            pstmt.setString(2, type);
+            pstmt.setString(3, htmlContent);
+            pstmt.executeUpdate();
+            System.out.println("Document saved to database: " + type);
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public  void decrementStock(String name, int quantity)
+    {
+        int stock = checkStock(name);
+        stock -= quantity;
+
+        String query = "UPDATE products SET stock = ? WHERE name = ?";
+
+        try (Connection conn = connect();
+             PreparedStatement pstmt = conn.prepareStatement(query)) {
+            pstmt.setInt(1, stock);
+            pstmt.setString(2, name);
+            pstmt.executeUpdate();
+
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 
 
 }

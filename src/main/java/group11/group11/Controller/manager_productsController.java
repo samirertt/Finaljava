@@ -20,7 +20,6 @@ public class manager_productsController
 {
     Facade facade = new Facade();
     @FXML private TextField idField;
-    @FXML private TextField nameField;
     @FXML private TextField priceField;
     @FXML private TextField stockField;
 
@@ -33,6 +32,8 @@ public class manager_productsController
     @FXML private TableColumn<?, ?> nameColumn;
     @FXML private TableColumn<?, ?> priceColumn;
     @FXML private TableColumn<?, ?> stockColumn;
+
+    private Product selectedProduct;
 
     private Main mainApp;
 
@@ -50,53 +51,48 @@ public class manager_productsController
     }
 
     private void selectRow(javafx.scene.input.MouseEvent mouseEvent) {
-        Product selectedProduct = productTable.getSelectionModel().getSelectedItem();
+        selectedProduct = productTable.getSelectionModel().getSelectedItem();
 
-        if (selectedProduct != null) {
+        if (selectedProduct != null)
+        {
             idField.setText(String.valueOf(selectedProduct.getProductId()));
-            nameField.setText(selectedProduct.getName());
             priceField.setText(String.valueOf(selectedProduct.getPrice()));
             stockField.setText(String.valueOf(selectedProduct.getStock()));
-        } else {
+        }
+        else
+        {
             showAlert(Alert.AlertType.WARNING, "Warning", "Please select a product!");
         }
     }
 
     private void setupTable() {
-        idColumn.setCellValueFactory(new PropertyValueFactory<>("id"));
+        idColumn.setCellValueFactory(new PropertyValueFactory<>("productId"));
         nameColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
         priceColumn.setCellValueFactory(new PropertyValueFactory<>("price"));
         stockColumn.setCellValueFactory(new PropertyValueFactory<>("stock"));
     }
 
-    private void loadProducts() {
+    private void loadProducts()
+    {
         productTable.getItems().clear();
-
         ObservableList<Product> productsList = FXCollections.observableArrayList();
-
         productTable.setItems(productsList);
         productsList.addAll(facade.getProductsFromDatabase());
 
     }
 
-    private void updateProduct() {
-        try {
-
+    private void updateProduct()
+    {
+        try
+        {
             int id;
-            try {
+            try
+            {
                 id = Integer.parseInt(idField.getText());
             } catch (NumberFormatException e) {
                 showAlert(Alert.AlertType.WARNING, "Warning", "Please enter a valid product ID!");
                 return;
             }
-
-
-            String name = nameField.getText();
-            if (name == null || name.trim().isEmpty()) {
-                showAlert(Alert.AlertType.WARNING, "Warning", "Product name cannot be empty!");
-                return;
-            }
-
 
             double price;
             try {
@@ -106,7 +102,6 @@ public class manager_productsController
                 return;
             }
 
-
             int stock;
             try {
                 stock = Integer.parseInt(stockField.getText());
@@ -114,10 +109,17 @@ public class manager_productsController
                 showAlert(Alert.AlertType.WARNING, "Warning", "Please enter a valid stock quantity!");
                 return;
             }
+
+            String name = selectedProduct.getName();
             facade.updateStock(name,stock);
             facade.updateProductPrice(name,price);
+            facade.updateProductTaxedPrice(name,price);
 
-        } catch (Exception e) {
+            loadProducts();
+            clearFields();
+
+        }
+        catch (Exception e) {
             e.printStackTrace();
             showAlert(Alert.AlertType.ERROR, "Error", "Unexpected error: " + e.getMessage());
         }
@@ -126,7 +128,6 @@ public class manager_productsController
 
     private void clearFields() {
         idField.clear();
-        nameField.clear();
         priceField.clear();
         stockField.clear();
     }

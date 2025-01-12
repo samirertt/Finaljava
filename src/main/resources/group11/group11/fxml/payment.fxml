@@ -4,10 +4,10 @@
 <?import java.net.URL?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.DatePicker?>
+<?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
-<?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
@@ -15,19 +15,21 @@
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="1100.0" styleClass="anchor-pane" stylesheets="@../css/payment.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="group11.group11.Controller.payment">
     <children>
-        <AnchorPane layoutX="819.0" layoutY="93.0" prefHeight="513.0" prefWidth="266.0" style="-fx-background-color: #000000">
+        <AnchorPane layoutX="691.0" layoutY="93.0" prefHeight="514.0" prefWidth="384.0" style="-fx-background-color: #000000">
             <children>
-                <Text fill="WHITE" layoutX="41.0" layoutY="46.0" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-size: 30; -fx-text-fill: #6e7829;" text="Order History" wrappingWidth="184.4132080078125" />
-                <TableView layoutX="41.0" layoutY="129.0" prefHeight="200.0" prefWidth="200.0">
+                <Text fill="WHITE" layoutX="116.0" layoutY="47.0" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-size: 30; -fx-text-fill: #6e7829;" text="RECEIPT" wrappingWidth="184.4132080078125" />
+                <TableView fx:id="product_TableView" layoutX="-1.0" layoutY="63.0" prefHeight="363.0" prefWidth="384.0">
                     <columns>
-                        <TableColumn prefWidth="64.0" text="C1" />
-                        <TableColumn prefWidth="86.0" text="C2" />
+                        <TableColumn fx:id="cartProduct" prefWidth="158.4000244140625" text="Product" />
+                        <TableColumn fx:id="cartQuantity" prefWidth="81.5999755859375" text="Quantity" />
+                  <TableColumn fx:id="cartPrice" prefWidth="148.00006103515625" text="Price" />
                     </columns>
                 </TableView>
+                <Label fx:id="totalLabel" layoutX="108.0" layoutY="440.0" prefHeight="60.0" prefWidth="166.0" style="-fx-font-size: 20; -fx-alignment: center;" text="TOTAL: 0 TL" textFill="WHITE" />
             </children>
         </AnchorPane>
-        <Button fx:id="payButton" layoutX="852.0" layoutY="616.0" mnemonicParsing="false" onAction="#handlePayButton" style="-fx-font-size: 15;" styleClass="button-pay" text="PROCEED TO PAY" />
-        <TableView fx:id="payment_TableView" layoutX="45.0" layoutY="93.0" prefHeight="244.0" prefWidth="739.0">
+        <Button fx:id="payButton" layoutX="783.0" layoutY="616.0" mnemonicParsing="false" onAction="#handlePayButton" style="-fx-font-size: 15;" styleClass="button-pay" text="PROCEED TO PAY" />
+        <TableView fx:id="payment_TableView" layoutX="38.0" layoutY="93.0" prefHeight="244.0" prefWidth="632.0">
             <columns>
                 <TableColumn fx:id="payment_tableView_itemName" prefWidth="75.0" text="Item Name" />
                 <TableColumn fx:id="payment_tableView_Quantity" prefWidth="75.0" text="Quantity" />
@@ -46,7 +48,7 @@
                 <URL value="@../css/moviePage.css" />
             </stylesheets>
         </TableView>
-        <AnchorPane layoutX="100.0" layoutY="350.0" prefHeight="282.0" prefWidth="310.0" styleClass="anchor-pane-ticket-info">
+        <AnchorPane layoutX="43.0" layoutY="350.0" prefHeight="282.0" prefWidth="310.0" styleClass="anchor-pane-ticket-info">
             <children>
                 <Label layoutX="24.0" layoutY="14.0" prefHeight="76.0" prefWidth="298.4" style="-fx-alignment: center;" styleClass="label-ticket-info" text="TICKET INFORMATION" AnchorPane.bottomAnchor="254.0" AnchorPane.leftAnchor="24.0" AnchorPane.rightAnchor="24.0" AnchorPane.topAnchor="14.0" />
                 <Label fx:id="payment_movieDay" layoutX="12.0" layoutY="127.0" prefHeight="60.0" prefWidth="274.0" styleClass="label-day" text="DAY:" />
@@ -55,14 +57,14 @@
                 <Label fx:id="payment_movieName" layoutX="12.0" layoutY="67.0" prefHeight="60.0" prefWidth="274.0" styleClass="label-movie" text="Movie:" />
             </children>
         </AnchorPane>
-        <AnchorPane layoutX="419.0" layoutY="350.0" prefHeight="282.0" prefWidth="310.0" styleClass="anchor-pane-ticket-info">
+        <AnchorPane layoutX="359.0" layoutY="350.0" prefHeight="282.0" prefWidth="310.0" styleClass="anchor-pane-ticket-info">
             <children>
                 <Label layoutX="24.0" layoutY="14.0" prefHeight="76.0" prefWidth="298.4" style="-fx-alignment: center;" styleClass="label-ticket-info" text="CUSTOMER INFORMATION" AnchorPane.bottomAnchor="254.0" AnchorPane.leftAnchor="24.0" AnchorPane.rightAnchor="24.0" AnchorPane.topAnchor="14.0" />
                 <TextField fx:id="nameField" layoutX="44.0" layoutY="83.0" prefHeight="26.0" prefWidth="222.0" promptText="Enter a name" />
                 <TextField fx:id="surnameField" layoutX="44.0" layoutY="127.0" prefHeight="26.0" prefWidth="222.0" promptText="Enter a surname" />
                 <DatePicker fx:id="birthdatePicker" layoutX="44.0" layoutY="167.0" prefHeight="26.0" prefWidth="222.0" promptText="Enter a birthdate (yyyy-mm-dd)" />
-                <Button layoutX="44.0" layoutY="242.0" mnemonicParsing="false" text="CLEAR" />
-                <Button layoutX="214.0" layoutY="242.0" mnemonicParsing="false" text="ENTER" />
+                <Button fx:id="clearButton" layoutX="44.0" layoutY="242.0" mnemonicParsing="false" text="CLEAR" />
+                <Button fx:id="EnterButton" layoutX="214.0" layoutY="242.0" mnemonicParsing="false" onAction="#handleEnterButton" text="ENTER" />
             </children>
         </AnchorPane>
         <Label fx:id="order_ID" layoutX="863.0" layoutY="48.0" text="Label">

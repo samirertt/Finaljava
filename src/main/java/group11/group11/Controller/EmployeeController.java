@@ -1,6 +1,4 @@
 package group11.group11.Controller;
-
-
 import group11.group11.Employee;
 import group11.group11.Facade;
 import group11.group11.Main;
@@ -14,7 +12,8 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 
-public class EmployeeController {
+public class EmployeeController
+{
     Facade facade = new Facade();
     @FXML private TextField idField;
     @FXML private TextField firstNameField;
@@ -34,6 +33,7 @@ public class EmployeeController {
     @FXML private Button menuButton;
 
     private Main mainApp;
+    private Employee user;
 
     public void setMainApp(Main mainApp) {
         this.mainApp = mainApp;
@@ -52,8 +52,8 @@ public class EmployeeController {
 
     private void setupTable() {
         idColumn.setCellValueFactory(new PropertyValueFactory<>("id"));
-        firstNameColumn.setCellValueFactory(new PropertyValueFactory<>("firstName"));
-        lastNameColumn.setCellValueFactory(new PropertyValueFactory<>("lastName"));
+        firstNameColumn.setCellValueFactory(new PropertyValueFactory<>("fullname"));
+        lastNameColumn.setCellValueFactory(new PropertyValueFactory<>("username"));
         passwordColumn.setCellValueFactory(new PropertyValueFactory<>("password"));
         roleColumn.setCellValueFactory(new PropertyValueFactory<>("role"));
     }
@@ -68,30 +68,35 @@ public class EmployeeController {
 
     }
     private void addEmployee() {
-        try {
-
+        try
+        {
             int id;
-            try {
+            try
+            {
                 id = Integer.parseInt(idField.getText());
             } catch (NumberFormatException e) {
                 showAlert(Alert.AlertType.WARNING, "Warning", "Please enter a valid employee ID!");
                 return;
             }
 
-
-
             String firstName = firstNameField.getText();
-            if (firstName == null || firstName.trim().isEmpty()) {
-                showAlert(Alert.AlertType.WARNING, "Warning", "First name cannot be empty!");
+            if (firstName == null || firstName.trim().isEmpty())
+            {
+                showAlert(Alert.AlertType.WARNING, "Warning", "Name cannot be empty!");
                 return;
             }
 
-            String lastName = lastNameField.getText();
-            if (lastName == null || lastName.trim().isEmpty()) {
-                showAlert(Alert.AlertType.WARNING, "Warning", "Last name cannot be empty!");
+            String username = lastNameField.getText();
+            if (username == null || username.trim().isEmpty())
+            {
+                showAlert(Alert.AlertType.WARNING, "Warning", "Username cannot be empty!");
                 return;
             }
-
+            else if(facade.usernameCheck(username))
+            {
+                showAlert(Alert.AlertType.WARNING, "Warning", "Username already exists!");
+                return;
+            }
 
             String password = passwordField.getText();
             if (password == null || password.trim().isEmpty()) {
@@ -101,12 +106,20 @@ public class EmployeeController {
 
 
             String role = roleField.getText();
-            if (role == null || role.trim().isEmpty()) {
+            if (role == null || role.trim().isEmpty())
+            {
                 showAlert(Alert.AlertType.WARNING, "Warning", "Role cannot be empty!");
                 return;
             }
+            else if (!role.equals("manager") && !role.equals("admin") && !role.equals("cashier")) {
+                showAlert(Alert.AlertType.WARNING, "Warning", "Enter a valid role!");
+                return;
+            }
 
-            facade.addEmployee(id, firstName,lastName,password,role);
+            facade.addEmployee(id,firstName,username,password,role);
+
+            loadEmployee();
+            clearFields();
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -118,6 +131,8 @@ public class EmployeeController {
     private void deleteEmployee() {
         Employee selectedEmployee = employeeTable.getSelectionModel().getSelectedItem();
         facade.deleteEmployee(selectedEmployee.getId());
+        loadEmployee();
+        clearFields();
     }
 
     private void updateEmployee() {
@@ -147,7 +162,7 @@ public class EmployeeController {
 
             String lastName = lastNameField.getText();
             if (lastName == null || lastName.trim().isEmpty()) {
-                showAlert(Alert.AlertType.WARNING, "Warning", "Last name cannot be empty!");
+                showAlert(Alert.AlertType.WARNING, "Warning", "Username cannot be empty!");
                 return;
             }
 
@@ -164,8 +179,14 @@ public class EmployeeController {
                 showAlert(Alert.AlertType.WARNING, "Warning", "Role cannot be empty!");
                 return;
             }
+            else if (!role.equals("manager") && !role.equals("admin") && !role.equals("cashier")) {
+                showAlert(Alert.AlertType.WARNING, "Warning", "Enter a valid role!");
+                return;
+            }
 
             facade.UpdateEmployee(firstName,lastName,password,role,id);
+            loadEmployee();
+            clearFields();
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -178,8 +199,8 @@ public class EmployeeController {
         Employee selectedEmployee = employeeTable.getSelectionModel().getSelectedItem();
         if (selectedEmployee != null) {
             idField.setText(String.valueOf(selectedEmployee.getId()));
-            firstNameField.setText(selectedEmployee.getFirstName());
-            lastNameField.setText(selectedEmployee.getLastName());
+            firstNameField.setText(selectedEmployee.getFullname());
+            lastNameField.setText(selectedEmployee.getUsername());
             passwordField.setText(selectedEmployee.getPassword());
             roleField.setText(selectedEmployee.getRole());
         }
