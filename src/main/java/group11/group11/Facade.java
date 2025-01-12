@@ -12,7 +12,7 @@ import java.sql.PreparedStatement;
 public class Facade {
     private static final String DB_URL = "jdbc:mysql://localhost:3306/cinemacenter";
     private static final String DB_USER = "root"; // Replace with your username
-    private static final String DB_PASSWORD = "blodreina"; // Replace with your password
+    private static final String DB_PASSWORD = "addnone2013"; // Replace with your password
 
     private static Connection connect() throws Exception {
         Class.forName("com.mysql.cj.jdbc.Driver");
@@ -110,6 +110,7 @@ public class Facade {
         return Employees;
     }
 
+
     public void UpdateEmployee(String firstName,String lastName, String password, String role, int id)
     {
         String query = "UPDATE employee SET first_name = ?, last_name = ?, password = ?, role = ? WHERE id = ?";
@@ -127,6 +128,125 @@ public class Facade {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    public List<Discount> load_Discounts()
+    {
+        List<Discount> Discounts = new ArrayList<>();
+        String query = "SELECT * FROM discounts";
+        try (Connection connection = connect();
+             PreparedStatement ps = connection.prepareStatement(query);
+             ResultSet rs = ps.executeQuery()) {
+
+            while (rs.next()) {
+                Discount discount = new Discount(
+                        rs.getInt("min_age"),
+                        rs.getInt("max_age"),
+                        rs.getDouble("discount_rate")
+                );
+                Discounts.add(discount);
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return Discounts;
+    }
+
+    public void addDiscounts(int minAge, int maxAge, double discountRate)
+    {
+        String query = "INSERT INTO discounts (min_age, max_age, discount_rate) VALUES (?, ?, ?)";
+        try (Connection connection = connect();
+             PreparedStatement ps = connection.prepareStatement(query)) {
+
+            ps.setInt(1, minAge);
+            ps.setInt(2, maxAge);
+            ps.setDouble(3, discountRate);
+
+            ps.executeUpdate();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public boolean isAgeRangeOverlap(int minAge, int maxAge) {
+        String query = "SELECT COUNT(*) FROM discounts WHERE (min_age <= ? AND max_age >= ?) OR (min_age <= ? AND max_age >= ?)";
+        try (Connection connection = connect();
+             PreparedStatement ps = connection.prepareStatement(query)) {
+
+            ps.setInt(1, maxAge);
+            ps.setInt(2, minAge);
+            ps.setInt(3, maxAge);
+            ps.setInt(4, minAge);
+
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    return rs.getInt(1) > 0; // Eğer COUNT(*) > 0 ise, çakışma var
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+    public void delete_Discount(Discount selectedDiscount)
+    {
+        String query = "DELETE FROM discounts WHERE min_age = ? AND max_age = ?";
+
+        try (Connection connection = connect();
+             PreparedStatement ps = connection.prepareStatement(query)) {
+
+            ps.setInt(1, selectedDiscount.getMinAge());
+            ps.setInt(2, selectedDiscount.getMaxAge());
+            ps.executeUpdate();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+    public int update_Discount(Discount selectedDiscount, int minAge, int maxAge, double discountRate)
+    {
+        String query = "UPDATE discounts SET min_age = ?, max_age = ?, discount_rate = ? WHERE min_age = ? AND max_age = ?";
+        try (Connection connection = connect();
+             PreparedStatement ps = connection.prepareStatement(query)) {
+
+            ps.setInt(1, minAge);
+            ps.setInt(2, maxAge);
+            ps.setDouble(3, discountRate);
+            ps.setInt(4, selectedDiscount.getMinAge());
+            ps.setInt(5, selectedDiscount.getMaxAge());
+
+            int rowsUpdated = ps.executeUpdate();
+            return rowsUpdated;
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return 0;
+    }
+
+    public boolean isAgeRangeOverlapForUpdate(int minAge, int maxAge, Discount selectedDiscount) {
+        String query = "SELECT COUNT(*) FROM discounts WHERE ((min_age <= ? AND max_age >= ?) OR (min_age <= ? AND max_age >= ?)) AND NOT (min_age = ? AND max_age = ?)";
+        try (Connection connection = connect();
+             PreparedStatement ps = connection.prepareStatement(query)) {
+
+            ps.setInt(1, maxAge);
+            ps.setInt(2, minAge);
+            ps.setInt(3, maxAge);
+            ps.setInt(4, minAge);
+            ps.setInt(5, selectedDiscount.getMinAge());
+            ps.setInt(6, selectedDiscount.getMaxAge());
+
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    return rs.getInt(1) > 0; // Eğer COUNT(*) > 0 ise, çakışma var
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return false;
     }
 
     public Movie searchMovieByFullName(String fullName) {
@@ -152,6 +272,7 @@ public class Facade {
         }
         return movie; // Return null if no movie is found
     }
+
     public List<Movie> initializeMovieTable() {
         String query = "SELECT * FROM movies";
         List<Movie> movieList = new ArrayList<>();
@@ -237,7 +358,7 @@ public class Facade {
         return movieList; // Return the list of movies (can be empty if no results)
     }
 
-    public static List<Product> getProductsFromDatabase() {
+    public List<Product> getProductsFromDatabase() {
         List<Product> products = new ArrayList<>();
         String query = "SELECT product_id, name, price, taxed_price, stock FROM products";
 
@@ -529,7 +650,7 @@ public class Facade {
         }
         return -1;
     }
-    public static void updateStock(String productName, int newStock)
+    public void updateStock(String productName, int newStock)
     {
         String query = "UPDATE products SET stock = ? WHERE name = ?";
         try (Connection conn = connect();
@@ -537,6 +658,19 @@ public class Facade {
             pstmt.setInt(1, newStock);
             pstmt.setString(2, productName);
             int rowsAffected = pstmt.executeUpdate();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void updateProductPrice(String productName, double price)
+    {
+        String query = "UPDATE products SET price = ? WHERE name = ?";
+        try (Connection conn = connect();
+             PreparedStatement pstmt = conn.prepareStatement(query)) {
+            pstmt.setDouble(1, price);
+            pstmt.setString(2, productName);
+            pstmt.executeUpdate();
         } catch (Exception e) {
             e.printStackTrace();
         }

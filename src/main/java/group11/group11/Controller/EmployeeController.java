@@ -3,6 +3,7 @@ package group11.group11.Controller;
 
 import group11.group11.Employee;
 import group11.group11.Facade;
+import group11.group11.Main;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -32,18 +33,20 @@ public class EmployeeController {
     @FXML private Button updateEmployeeButton;
     @FXML private Button menuButton;
 
+    private Main mainApp;
+
+    public void setMainApp(Main mainApp) {
+        this.mainApp = mainApp;
+    }
+
     @FXML
     public void initialize() {
         setupTable();
-        ObservableList<Employee> employeeList = FXCollections.observableArrayList();
-
-        employeeTable.setItems(employeeList);
-        employeeList.addAll(facade.loadEmployees());
-
+        loadEmployee();
         addEmployeeButton.setOnAction(event -> addEmployee());
         deleteEmployeeButton.setOnAction(event -> deleteEmployee());
         updateEmployeeButton.setOnAction(event -> updateEmployee());
-        menuButton.setOnAction(event -> openPage("mainpage"));
+        menuButton.setOnAction(event -> mainApp.showManagerPage());
         employeeTable.setOnMouseClicked(event -> selectRow());
     }
 
@@ -55,7 +58,15 @@ public class EmployeeController {
         roleColumn.setCellValueFactory(new PropertyValueFactory<>("role"));
     }
 
+    private void loadEmployee()
+    {
+        employeeTable.getItems().clear();
+        ObservableList<Employee> employeeList = FXCollections.observableArrayList();
 
+        employeeTable.setItems(employeeList);
+        employeeList.addAll(facade.loadEmployees());
+
+    }
     private void addEmployee() {
         try {
 

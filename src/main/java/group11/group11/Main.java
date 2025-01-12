@@ -18,7 +18,7 @@ import java.util.Random;
 
 public class Main extends Application {
 
-    private static Stage primaryStage;
+    public Stage primaryStage;
     private String orderNo; // Field to hold the order number
     private Movie selecetedMovie;
     private Date selectedDate;
@@ -164,7 +164,93 @@ public class Main extends Application {
         System.out.println("Session ID set to: " + session_id); // Debugging
     }
 
+    public void showManagerPage()
+    {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("fxml/manager.fxml"));
+            Parent root = loader.load();
 
+            managerController controller = loader.getController();
+            //controller.setCurrentUser();
+            //controller.setProfileDetails();
+            controller.setMainApp(this);
+            primaryStage.setTitle("manager Page");
+            primaryStage.setScene(new Scene(root));
+            primaryStage.show();
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.out.println(" There was an error loading the page: " + e.getMessage());
+        }
+    }
+
+    public void handleProductButton() {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("fxml/manager_product.fxml"));
+            Parent root = loader.load();
+            primaryStage.setTitle("Day Selection Page");
+            primaryStage.setScene(new Scene(root));
+            primaryStage.show();
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.err.println("Error: Unable to load the Day Selection FXML file.");
+        }
+    }
+    public void handleCinemaPriceButton() {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("fxml/fxml"));
+            Parent root = loader.load();
+            primaryStage.setTitle("Day Selection Page");
+            primaryStage.setScene(new Scene(root));
+            primaryStage.show();
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.err.println("Error: Unable to load the Day Selection FXML file.");
+        }
+    }
+
+    public void handleDiscountsButton() {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("fxml/manager_AgeDiscount.fxml"));
+            Parent root = loader.load();
+            primaryStage.setTitle("Day Selection Page");
+            primaryStage.setScene(new Scene(root));
+            primaryStage.show();
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.err.println("Error: Unable to load the Day Selection FXML file.");
+        }
+    }
+
+    public void handleRevenueAndTaxButton() {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("fxml/manager_tax.fxml"));
+            Parent root = loader.load();
+            primaryStage.setTitle("Day Selection Page");
+            primaryStage.setScene(new Scene(root));
+            primaryStage.show();
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.err.println("Error: Unable to load the Day Selection FXML file.");
+        }
+    }
+
+    public void handleEmployeeButton() {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("fxml/employee.fxml"));
+            Parent root = loader.load();
+            primaryStage.setTitle("Day Selection Page");
+            primaryStage.setScene(new Scene(root));
+            primaryStage.show();
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.err.println("Error: Unable to load the Day Selection FXML file.");
+        }
+    }
+
+    public void showAdminPage()
+    {
+
+    }
     // Show the Cart page
     public void showCartPage(int session_id, Movie selectedMovie, Users user, String previousPage) {
         try {
