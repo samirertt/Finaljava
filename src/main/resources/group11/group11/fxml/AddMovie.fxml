@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
+<?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.VBox?>
+
+<AnchorPane prefHeight="700" prefWidth="1100" style="-fx-background-color: black;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="group11.group11.Controller.AddMovieController">
+
+    <!-- Centered Form -->
+    <VBox alignment="TOP_CENTER" spacing="15" style="-fx-background-color: linear-gradient(to bottom, black, #0A1A0A);" AnchorPane.bottomAnchor="0" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0" AnchorPane.topAnchor="0">
+        <AnchorPane prefHeight="35.0" prefWidth="1100.0" style="-fx-background-color: #4f5728;">
+            <children>
+                <Button fx:id="backButton" layoutX="-1.0" layoutY="-1.0" mnemonicParsing="false" onAction="#handleBackButton" prefHeight="23.0" prefWidth="24.0" styleClass="close-form" stylesheets="@../css/moviePage.css">
+                    <graphic>
+                        <FontAwesomeIcon glyphName="ARROW_LEFT" size="1.2em" />
+                    </graphic>
+                </Button>
+                <Button fx:id="movieSearch_windowMinimize_btn" layoutX="976.0" layoutY="-1.0" mnemonicParsing="false" onAction="#MovieSearch_windowMinimize" prefHeight="24.0" prefWidth="64.0" styleClass="close-form" stylesheets="@../css/moviePage.css">
+                    <graphic>
+                        <FontAwesomeIcon glyphName="MINUS" />
+                    </graphic>
+                </Button>
+                <Button fx:id="logoutButton" layoutX="130.0" layoutY="-1.0" mnemonicParsing="false" onAction="#handleLogoutButton" style="-fx-text-fill: #000000;" styleClass="close-form" stylesheets="@../css/moviePage.css" text="Logout">
+                    <graphic>
+                        <FontAwesomeIcon glyphName="SIGN_OUT" size="1.5em" />
+                    </graphic>
+                </Button>
+                <Label fx:id="movieSearch_profileName" layoutX="75.0" layoutY="-2.0" prefHeight="30.0" prefWidth="82.0" style="-fx-font-weight: bold; -fx-font-size: 15.0; -fx-text-fill: #000000;" text="NAME" />
+                <Label fx:id="movieSearch_profileRole" layoutX="75.0" layoutY="19.0" prefHeight="30.0" prefWidth="82.0" style="-fx-font-weight: bold; -fx-font-size: 15.0; -fx-text-fill: #000000;" text="ROLE" />
+                <FontAwesomeIcon glyphName="USER" layoutX="42.0" layoutY="35.0" size="2.3em" />
+                <Button layoutX="1040.0" layoutY="-1.0" mnemonicParsing="false" onAction="#movieSearch_windowClose_btn" prefHeight="24.0" prefWidth="62.0" styleClass="close-form" stylesheets="@../css/moviePage.css">
+                    <graphic>
+                        <FontAwesomeIcon glyphName="CLOSE" />
+                    </graphic>
+                </Button>
+            </children>
+            <opaqueInsets>
+                <Insets />
+            </opaqueInsets>
+            <padding>
+                <Insets bottom="-25.0" top="30.0" />
+            </padding>
+            <VBox.margin>
+                <Insets />
+            </VBox.margin>
+        </AnchorPane>
+        <Label style="-fx-font-size: 32; -fx-font-weight: bold; -fx-text-fill: white; -fx-font-family: 'Arial Rounded MT Bold';" text="ADD MOVIE" />
+
+        <!-- Form Fields -->
+        <TextField fx:id="movieNameField" maxWidth="720" prefWidth="720" promptText="Movie Name" style="-fx-background-color: black; -fx-text-fill: white; -fx-font-weight: bold; -fx-font-size: 16; -fx-font-family: 'Arial Rounded MT Bold'; -fx-border-color: #96a725; -fx-border-width: 2; -fx-border-radius: 25; -fx-background-radius: 25; -fx-padding: 10;" />
+        <TextField fx:id="movieGenreField" maxWidth="720" prefWidth="720" promptText="Movie Genre" style="-fx-background-color: black; -fx-text-fill: white; -fx-font-weight: bold; -fx-font-size: 16; -fx-font-family: 'Arial Rounded MT Bold'; -fx-border-color: #96a725; -fx-border-width: 2; -fx-border-radius: 25; -fx-background-radius: 25; -fx-padding: 10;" />
+
+        <!-- TextArea for Movie Summary -->
+        <TextArea fx:id="movieSummaryField" maxWidth="720" prefHeight="100" prefWidth="720" promptText="Movie Summary" style="-fx-background-color: black; -fx-text-fill: white; -fx-font-weight: bold; -fx-font-size: 16; -fx-font-family: 'Arial Rounded MT Bold'; -fx-border-color: #96a725; -fx-border-width: 2; -fx-border-radius: 25; -fx-background-radius: 25; -fx-padding: 10;">
+            <VBox.margin>
+                <Insets />
+            </VBox.margin></TextArea>
+
+        <!-- Buttons -->
+        <Button fx:id="choosePosterButton" styleClass="custom-button" stylesheets="@../css/admin.css" text="Choose Poster">
+            <VBox.margin>
+                <Insets bottom="-100.0" />
+            </VBox.margin></Button>
+
+        <!-- Add Movie Button -->
+        <Button fx:id="addMovieButton" styleClass="custom-button" stylesheets="@../css/admin.css" text="Add Movie">
+            <VBox.margin>
+                <Insets top="100.0" />
+            </VBox.margin></Button>
+        <ImageView fx:id="posterImageView" fitHeight="181.0" fitWidth="150" preserveRatio="true">
+            <VBox.margin>
+                <Insets bottom="-100.0" />
+            </VBox.margin></ImageView>
+    </VBox>
+</AnchorPane>

@@ -4,6 +4,7 @@ package group11.group11.Controller;
 import group11.group11.Employee;
 import group11.group11.Facade;
 import group11.group11.Main;
+import group11.group11.Users;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -34,9 +35,22 @@ public class EmployeeController {
     @FXML private Button menuButton;
 
     private Main mainApp;
+    private Users currentUser;
 
     public void setMainApp(Main mainApp) {
         this.mainApp = mainApp;
+    }
+    private Users currentUser;
+
+    public void setCurrentUser(Users user) {
+        this.currentUser = user;
+    }
+
+    public void setProfileDetails() {
+        if (currentUser != null) {
+            movieSearch_profileName.setText(currentUser.getUsername());
+            movieSearch_profileRole.setText(currentUser.getrole());
+        }
     }
 
     @FXML
@@ -46,7 +60,7 @@ public class EmployeeController {
         addEmployeeButton.setOnAction(event -> addEmployee());
         deleteEmployeeButton.setOnAction(event -> deleteEmployee());
         updateEmployeeButton.setOnAction(event -> updateEmployee());
-        menuButton.setOnAction(event -> mainApp.showManagerPage());
+        menuButton.setOnAction(event -> mainApp.showManagerPage(currentUser));
         employeeTable.setOnMouseClicked(event -> selectRow());
     }
 
@@ -69,51 +83,75 @@ public class EmployeeController {
     }
     private void addEmployee() {
         try {
-
-            int id;
-            try {
-                id = Integer.parseInt(idField.getText());
-            } catch (NumberFormatException e) {
-                showAlert(Alert.AlertType.WARNING, "Warning", "Please enter a valid employee ID!");
-                return;
-            }
-
-
-
+            // Validate First Name
             String firstName = firstNameField.getText();
             if (firstName == null || firstName.trim().isEmpty()) {
                 showAlert(Alert.AlertType.WARNING, "Warning", "First name cannot be empty!");
                 return;
             }
+            if (!firstName.matches("[a-zA-Z]+")) {
+                showAlert(Alert.AlertType.WARNING, "Warning", "First name must contain only letters!");
+                return;
+            }
 
+            // Validate Last Name
             String lastName = lastNameField.getText();
             if (lastName == null || lastName.trim().isEmpty()) {
                 showAlert(Alert.AlertType.WARNING, "Warning", "Last name cannot be empty!");
                 return;
             }
+            if (!lastName.matches("[a-zA-Z]+")) {
+                showAlert(Alert.AlertType.WARNING, "Warning", "Last name must contain only letters!");
+                return;
+            }
 
-
+            // Validate Password
             String password = passwordField.getText();
             if (password == null || password.trim().isEmpty()) {
                 showAlert(Alert.AlertType.WARNING, "Warning", "Password cannot be empty!");
                 return;
             }
+            if (password.length() < 8) {
+                showAlert(Alert.AlertType.WARNING, "Warning", "Password must be at least 8 characters long!");
+                return;
+            }
+            if (!password.matches(".*[A-Z].*")) {
+                showAlert(Alert.AlertType.WARNING, "Warning", "Password must contain at least one uppercase letter!");
+                return;
+            }
+            if (!password.matches(".*[a-z].*")) {
+                showAlert(Alert.AlertType.WARNING, "Warning", "Password must contain at least one lowercase letter!");
+                return;
+            }
+            if (!password.matches(".*\\d.*")) {
+                showAlert(Alert.AlertType.WARNING, "Warning", "Password must contain at least one digit!");
+                return;
+            }
+            if (!password.matches(".*[@#$%^&+=].*")) {
+                showAlert(Alert.AlertType.WARNING, "Warning", "Password must contain at least one special character (@#$%^&+=)!");
+                return;
+            }
 
-
+            // Validate Role
             String role = roleField.getText();
             if (role == null || role.trim().isEmpty()) {
                 showAlert(Alert.AlertType.WARNING, "Warning", "Role cannot be empty!");
                 return;
             }
+            if (!role.matches("admin|employee|manager")) {
+                showAlert(Alert.AlertType.WARNING, "Warning", "Role must be one of: admin, employee, manager!");
+                return;
+            }
 
-            facade.addEmployee(id, firstName,lastName,password,role);
+            // If all validations pass, add the employee
+            facade.addEmployee(firstName, lastName, password, role);
+            showAlert(Alert.AlertType.INFORMATION, "Success", "Employee added successfully!");
 
         } catch (Exception e) {
             e.printStackTrace();
             showAlert(Alert.AlertType.ERROR, "Error", "Unexpected error: " + e.getMessage());
         }
     }
-
 
     private void deleteEmployee() {
         Employee selectedEmployee = employeeTable.getSelectionModel().getSelectedItem();

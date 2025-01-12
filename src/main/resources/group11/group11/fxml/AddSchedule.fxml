@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.VBox?>
+
+<AnchorPane prefHeight="600" prefWidth="900" style="-fx-background-color: black;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="group11.group11.Controller.AddScheduleController">
+
+    <!-- Centered Form -->
+    <VBox alignment="CENTER" spacing="20" AnchorPane.bottomAnchor="0" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0" AnchorPane.topAnchor="0">
+        <Label style="-fx-font-size: 32; -fx-font-weight: bold; -fx-text-fill: white; -fx-font-family: 'Arial Rounded MT Bold';" text="ADD SCHEDULE" />
+
+        <!-- Form Fields -->
+        <TextField fx:id="movieIdField" promptText="Movie ID" style="-fx-background-color: black; -fx-text-fill: white; -fx-font-weight: bold; -fx-font-size: 16; -fx-font-family: 'Arial Rounded MT Bold'; -fx-border-color: #96a725; -fx-border-width: 2; -fx-border-radius: 25; -fx-background-radius: 25; -fx-padding: 10;" />
+        <TextField fx:id="hallField" promptText="Hall (A or B)" style="-fx-background-color: black; -fx-text-fill: white; -fx-font-weight: bold; -fx-font-size: 16; -fx-font-family: 'Arial Rounded MT Bold'; -fx-border-color: #96a725; -fx-border-width: 2; -fx-border-radius: 25; -fx-background-radius: 25; -fx-padding: 10;" />
+        <DatePicker fx:id="dayPicker" promptText="Day" style="-fx-background-color: black; -fx-text-fill: white; -fx-font-weight: bold; -fx-font-size: 16; -fx-font-family: 'Arial Rounded MT Bold'; -fx-border-color: #96a725; -fx-border-width: 2; -fx-border-radius: 25; -fx-background-radius: 25; -fx-padding: 10;" />
+        <TextField fx:id="timeField" promptText="Time (HH:MM:SS)" style="-fx-background-color: black; -fx-text-fill: white; -fx-font-weight: bold; -fx-font-size: 16; -fx-font-family: 'Arial Rounded MT Bold'; -fx-border-color: #96a725; -fx-border-width: 2; -fx-border-radius: 25; -fx-background-radius: 25; -fx-padding: 10;" />
+
+        <!-- Buttons -->
+        <Button fx:id="addScheduleButton" styleClass="custom-button" stylesheets="@../css/admin.css" text="Add Schedule" />
+    </VBox>
+
+    <!-- Menu Button (Positioned at the bottom right with some distance from the border) -->
+    <Button fx:id="menuButton" styleClass="custom-button" stylesheets="@../css/admin.css" text="Menu" AnchorPane.bottomAnchor="20" AnchorPane.rightAnchor="20" />
+</AnchorPane>

@@ -28,6 +28,11 @@ public class Main extends Application {
     private int numOfTicket;
     private List<Ticket> ticketList;
     private List<String> selectedSeats = new ArrayList<>();
+    private Users currentUser;
+
+    public void setUser(Users user) {
+        this.currentUser = user;
+    }
 
     public Movie getSelectedMovie() {
         return selecetedMovie;
@@ -36,6 +41,8 @@ public class Main extends Application {
     public Date getSelectedDate() {
         return selectedDate;
     }
+
+    public Users getCurrentUser(){ return currentUser; }
 
     public Time getSelectedTime() {
         return selectedTime;
@@ -164,14 +171,14 @@ public class Main extends Application {
         System.out.println("Session ID set to: " + session_id); // Debugging
     }
 
-    public void showManagerPage()
+    public void showManagerPage(Users currentUser)
     {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("fxml/manager.fxml"));
             Parent root = loader.load();
 
             managerController controller = loader.getController();
-            //controller.setCurrentUser();
+            //controller.setCurrentUser(currentUser);
             //controller.setProfileDetails();
             controller.setMainApp(this);
             primaryStage.setTitle("manager Page");
@@ -180,6 +187,117 @@ public class Main extends Application {
         } catch (Exception e) {
             e.printStackTrace();
             System.out.println(" There was an error loading the page: " + e.getMessage());
+        }
+    }
+
+    public void showAdminPage(Users currentUser)
+    {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("fxml/AdminMainPage.fxml"));
+            Parent root = loader.load();
+
+            MainpageController controller = loader.getController();
+            controller.setCurrentUser(currentUser);
+            controller.setProfileDetails();
+            controller.setMainApp(this);
+            primaryStage.setTitle("Admin Page");
+            primaryStage.setScene(new Scene(root));
+            primaryStage.show();
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.out.println(" There was an error loading the Admin page: " + e.getMessage());
+        }
+    }
+
+    public void showUpdateMoviePage(Users currentUser)
+    {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("fxml/UpdateMovie.fxml"));
+            Parent root = loader.load();
+
+            MainpageController controller = loader.getController();
+            controller.setCurrentUser(currentUser);
+            controller.setProfileDetails();
+            controller.setMainApp(this);
+            primaryStage.setTitle("Update Movie Page");
+            primaryStage.setScene(new Scene(root));
+            primaryStage.show();
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.out.println(" There was an error loading the Update Movie page: " + e.getMessage());
+        }
+    }
+
+    public void showAddSchedule(Users currentUser)
+    {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("fxml/AddSchedule.fxml"));
+            Parent root = loader.load();
+
+            AddScheduleController controller = loader.getController();
+            controller.setCurrentUser(currentUser);
+            controller.setProfileDetails();
+            controller.setMainApp(this);
+            primaryStage.setTitle("Add Schedule Page");
+            primaryStage.setScene(new Scene(root));
+            primaryStage.show();
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.out.println(" There was an error loading the Update Movie page: " + e.getMessage());
+        }
+    }
+
+    public void showUpdateSchedule(Users currentUser)
+    {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("fxml/UpdateSchedule.fxml"));
+            Parent root = loader.load();
+            UpdateScheduleController controller = loader.getController();
+            controller.setCurrentUser(currentUser);
+            controller.setProfileDetails();
+            controller.setMainApp(this);
+            primaryStage.setTitle("Update Schedule Page");
+            primaryStage.setScene(new Scene(root));
+            primaryStage.show();
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.out.println(" There was an error loading the Update Schedule page: " + e.getMessage());
+        }
+    }
+
+    public void showCancelAndRefund(Users currentUser)
+    {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("fxml/CancelAndRefund.fxml"));
+            Parent root = loader.load();
+
+            CancelAndRefundController controller = loader.getController();
+            controller.setCurrentUser(currentUser);
+            controller.setProfileDetails();
+            controller.setMainApp(this);
+            primaryStage.setTitle("Update Schedule Page");
+            primaryStage.setScene(new Scene(root));
+            primaryStage.show();
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.out.println(" There was an error loading the Update Schedule page: " + e.getMessage());
+        }
+    }
+
+    public void showAddMovie(Users currentUser)
+    {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("fxml/AddMovie.fxml"));
+            Parent root = loader.load();
+            AddMovieController controller = loader.getController();
+            controller.setCurrentUser(currentUser);
+            controller.setProfileDetails();
+            primaryStage.setTitle("Add Movie Page");
+            primaryStage.setScene(new Scene(root));
+            primaryStage.show();
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.out.println("There was an error loading the Add Movie page: " + e.getMessage());
         }
     }
 
@@ -247,10 +365,6 @@ public class Main extends Application {
         }
     }
 
-    public void showAdminPage()
-    {
-
-    }
     // Show the Cart page
     public void showCartPage(int session_id, Movie selectedMovie, Users user, String previousPage) {
         try {

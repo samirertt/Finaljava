@@ -191,10 +191,9 @@ public class MoviePageController implements Initializable {
                 new SpinnerValueFactory.IntegerSpinnerValueFactory(0, Integer.MAX_VALUE, 0, 1); // Step by 1
         movieSearch_spinner.setValueFactory(valueFactory);
 
-        // Add a listener to the spinner value
         movieSearch_spinner.valueProperty().addListener((obs, oldValue, newValue) -> {
             if (mainApp != null) {
-                mainApp.setNumOfTicket(newValue); // Pass the new value to mainApp
+                mainApp.setNumOfTicket(newValue);
             }
         });
         movieSearch_spinner.setValueFactory(valueFactory);
