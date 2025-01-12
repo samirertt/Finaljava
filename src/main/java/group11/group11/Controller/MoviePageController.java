@@ -28,7 +28,6 @@ public class MoviePageController implements Initializable {
     private Users currentUser;
     private int session_id;
     private String previousPage;
-    private Movie selectedMovie;
     private ObservableList<Movie> movieList;
 
     private Main mainApp;
@@ -113,7 +112,7 @@ public class MoviePageController implements Initializable {
         System.out.println("Cart button clicked! movie");
         if (mainApp != null) {
             System.out.println("is not null");
-            mainApp.showCartPage(session_id, selectedMovie, currentUser, "moviePage");
+            //mainApp.showCartPage(session_id, selectedMovie, currentUser, "moviePage");
         }
     }
 
@@ -195,7 +194,6 @@ public class MoviePageController implements Initializable {
                 mainApp.setNumOfTicket(newValue);
             }
         });
-        movieSearch_spinner.setValueFactory(valueFactory);
 
         // Initialize the rest of the UI components
         ToggleGroup searchToggleGroup = new ToggleGroup();
@@ -247,9 +245,9 @@ public class MoviePageController implements Initializable {
     public void btnSelect(ActionEvent event) {
         try {
             // Get the selected movie from the TableView
-            Movie selectedMovie = movieSearchTableView.getSelectionModel().getSelectedItem();
+            mainApp.setSelectedMovie(movieSearchTableView.getSelectionModel().getSelectedItem());
 
-            if (selectedMovie == null) {
+            if (mainApp.getSelectedMovie() == null) {
                 // Show an alert or message to the user to select a movie first
                 Alert alert = new Alert(Alert.AlertType.WARNING);
                 alert.setTitle("No Selection");
@@ -259,9 +257,8 @@ public class MoviePageController implements Initializable {
                 return;
             }
 
-            // Call the showDaySelectionPage method from the Main class
             if (mainApp != null) {
-                mainApp.showDaySelectionPage(currentUser, selectedMovie);
+                mainApp.showDaySelectionPage(currentUser, mainApp.getSelectedMovie());
             }
         } catch (Exception e) {
             System.out.println("Error occurred while loading page");

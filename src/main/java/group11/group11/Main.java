@@ -4,6 +4,9 @@ import group11.group11.Controller.*;
 import javafx.application.Application;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+
+import javafx.event.ActionEvent;
+
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -20,14 +23,17 @@ public class Main extends Application {
 
     public Stage primaryStage;
     private String orderNo; // Field to hold the order number
+
     private Movie selecetedMovie;
     private Date selectedDate;
     private Time selectedTime;
     private String selectedHall;
-    private int session_id;
+    private int selectedSession;
     private int numOfTicket;
-    private List<Ticket> ticketList;
+
+    private ObservableList<Ticket> ticketList = FXCollections.observableArrayList();
     private List<String> selectedSeats = new ArrayList<>();
+    private ObservableList<Product> selectedProducts = FXCollections.observableArrayList();
     private Users currentUser;
 
     public void setUser(Users user) {
@@ -41,7 +47,6 @@ public class Main extends Application {
     public Date getSelectedDate() {
         return selectedDate;
     }
-
     public Users getCurrentUser(){ return currentUser; }
 
     public Time getSelectedTime() {
@@ -51,17 +56,17 @@ public class Main extends Application {
     public String getSelectedHall() {
         return selectedHall;
     }
-    public int getSession_id()
+    public int getSelectedSession()
     {
-        return session_id;
+        return this.selectedSession;
     }
     public int getNumOfTicket()
     {
-        return numOfTicket;
+        return this.numOfTicket;
     }
 
     public List<String> getSelectedSeats() {
-        return selectedSeats;
+        return this.selectedSeats;
     }
 
     public void setNumOfTicket(int numOfTicket)
@@ -81,21 +86,37 @@ public class Main extends Application {
         this.selectedTime = selectedTime;
     }
 
+    public void setSelectedSession(int selectedSession) {
+        this.selectedSession = selectedSession;
+    }
+
     public void setSelectedHall(String selectedHall) {
         this.selectedHall = selectedHall;
     }
 
     public void setSelectedSeats(List<String> selectedSeats) { this.selectedSeats = selectedSeats;}
 
-    public void setTicketList(List<Ticket> ticketList) { this.ticketList = ticketList;}
 
+    public void setTicketList(ObservableList<Ticket> ticketList)
+    { this.ticketList = ticketList;}
 
-    private ObservableList<Discount> discounts = FXCollections.observableArrayList();
+    public ObservableList<Ticket> getTicketList()
+    {
+        return this.ticketList;
+    }
+
+    public ObservableList<Product> getSelectedProducts()
+    {
+        return this.selectedProducts;
+    }
+
 
     @Override
     public void start(Stage stage) {
         primaryStage = stage; // Store the primary stage
         showLoginPage(); // Start with the login page
+        ticketList = FXCollections.observableArrayList();
+        selectedProducts  = FXCollections.observableArrayList();
     }
 
     public void logout() {
@@ -127,8 +148,7 @@ public class Main extends Application {
             primaryStage.initStyle(StageStyle.TRANSPARENT);
             primaryStage.show();
             this.orderNo = generateRandomOrderNo();
-            // Pass reference of this class to the controller
-            Facade.clearCart();
+
         } catch (Exception e) {
             e.printStackTrace();
             System.err.println("Error: Unable to load the Login FXML file.");
@@ -156,11 +176,12 @@ public class Main extends Application {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("fxml/daySessionHallSelection.fxml"));
             Parent root = loader.load();
+
             daySelectionController controller = loader.getController();
+            controller.setMainApp(this);
             controller.setCurrentUser(user);
             controller.setProfileDetails();
-            controller.setMainApp(this);
-            controller.setSelectedMovie(selectedMovie); // Pass the selected movie to the controller
+
             primaryStage.setTitle("Day Selection Page");
             primaryStage.setScene(new Scene(root));
             primaryStage.show();
@@ -170,10 +191,6 @@ public class Main extends Application {
         }
     }
 
-    public void setSessionId(int session_id) {
-        this.session_id = session_id;
-        System.out.println("Session ID set to: " + session_id); // Debugging
-    }
 
     public void showManagerPage(Users currentUser)
     {
@@ -410,11 +427,9 @@ public class Main extends Application {
             Parent root = loader.load();
 
             seatSelectionController controller = loader.getController();
-            controller.setSessionId(session_id);
             controller.setCurrentUser(user);
             controller.setProfileDetails();
             controller.setMainApp(this);
-            controller.setSelectedMovie(selectedMovie);
             primaryStage.setScene(new Scene(root));
             primaryStage.show();
         } catch (Exception e) {
@@ -429,10 +444,8 @@ public class Main extends Application {
             Parent root = loader.load();
             seatSelectionAController controller = loader.getController();
             controller.setMainApp(this);
-            controller.setSessionId(session_id);
             controller.setCurrentUser(user);
             controller.setProfileDetails();
-            controller.setSelectedMovie(selectedMovie);
             primaryStage.setScene(new Scene(root));
             primaryStage.show();
         } catch (Exception e) {
@@ -447,13 +460,13 @@ public class Main extends Application {
             Parent root = loader.load();
             customer_products controller = loader.getController();
 
-            controller.setSessionId(session_id);
+            controller.setMainApp(this);
             controller.setCurrentUser(user);
             controller.setProfileDetails();
-            controller.setSelectedMovie(selectedMovie);
             controller.setPreviousPage(previousPage);
             System.out.println("Setting mainApp in customer_products controller..."); // Debug statement
-            controller.setMainApp(this); // Pass the Main instance to the controller
+
+            // Pass the Main instance to the controller
             primaryStage.setScene(new Scene(root));
             primaryStage.show();
         } catch (Exception e) {
@@ -462,16 +475,15 @@ public class Main extends Application {
         }
     }
 
-    public void btnPayScreen(int session_id, Users user, Movie selectedMovie) {
+    public void btnPayScreen(int session_id, Users user, Movie selectedMovie, String previousPage) {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("fxml/payment.fxml"));
             Parent root = loader.load();
             payment controller = loader.getController();
-            controller.setSession_Id(session_id); // Ensure this is called
+            controller.setMainApp(this);
             controller.setCurrentUser(user);
             controller.setProfileDetails();
-            controller.setSelectedMovie(selectedMovie);
-            controller.setMainApp(this);
+            controller.setPreviousPage(previousPage);
             primaryStage.setScene(new Scene(root));
             primaryStage.show();
         } catch (Exception e) {
@@ -483,4 +495,5 @@ public class Main extends Application {
     public static void main(String[] args) {
         launch(args);
     }
+
 }

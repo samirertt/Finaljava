@@ -31,6 +31,17 @@ public class Ticket
         this.movieName = movieName;
     }
 
+    public Ticket(int sessionId, String hall, String seatNumber,String orderNo, String movieName)
+    {
+        this.sessionId = sessionId;
+        this.hall = hall;
+        this.seatNumber = seatNumber;
+        this.orderNo = orderNo;
+        this.basePrice = Facade.getTicketPriceFromDB();
+        this.ticketPrice = this.basePrice;
+        this.movieName = movieName;
+    }
+
     // Getters and Setters
     public int getTicketId() {
         return ticketId;
