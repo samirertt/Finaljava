@@ -36,7 +36,7 @@
 .button-login {
     -fx-pref-width: 140px;
     -fx-pref-height: 45px;
-    -fx-background-color: linear-gradient(to right, #96a723, #000000);
+    -fx-background-color: linear-gradient(to right, #5a155a, #000000);
     -fx-text-fill: #ffffff; /* Vibrant pink text to complement the background */
     -fx-font-size: 16px;
     -fx-font-family: "Arial";
@@ -51,7 +51,7 @@
 
 /* Hover Effect */
 .button-login:hover {
-    -fx-background-color: linear-gradient(to right, #000000, #96a723); /* Soft pink to blue gradient */
+    -fx-background-color: linear-gradient(to right, #000000, #5a155a); /* Soft pink to blue gradient */
     -fx-text-fill: #ffffff; /* Switch text to white for better contrast */
     -fx-border-color: #ffffff;
     -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.25), 6, 0, 0, 4);
@@ -59,14 +59,14 @@
 
 /* Pressed Effect */
 .button-login:pressed {
-    -fx-background-color: #96a723; /* Solid pink when pressed */
+    -fx-background-color: #5a155a; /* Solid pink when pressed */
     -fx-text-fill: #ffffff;
     -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.2), 2, 0, 0, 1);
 }
 
 /* Disabled State */
 .button-login:disabled {
-    -fx-background-color: #616a2b; /* Light lavender for disabled state */
+    -fx-background-color: #8c358c; /* Light lavender for disabled state */
     -fx-text-fill: #999;
     -fx-opacity: 0.6;
     -fx-cursor: default;

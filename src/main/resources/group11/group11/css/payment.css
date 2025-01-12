@@ -1,6 +1,6 @@
 /* Anchor Pane Styles */
 .anchor-pane {
-    -fx-background-color: #000000; /* Soft pink to blue gradient */
+    -fx-background-color: linear-gradient(to top right, #571657 60%, #000000 100%); /* Soft pink to blue gradient */
     -fx-padding: 10px; /* Padding inside the pane */
     -fx-background-radius: 5px;
     -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.15), 4, 0, 0, 2);
@@ -8,7 +8,7 @@
 
 /* Second Anchor Pane */
 .anchor-pane2 {
-    -fx-background-color: linear-gradient(to right, #ffffff, #6e7829); /* Soft white to blue gradient */
+    -fx-background-color: linear-gradient(to top right, #73567a, #571657); /* Soft white to blue gradient */
     -fx-padding: 10px;
     -fx-border-color: #ccc;
     -fx-pref-height: 135px;
@@ -22,7 +22,7 @@
 
 
 .label-text {
-    -fx-text-fill: #4f5728; /* Vibrant pink text */
+    -fx-text-fill: #ffffff; /* Vibrant pink text */
     -fx-font-size: 13px;
     -fx-font-family: "Arial";
     -fx-font-weight: bold;
@@ -31,7 +31,7 @@
 .button-pay {
     -fx-pref-width: 200px;
     -fx-pref-height: 60px;
-    -fx-background-color: linear-gradient(to right, #000000, #6e7829);
+    -fx-background-color: linear-gradient(to right, #000000, #350d35);
     -fx-text-fill: #ffffff; /* Vibrant pink text */
     -fx-font-size: 14px;
     -fx-font-family: "Arial";
@@ -46,7 +46,7 @@
 
 /* Hover Effect */
 .button-pay:hover {
-    -fx-background-color: linear-gradient(to right, #4f5728, #000000);
+    -fx-background-color: linear-gradient(to right, #350d35, #000000);
     -fx-text-fill: #ffffff; /* White text for contrast */
     -fx-border-color: #ffffff;
     -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.25), 6, 0, 0, 4);
@@ -54,7 +54,7 @@
 
 /* Pressed Effect */
 .button-pay:pressed {
-    -fx-background-color: #96a723; /* Solid pink when pressed */
+    -fx-background-color: #5a155a; /* Solid pink when pressed */
     -fx-text-fill: #ffffff;
     -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.2), 2, 0, 0, 1);
 }
@@ -62,7 +62,7 @@
 
 /* TableView Styles */
 .table-view {
-    -fx-background-color: linear-gradient(to right, #000000, #6e7829);
+    -fx-background-color: linear-gradient(to top right, #571657 60%, #000000 100%);
     -fx-border-color: #ccc;
     -fx-border-width: 1px;
     -fx-font-size: 14px;
@@ -98,8 +98,14 @@
     -fx-background-color: #a3c6ff; /* Light blue for selected rows */
     -fx-text-fill: #000000; /* Black text for readability */
 }
+
+.table-view .table-row-cell:selected .table-cell {
+    -fx-background-color: #7a0909;
+    -fx-text-fill: #000000; /* White text for selected cells */
+}
+
 .anchor-pane-ticket-info {
-    -fx-background-color: linear-gradient(to right, #000000, #4f5728);
+    -fx-background-color: linear-gradient(to top right, #571657 60%, #000000 100%);
     -fx-padding: 10px; /* Padding inside the pane */
     -fx-border-color: #ccc; /* Light grey border */
     -fx-border-width: 2px;
@@ -132,7 +138,7 @@
     -fx-pref-width: 274px;
     -fx-alignment: center-left;
     -fx-padding: 10px;
-    -fx-background-color: linear-gradient(to right, #000000, #4f5728);
+    -fx-background-color: linear-gradient(to top right, #571657 60%, #000000 100%);
     -fx-border-radius: 2px;
     -fx-background-radius: 2px;
     -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.15), 4, 0, 0, 2);

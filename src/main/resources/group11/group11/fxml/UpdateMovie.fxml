@@ -12,11 +12,11 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.VBox?>
 
-<AnchorPane prefHeight="700" prefWidth="1100" style="-fx-background-color: black;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="group11.group11.Controller.UpdateMovieController">
+<AnchorPane prefHeight="700" prefWidth="1100" style="-fx-background-color: linear-gradient(to top right, #571657 60%, #000000 100%);" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="group11.group11.Controller.UpdateMovieController">
 
     <!-- Centered Form -->
-    <VBox alignment="CENTER" spacing="20" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-        <AnchorPane prefHeight="55.0" prefWidth="1102.0" style="-fx-background-color: #4f5728;">
+    <VBox alignment="CENTER" spacing="20" style="-fx-background-color: linear-gradient(to top right, #571657 60%, #000000 100%)" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+        <AnchorPane prefHeight="55.0" prefWidth="1102.0" style="-fx-background-color: #73567a;">
             <children>
                 <Button fx:id="backButton" layoutX="-1.0" layoutY="-1.0" mnemonicParsing="false" onAction="#handleBackButton" prefHeight="23.0" prefWidth="24.0" styleClass="close-form" stylesheets="@../css/moviePage.css">
                     <graphic>
@@ -69,7 +69,7 @@
         </TableView>
 
         <!-- Fetch Movie Section -->
-        <TextField fx:id="fetchMovieIdField" promptText="Enter Movie ID" style="-fx-background-color: black; -fx-text-fill: white; -fx-font-weight: bold; -fx-font-size: 16; -fx-font-family: 'Arial Rounded MT Bold'; -fx-border-color: #96a725; -fx-border-width: 2; -fx-border-radius: 25; -fx-background-radius: 25; -fx-padding: 10;" />
+        <TextField fx:id="fetchMovieIdField" promptText="Enter Movie ID" style="-fx-background-color: black; -fx-text-fill: white; -fx-font-weight: bold; -fx-font-size: 16; -fx-font-family: 'Arial Rounded MT Bold'; -fx-border-color: #ffffff; -fx-border-width: 2; -fx-border-radius: 25; -fx-background-radius: 25; -fx-padding: 10;" />
         <Button fx:id="fetchMovieButton" styleClass="custom-button" stylesheets="@../css/admin.css" text="Find Movie">
             <VBox.margin>
                 <Insets bottom="-400.0" />
@@ -77,10 +77,10 @@
 
         <!-- Update Fields (Hidden Initially) -->
         <VBox fx:id="updateFieldsContainer" spacing="10" visible="false">
-            <TextField fx:id="movieIdField" editable="false" promptText="Movie ID" style="-fx-background-color: black; -fx-text-fill: white; -fx-font-weight: bold; -fx-font-size: 16; -fx-font-family: 'Arial Rounded MT Bold'; -fx-border-color: #96a725; -fx-border-width: 2; -fx-border-radius: 25; -fx-background-radius: 25; -fx-padding: 10;" />
-            <TextField fx:id="moviesNameField" promptText="Movie Name" style="-fx-background-color: black; -fx-text-fill: white; -fx-font-weight: bold; -fx-font-size: 16; -fx-font-family: 'Arial Rounded MT Bold'; -fx-border-color: #96a725; -fx-border-width: 2; -fx-border-radius: 25; -fx-background-radius: 25; -fx-padding: 10;" />
-            <TextField fx:id="moviesGenreField" promptText="Movie Genre" style="-fx-background-color: black; -fx-text-fill: white; -fx-font-weight: bold; -fx-font-size: 16; -fx-font-family: 'Arial Rounded MT Bold'; -fx-border-color: #96a725; -fx-border-width: 2; -fx-border-radius: 25; -fx-background-radius: 25; -fx-padding: 10;" />
-            <TextArea fx:id="moviesSummaryField" prefHeight="100" promptText="Movie Summary" style="-fx-background-color: black; -fx-text-fill: white; -fx-font-weight: bold; -fx-font-size: 16; -fx-font-family: 'Arial Rounded MT Bold'; -fx-border-color: #96a725; -fx-border-width: 2; -fx-border-radius: 25; -fx-background-radius: 25; -fx-padding: 10;" wrapText="true" />
+            <TextField fx:id="movieIdField" editable="false" promptText="Movie ID" style="-fx-background-color: black; -fx-text-fill: white; -fx-font-weight: bold; -fx-font-size: 16; -fx-font-family: 'Arial Rounded MT Bold'; -fx-border-color: #ffffff; -fx-border-width: 2; -fx-border-radius: 25; -fx-background-radius: 25; -fx-padding: 10;" />
+            <TextField fx:id="moviesNameField" promptText="Movie Name" style="-fx-background-color: black; -fx-text-fill: white; -fx-font-weight: bold; -fx-font-size: 16; -fx-font-family: 'Arial Rounded MT Bold'; -fx-border-color: #ffffff; -fx-border-width: 2; -fx-border-radius: 25; -fx-background-radius: 25; -fx-padding: 10;" />
+            <TextField fx:id="moviesGenreField" promptText="Movie Genre" style="-fx-background-color: black; -fx-text-fill: white; -fx-font-weight: bold; -fx-font-size: 16; -fx-font-family: 'Arial Rounded MT Bold'; -fx-border-color: #ffffff; -fx-border-width: 2; -fx-border-radius: 25; -fx-background-radius: 25; -fx-padding: 10;" />
+            <TextArea fx:id="moviesSummaryField" prefHeight="100" promptText="Movie Summary" style="-fx-background-color: black; -fx-text-fill: white; -fx-font-weight: bold; -fx-font-size: 16; -fx-font-family: 'Arial Rounded MT Bold'; -fx-border-color: #ffffff; -fx-border-width: 2; -fx-border-radius: 25; -fx-background-radius: 25; -fx-padding: 10;" wrapText="true" />
             <Button fx:id="choosePosterButton" alignment="CENTER" styleClass="custom-button" stylesheets="@../css/admin.css" text="Choose Poster" />
             <ImageView fx:id="posterImageView" fitHeight="150" fitWidth="150" preserveRatio="true" />
             <Button fx:id="updateMovieButton" styleClass="custom-button" stylesheets="@../css/admin.css" text="Update Movie" />

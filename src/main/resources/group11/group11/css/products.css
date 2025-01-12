@@ -1,11 +1,11 @@
 .anchor-pane {
-    -fx-background-color: #000000; /* Soft pink to blue gradient */
+    -fx-background-color: linear-gradient(to top right, #571657 60%, #000000 100%); /* Soft pink to blue gradient */
     -fx-padding: 10px; /* Padding inside the pane */
     -fx-background-radius: 5px;
     -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.15), 4, 0, 0, 2);
 }
 .anchor-pane2 {
-    -fx-background-color: #00000026; /* Soft pink to blue gradient */
+    -fx-background-color: #5a155a; /* Soft pink to blue gradient */
     -fx-padding: 10px; /* Padding inside the pane */
     -fx-border-color: #000000; /* Light grey border */
     -fx-pref-height: 135px;
@@ -18,7 +18,7 @@
 
 /* Label Styles */
 .label-qty, .label-total {
-    -fx-background-color: linear-gradient(to right, #000000, #4f5728);
+    -fx-background-color: linear-gradient(to right, #000000, #350d35);
     -fx-text-fill: #ffffff; /* Vibrant pink text to complement the background */
     -fx-font-size: 16px;
     -fx-pref-height: 60px;
@@ -58,8 +58,8 @@
 {
     -fx-pref-width: 200px;
     -fx-pref-height: 60px;
-    -fx-background-color: linear-gradient(to right, #000000, #6e7829);
-    -fx-text-fill: #000000; /* Vibrant pink text to complement the background */
+    -fx-background-color: linear-gradient(to right, #000000, #350d35);
+    -fx-text-fill: #ffffff; /* Vibrant pink text to complement the background */
     -fx-font-size: 14px;
     -fx-font-family: "Arial";
     -fx-font-weight: bold;
@@ -73,7 +73,7 @@
 
 /* Hover Effect */
 .button-inc:hover, .button-dec:hover, .button-pay:hover {
-    -fx-background-color: linear-gradient(to right, #4f5728, #000000); /* Soft pink to blue gradient */
+    -fx-background-color: linear-gradient(to right, #5a155a, #000000); /* Soft pink to blue gradient */
     -fx-text-fill: #ffffff; /* Switch text to white for better contrast */
     -fx-border-color: #ffffff;
     -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.25), 6, 0, 0, 4);
@@ -81,7 +81,7 @@
 
 /* Pressed Effect */
 .button-inc:pressed, .button-dec:pressed, .button-pay:pressed {
-    -fx-background-color: #4f5728; /* Solid pink when pressed */
+    -fx-background-color: #5a155a; /* Solid pink when pressed */
     -fx-text-fill: #ffffff;
     -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.2), 2, 0, 0, 1);
 }
@@ -115,8 +115,8 @@
     .label-total {
         -fx-font-size: 16px;
         -fx-font-weight: bold;
-        -fx-text-fill: #4f5728;
-        -fx-background-color: linear-gradient(to right, #ffffff, #96a723);
+        -fx-text-fill: #5a155a;
+        -fx-background-color: linear-gradient(to right, #ffffff, #350d35);
         -fx-padding: 10px;
         -fx-border-color: #ccc;
         -fx-border-width: 1px;

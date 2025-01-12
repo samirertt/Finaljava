@@ -17,15 +17,15 @@
 }
 
 .bg-form {
-    -fx-background-color: #000000;
+    -fx-background-color: linear-gradient(to top right, #571657 60%, #000000 100%);
 }
 .label-information {
     -fx-background-color: transparent; /* Transparent background */
-    -fx-text-fill: #000000; /* Dark text color */
+    -fx-text-fill: #ffffff; /* Dark text color */
     -fx-font-size: 14px; /* Adjust font size */
     -fx-padding: 10px; /* Add more padding for larger text */
     -fx-font-weight: bold; /* Bold text for emphasis */
-    -fx-border-color: linear-gradient(to top right, #4f5728, #000000); /* Gradient border */
+    -fx-border-color: linear-gradient(to top right, #000000, #000000); /* Gradient border */
     -fx-border-radius: 5px; /* Slightly rounded corners */
     -fx-border-width: 1px; /* Thin border */
     -fx-wrap-text: true; /* Enable text wrapping for long text */
@@ -35,15 +35,15 @@
 
 /* Hover Effect */
 .label-information:hover {
-    -fx-background-color: #4f5728; /* Soft gradient background */
+    -fx-background-color: transparent; /* Soft gradient background */
     -fx-text-fill: #ffffff; /* White text on hover */
     -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.15), 4, 0, 0, 2); /* Subtle shadow effect */
 }
 
 /* Focus Effect */
 .label-information:focused {
-    -fx-border-color: #96a723; /* Solid pink border when focused */
-    -fx-effect: dropshadow(gaussian, rgb(79, 87, 40), 6, 0, 0, 2); /* Glow effect */
+    -fx-border-color: transparent; /* Solid pink border when focused */
+    -fx-effect: dropshadow(gaussian, rgb(0, 0, 0), 6, 0, 0, 2); /* Glow effect */
 }
 
 /* Disabled State */
@@ -69,7 +69,7 @@
 
 .table-view .column-header-background
 {
-    -fx-background-color: linear-gradient(to top right, #4f5728, #96a723);
+    -fx-background-color: linear-gradient(to top right, #73567a, #571657);
     -fx-background-insets: 0 0 0 0;
     -fx-background-radius: 10px 10px 0px 0px;
 }
@@ -94,7 +94,7 @@
 
 /* Hover Effect */
 .button-info:hover {
-    -fx-background-color: linear-gradient(to right, #4f5728, #96a723); /* Soft pink to blue gradient */
+    -fx-background-color: linear-gradient(to right, #571657, #000000); /* Soft pink to blue gradient */
     -fx-text-fill: #ffffff; /* Switch text to white for better contrast */
     -fx-border-color: #ffffff;
     -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.25), 6, 0, 0, 4);
@@ -102,7 +102,7 @@
 
 /* Pressed Effect */
 .button-info:pressed {
-    -fx-background-color: #4f5728; /* Solid pink when pressed */
+    -fx-background-color: #571657; /* Solid pink when pressed */
     -fx-text-fill: #ffffff;
     -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.2), 2, 0, 0, 1);
 }

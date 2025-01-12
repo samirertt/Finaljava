@@ -213,7 +213,7 @@ public class Main extends Application {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("fxml/UpdateMovie.fxml"));
             Parent root = loader.load();
 
-            MainpageController controller = loader.getController();
+            UpdateMovieController controller = loader.getController();
             controller.setCurrentUser(currentUser);
             controller.setProfileDetails();
             controller.setMainApp(this);

@@ -127,7 +127,7 @@ public class UpdateScheduleController {
         fetchSchedules();
 
         updateFieldsContainer.setVisible(false);
-        sessionIdField.setEditable(false);
+        sessionIdField.setEditable(true);
 
         fetchScheduleButton.setOnAction(event -> handleFetchScheduleButtonAction());
         updateScheduleButton.setOnAction(event -> handleUpdateScheduleButtonAction());

@@ -77,9 +77,6 @@ public class UpdateMovieController {
         @FXML
         private VBox updateFieldsContainer;
 
-        @FXML
-        private Button menuButton;
-
         private String posterFilePath;
 
         @FXML
@@ -199,34 +196,32 @@ public class UpdateMovieController {
             }
         }
 
-        @FXML
-        private void handleChoosePosterButtonAction() {
-            File baseDirectory = new File("/home/sam/IdeaProjects/Group11/src/main/resources/group11/group11/images/");
+    @FXML
+    private void handleChoosePosterButtonAction() {
+        File baseDirectory = new File(getClass().getResource("/group11/group11/images").getFile());
 
-            FileChooser fileChooser = new FileChooser();
-            fileChooser.setTitle("Choose Poster Image");
-            fileChooser.setInitialDirectory(baseDirectory);
-            fileChooser.getExtensionFilters().addAll(
-                    new FileChooser.ExtensionFilter("Image Files", "*.png", "*.jpg", "*.jpeg")
-            );
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle("Choose Poster Image");
+        fileChooser.setInitialDirectory(baseDirectory);
+        fileChooser.getExtensionFilters().addAll(
+                new FileChooser.ExtensionFilter("Image Files", "*.png", "*.jpg", "*.jpeg")
+        );
 
-            File selectedFile = fileChooser.showOpenDialog(choosePosterButton.getScene().getWindow());
+        File selectedFile = fileChooser.showOpenDialog(choosePosterButton.getScene().getWindow());
 
-            if (selectedFile != null) {
-                String absolutePath = selectedFile.getAbsolutePath();
+        if (selectedFile != null) {
+            if (selectedFile.getAbsolutePath().startsWith(baseDirectory.getAbsolutePath())) {
+                String relativePath = selectedFile.getAbsolutePath().substring(baseDirectory.getAbsolutePath().length());
 
-                if (absolutePath.startsWith(baseDirectory.getAbsolutePath())) {
-                    String relativePath = absolutePath.substring(baseDirectory.getAbsolutePath().length());
+                posterFilePath = "/group11/group11/images" + relativePath.replace("\\", "/");
 
-                    posterFilePath = "/group11/group11/images" + relativePath;
-
-                    Image image = new Image(selectedFile.toURI().toString());
-                    posterImageView.setImage(image);
-                } else {
-                    showAlert(Alert.AlertType.ERROR, "Error", "The selected file must be within the images directory.");
-                }
+                Image image = new Image(selectedFile.toURI().toString());
+                posterImageView.setImage(image);
+            } else {
+                showAlert(Alert.AlertType.ERROR, "Error", "The selected file must be within the images directory.");
             }
         }
+    }
 
         @FXML
         private void handleUpdateMovieButtonAction() {

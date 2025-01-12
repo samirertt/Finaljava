@@ -10,11 +10,11 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.VBox?>
 
-<AnchorPane prefHeight="700" prefWidth="1100" style="-fx-background-color: black;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="group11.group11.Controller.AddMovieController">
+<AnchorPane prefHeight="700" prefWidth="1100" style="-fx-background-color: linear-gradient(to top right, #571657 60%, #000000 100%);" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="group11.group11.Controller.AddMovieController">
 
     <!-- Centered Form -->
-    <VBox alignment="TOP_CENTER" spacing="15" style="-fx-background-color: linear-gradient(to bottom, black, #0A1A0A);" AnchorPane.bottomAnchor="0" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0" AnchorPane.topAnchor="0">
-        <AnchorPane prefHeight="35.0" prefWidth="1100.0" style="-fx-background-color: #4f5728;">
+    <VBox alignment="TOP_CENTER" spacing="15" style="-fx-background-color: linear-gradient(to top right, #571657 60%, #000000 100%)" AnchorPane.bottomAnchor="0" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0" AnchorPane.topAnchor="0">
+        <AnchorPane prefHeight="35.0" prefWidth="1100.0" style="-fx-background-color: #73567a;">
             <children>
                 <Button fx:id="backButton" layoutX="-1.0" layoutY="-1.0" mnemonicParsing="false" onAction="#handleBackButton" prefHeight="23.0" prefWidth="24.0" styleClass="close-form" stylesheets="@../css/moviePage.css">
                     <graphic>
@@ -53,11 +53,11 @@
         <Label style="-fx-font-size: 32; -fx-font-weight: bold; -fx-text-fill: white; -fx-font-family: 'Arial Rounded MT Bold';" text="ADD MOVIE" />
 
         <!-- Form Fields -->
-        <TextField fx:id="movieNameField" maxWidth="720" prefWidth="720" promptText="Movie Name" style="-fx-background-color: black; -fx-text-fill: white; -fx-font-weight: bold; -fx-font-size: 16; -fx-font-family: 'Arial Rounded MT Bold'; -fx-border-color: #96a725; -fx-border-width: 2; -fx-border-radius: 25; -fx-background-radius: 25; -fx-padding: 10;" />
-        <TextField fx:id="movieGenreField" maxWidth="720" prefWidth="720" promptText="Movie Genre" style="-fx-background-color: black; -fx-text-fill: white; -fx-font-weight: bold; -fx-font-size: 16; -fx-font-family: 'Arial Rounded MT Bold'; -fx-border-color: #96a725; -fx-border-width: 2; -fx-border-radius: 25; -fx-background-radius: 25; -fx-padding: 10;" />
+        <TextField fx:id="movieNameField" maxWidth="720" prefWidth="720" promptText="Movie Name" style="-fx-background-color: black; -fx-text-fill: white; -fx-font-weight: bold; -fx-font-size: 16; -fx-font-family: 'Arial Rounded MT Bold'; -fx-border-color: WHITE; -fx-border-width: 2; -fx-border-radius: 25; -fx-background-radius: 25; -fx-padding: 10;" />
+        <TextField fx:id="movieGenreField" maxWidth="720" prefWidth="720" promptText="Movie Genre" style="-fx-background-color: black; -fx-text-fill: white; -fx-font-weight: bold; -fx-font-size: 16; -fx-font-family: 'Arial Rounded MT Bold'; -fx-border-color: WHITE; -fx-border-width: 2; -fx-border-radius: 25; -fx-background-radius: 25; -fx-padding: 10;" />
 
         <!-- TextArea for Movie Summary -->
-        <TextArea fx:id="movieSummaryField" maxWidth="720" prefHeight="100" prefWidth="720" promptText="Movie Summary" style="-fx-background-color: black; -fx-text-fill: white; -fx-font-weight: bold; -fx-font-size: 16; -fx-font-family: 'Arial Rounded MT Bold'; -fx-border-color: #96a725; -fx-border-width: 2; -fx-border-radius: 25; -fx-background-radius: 25; -fx-padding: 10;">
+        <TextArea fx:id="movieSummaryField" maxWidth="720" prefHeight="100" prefWidth="720" promptText="Movie Summary" style="-fx-background-color: black; -fx-text-fill: black; -fx-font-weight: bold; -fx-font-size: 16; -fx-font-family: 'Arial Rounded MT Bold'; -fx-border-color: WHITE; -fx-border-width: 2; -fx-border-radius: 25; -fx-background-radius: 25; -fx-padding: 10;">
             <VBox.margin>
                 <Insets />
             </VBox.margin></TextArea>

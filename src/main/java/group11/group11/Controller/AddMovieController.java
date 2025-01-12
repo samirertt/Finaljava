@@ -109,7 +109,7 @@ public class AddMovieController {
 
     @FXML
     private void handleChoosePosterButtonAction() {
-        File baseDirectory = new File("/home/sam/IdeaProjects/Group11/src/main/resources/group11/group11/images/");
+        File baseDirectory = new File(getClass().getResource("/group11/group11/images").getFile());
 
         FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle("Choose Poster Image");
@@ -121,12 +121,10 @@ public class AddMovieController {
         File selectedFile = fileChooser.showOpenDialog(choosePosterButton.getScene().getWindow());
 
         if (selectedFile != null) {
-            String absolutePath = selectedFile.getAbsolutePath();
+            if (selectedFile.getAbsolutePath().startsWith(baseDirectory.getAbsolutePath())) {
+                String relativePath = selectedFile.getAbsolutePath().substring(baseDirectory.getAbsolutePath().length());
 
-            if (absolutePath.startsWith(baseDirectory.getAbsolutePath())) {
-                String relativePath = absolutePath.substring(baseDirectory.getAbsolutePath().length());
-
-                posterFilePath = "/group11/group11/images" + relativePath;
+                posterFilePath = "/group11/group11/images" + relativePath.replace("\\", "/");
 
                 Image image = new Image(selectedFile.toURI().toString());
                 posterImageView.setImage(image);
@@ -136,8 +134,6 @@ public class AddMovieController {
         }
     }
 
-    // /home/sam/IdeaProjects/Group11/src/main/resources/group11/group11/images/Intersteller.jpg
-    // /group11/group11/images/Intersteller.jpg
     @FXML
     private void handleAddMovieButtonAction() {
         String name = movieNameField.getText();
