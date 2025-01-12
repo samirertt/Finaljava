@@ -12,22 +12,23 @@ public class Ticket
     private String surname;
     private int age;
     private String orderNo;
+    private double basePrice;
     private double ticketPrice;
     private String movieName;
 
     // Constructor
     public Ticket(int ticketId, int sessionId, String hall, String seatNumber, String name, String surname, int age, String orderNo, String movieName) {
         this.ticketId = ticketId;
-        this.sessionId = sessionId;
+        this.sessionId = sessionId; // Ensure this is assigned
         this.hall = hall;
         this.seatNumber = seatNumber;
         this.name = name;
         this.surname = surname;
         this.age = age;
         this.orderNo = orderNo;
-        this.ticketPrice = Facade.getTicketPriceFromDB();
+        this.basePrice = Facade.getTicketPriceFromDB();
+        this.ticketPrice = this.basePrice;
         this.movieName = movieName;
-
     }
 
     // Getters and Setters
@@ -40,7 +41,7 @@ public class Ticket
     }
 
     public int getSessionId() {
-        return sessionId;
+        return this.sessionId;
     }
 
     public void setSessionId(int sessionId) {
@@ -252,7 +253,7 @@ public class Ticket
     public void calculateTicketPrice()
     {
         double discountRate = Facade.getDiscountRateByAge(this.age);
-        this.ticketPrice = this.ticketPrice * (1 - discountRate); // Subtract discount from the original price
+        this.ticketPrice = this.basePrice * (1 - discountRate); // Subtract discount from the original price
 
         // Add 20% tax or fee (if applicable)
         this.ticketPrice += this.ticketPrice * 0.20;

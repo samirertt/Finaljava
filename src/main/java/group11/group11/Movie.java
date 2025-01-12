@@ -9,6 +9,15 @@ public class Movie {
     private String movieDuration;
     private String movieReleaseYear;
 
+    //can constructor
+    public Movie(int movieId, String moviesName, String moviesGenre, String moviesSummary, String moviesImage) {
+        this.movie_id = movieId;
+        this.movieName = moviesName;
+        this.movieGenre = moviesGenre;
+        this.movieSummary = moviesSummary;
+        this.movieImage = moviesImage;
+    }
+
 
     // Constructor to initialize the movie object
     public Movie(int movie_id, String movieName, String movieSummary, String movieGenre,

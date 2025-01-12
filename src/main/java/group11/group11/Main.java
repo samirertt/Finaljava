@@ -238,6 +238,7 @@ public class Main extends Application {
             Parent root = loader.load();
             // Get the controller and set the mainApp reference
             customer_products controller = loader.getController();
+
             controller.setSessionId(session_id);
             controller.setCurrentUser(user);
             controller.setProfileDetails();
@@ -258,11 +259,11 @@ public class Main extends Application {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("fxml/payment.fxml"));
             Parent root = loader.load();
             payment controller = loader.getController();
-            controller.setMainApp(this);
-            controller.setSessionId(session_id);
+            controller.setSession_Id(session_id); // Ensure this is called
             controller.setCurrentUser(user);
             controller.setProfileDetails();
             controller.setSelectedMovie(selectedMovie);
+            controller.setMainApp(this);
             primaryStage.setScene(new Scene(root));
             primaryStage.show();
         } catch (Exception e) {
@@ -270,6 +271,7 @@ public class Main extends Application {
             e.printStackTrace();
         }
     }
+
     public static void main(String[] args) {
         launch(args);
     }

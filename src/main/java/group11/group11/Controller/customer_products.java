@@ -427,7 +427,7 @@ public class customer_products {
             if (!found)
             {
                 // Only add the product to the list if the count is greater than 0
-                productList.add(new Product(product.getName(), product.getPrice(), product.getQuantity()));
+                productList.add(new Product(product.getName(), product.getTaxedPrice(), product.getQuantity()));
             }
 
             // Refresh the table to reflect the changes

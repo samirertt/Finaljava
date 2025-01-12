@@ -319,26 +319,21 @@ public class Facade {
             System.err.println("Error adding ticket to the cart in the database.");
         }
     }
+    public static void deleteTicketsFromCart(String orderNo) {
+        String query = "DELETE FROM cart WHERE item_id = ? AND item_type = 'ticket'";
 
+        try (Connection conn = connect(); PreparedStatement stmt = conn.prepareStatement(query)) {
+            stmt.setString(1, orderNo);
+            int rowsDeleted = stmt.executeUpdate();
 
-    public void saveCustomerInfo(String name, String surname, LocalDate birthdate) {
-        String sql = "INSERT INTO customers (name, surname, birthdate) VALUES (?, ?, ?)";
-
-        try (Connection conn = connect(); PreparedStatement pstmt = conn.prepareStatement(sql)) {
-            pstmt.setString(1, name);
-            pstmt.setString(2, surname);
-            pstmt.setDate(3, Date.valueOf(birthdate));
-
-            int rowsAffected = pstmt.executeUpdate();
-
-            if (rowsAffected > 0) {
-                System.out.println("Customer information saved to database!");
+            if (rowsDeleted > 0) {
+                System.out.println("Tickets with order number " + orderNo + " were deleted successfully.");
             } else {
-                System.out.println("Failed to save customer information.");
+                System.out.println("No tickets found with order number " + orderNo + ".");
             }
         } catch (Exception e) {
-            System.err.println("Error saving customer information: " + e.getMessage());
             e.printStackTrace();
+            System.err.println("Error deleting tickets from the cart in the database.");
         }
     }
 
@@ -647,6 +642,7 @@ public class Facade {
     }
 
     public static void addTicketsToTicketsTable(String orderNo, List<Ticket> tickets) {
+        // Remove ticket_id from the query since it's auto-increment
         String query = "INSERT INTO tickets (session_id, hall, seat_number, name, surname, age, order_no) " +
                 "VALUES (?, ?, ?, ?, ?, ?, ?)";
 
@@ -655,9 +651,10 @@ public class Facade {
 
             try (PreparedStatement stmt = conn.prepareStatement(query)) {
                 for (Ticket ticket : tickets) {
+                    // Set values for the remaining columns
                     stmt.setInt(1, ticket.getSessionId());
                     stmt.setString(2, ticket.getHall());
-                    stmt.setInt(3, ticket.getSeat()); // Use setString for seat_number
+                    stmt.setInt(3, ticket.getSeat()); // Use setInt for seat_number
                     stmt.setString(4, ticket.getName());
                     stmt.setString(5, ticket.getSurname());
                     stmt.setInt(6, ticket.getAge());
@@ -707,12 +704,34 @@ public class Facade {
         }
     }
 
-    public static void createOrder(String orderNo) {
+    public static double calculateOrderPrice(String orderNo)
+    {
+        String query = "SELECT price_per_item, quantity FROM cart WHERE item_id = ?";
+        double totalPrice = 0.0;
+
+        try (Connection conn = connect(); PreparedStatement stmt = conn.prepareStatement(query)) {
+            stmt.setString(1, orderNo);
+            ResultSet rs = stmt.executeQuery();
+
+            while (rs.next()) {
+                double pricePerItem = rs.getDouble("price_per_item");
+                int quantity = rs.getInt("quantity");
+                totalPrice += pricePerItem * quantity; // Add to the total price
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.err.println("Error calculating the order price from the database.");
+        }
+
+        return totalPrice;
+    }
+
+    public static void createOrder(String orderNo,double total_price) {
         String query = "INSERT INTO orders (order_no, order_date, total_price) VALUES (?, NOW(), ?)";
 
         try (Connection conn = connect(); PreparedStatement stmt = conn.prepareStatement(query)) {
             stmt.setString(1, orderNo);
-            stmt.setDouble(2, 200.0 ); // Assuming you have a currentUser object
+            stmt.setDouble(2, total_price ); // Assuming you have a currentUser object
             stmt.executeUpdate();
             System.out.println("Order created successfully.");
         } catch (Exception e) {
@@ -720,4 +739,114 @@ public class Facade {
             System.err.println("Error creating order.");
         }
     }
+
+    public static boolean addMovie(String name, String genre, String summary, String posterFilePath) {
+        String query = "INSERT INTO movies (moviesName, moviesGenre, moviesSummary, moviesImage) VALUES (?, ?, ?, ?)";
+        try (Connection connection = connect();
+             PreparedStatement ps = connection.prepareStatement(query)) {
+
+            ps.setString(1, name);
+            ps.setString(2, genre);
+            ps.setString(3, summary);
+            ps.setString(4, posterFilePath);
+
+            int rowsInserted = ps.executeUpdate();
+            return rowsInserted > 0;
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    public static List<Movie> fetchAllMovies() {
+        List<Movie> moviesList = new ArrayList<>();
+        String query = "SELECT * FROM movies";
+
+        try (Connection connection = connect();
+             PreparedStatement ps = connection.prepareStatement(query);
+             ResultSet rs = ps.executeQuery()) {
+
+            while (rs.next()) {
+                int movieId = rs.getInt("movie_id");
+                String moviesName = rs.getString("moviesName");
+                String moviesGenre = rs.getString("moviesGenre");
+                String moviesSummary = rs.getString("moviesSummary");
+                String moviesImage = rs.getString("moviesImage");
+
+                moviesList.add(new Movie(movieId, moviesName, moviesGenre, moviesSummary, moviesImage));
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return moviesList;
+    }
+
+    public static boolean updateMovie(int movieId, String name, String genre, String summary, String posterFilePath) {
+        String query = "UPDATE movies SET moviesName = ?, moviesGenre = ?, moviesSummary = ?, moviesImage = ? WHERE movie_id = ?";
+        try (Connection connection = connect();
+             PreparedStatement ps = connection.prepareStatement(query)) {
+
+            ps.setString(1, name);
+            ps.setString(2, genre);
+            ps.setString(3, summary);
+            ps.setString(4, posterFilePath);
+            ps.setInt(5, movieId);
+
+            int rowsUpdated = ps.executeUpdate();
+            return rowsUpdated > 0;
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    public static boolean addSchedule(int movieId, String hall, String day, String time) {
+        String query = "INSERT INTO Sessions (movie_id, hall, day, time) VALUES (?, ?, ?, ?)";
+        try (Connection connection = connect();
+             PreparedStatement ps = connection.prepareStatement(query)) {
+
+            ps.setInt(1, movieId);
+            ps.setString(2, hall);
+            ps.setString(3, day);
+            ps.setString(4, time);
+
+            int rowsInserted = ps.executeUpdate();
+            return rowsInserted > 0;
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    public static boolean checkSchedule(int movieId, String hall, String day, String time) {
+        String query = "SELECT COUNT(*) FROM schedule WHERE movie_id = ? AND hall = ? AND day = ? AND time = ?";
+
+        try (Connection conn = connect(); PreparedStatement stmt = conn.prepareStatement(query)) {
+            stmt.setInt(1, movieId);
+            stmt.setString(2, hall);
+            stmt.setString(3, day);
+            stmt.setString(4, time);
+
+            ResultSet rs = stmt.executeQuery();
+            if (rs.next()) {
+                int count = rs.getInt(1); // Get the count of matching rows
+                return count > 0; // Return true if at least one row matches
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.err.println("Error checking the schedule in the database.");
+        }
+
+        return false;
+    }
+
+
+
+
+
+
 }

@@ -88,10 +88,11 @@ public class payment {
         this.selectedMovie = selectedMovie;
     }
 
-    public void setSessionId(int session_id) {
+    public void setSession_Id(int session_id) {
         this.session_id = session_id;
         System.out.println("Session ID set to: " + session_id); // Debugging
     }
+
 
     public void movieSearch_windowClose_btn() {
         System.exit(0);
@@ -159,20 +160,21 @@ public class payment {
     }
 
 
-    private void initializeData()
-    {
+    private void initializeData() {
         if (mainApp != null) {
             try {
+                // Debugging: Print the session_id before creating tickets
+                System.out.println("Session ID in initializeData: " + session_id);
 
                 tickets = new ArrayList<>();
                 order_ID.setText("Order ID: " + mainApp.getOrderNo());
 
                 int ticketCount = mainApp.getNumOfTicket();
-                for (int i = 0; i < ticketCount; i++)
-                {
+                for (int i = 0; i < ticketCount; i++) {
+
                     Ticket ticket = new Ticket(
-                            i,
-                            session_id,
+                            i+1, // Ticket index
+                            session_id, // Session ID
                             mainApp.getSelectedHall(),
                             mainApp.getSelectedSeats().get(i),
                             "name",
@@ -182,6 +184,9 @@ public class payment {
                             mainApp.getSelectedMovie().getMovieName()
                     );
                     tickets.add(ticket);
+
+                    // Debugging: Print the session_id from the created Ticket
+                    System.out.println("Ticket session_id: " + ticket.getSessionId());
                 }
 
                 if (tickets != null && !tickets.isEmpty()) {
@@ -189,6 +194,7 @@ public class payment {
                 } else {
                     System.out.println("No tickets found for the order.");
                 }
+
 
                 // Set movie details
                 Movie selectedMovie = mainApp.getSelectedMovie();
@@ -287,6 +293,9 @@ public class payment {
         selectedTicket.setAge(calculateAge(birthdate));
         selectedTicket.calculateTicketPrice();
 
+        Facade.deleteTicketsFromCart(mainApp.getOrderNo());
+        Facade.addTicketToCart(mainApp.getOrderNo(), selectedTicket.getMovieName(), selectedTicket.getTicketPrice(),1);
+
         // Update the ticket in the tickets list
         int selectedIndex = payment_TableView.getSelectionModel().getSelectedIndex();
         if (selectedIndex >= 0 && selectedIndex < tickets.size()) {
@@ -317,9 +326,11 @@ public class payment {
         return Period.between(birthdate, today).getYears();
     }
 
+
     public static void completeOrder(String orderNo, List<Ticket> tickets)
     {
-        Facade.createOrder(orderNo);
+        double price = Facade.calculateOrderPrice(orderNo);
+        Facade.createOrder(orderNo,price);
         Facade.buySeats(tickets);
         Facade.addCartItemsToOrderItems(orderNo);
         Facade.addTicketsToTicketsTable(orderNo, tickets);
