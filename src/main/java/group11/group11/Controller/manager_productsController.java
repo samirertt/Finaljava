@@ -25,10 +25,10 @@ public class manager_productsController
     @FXML private Button menuButton;
 
     @FXML private TableView<Product> productTable;
-    @FXML private TableColumn<?, ?> idColumn;
-    @FXML private TableColumn<?, ?> nameColumn;
-    @FXML private TableColumn<?, ?> priceColumn;
-    @FXML private TableColumn<?, ?> stockColumn;
+    @FXML private TableColumn<Product, Integer> idColumn;
+    @FXML private TableColumn<Product, String> nameColumn;
+    @FXML private TableColumn<Product, Double> priceColumn;
+    @FXML private TableColumn<Product, Integer> stockColumn;
 
 
     private Product selectedProduct;

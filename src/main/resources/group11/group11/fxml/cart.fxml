@@ -8,59 +8,54 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="700.0" styleClass="bg-form" stylesheets="@../css/moviePage.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="group11.group11.Controller.CartPageController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="700.0" style="-fx-background-color: linear-gradient(to top right, #571657 60%, #000000 100%);" styleClass="bg-form" stylesheets="@../css/moviePage.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="group11.group11.Controller.CartPageController">
    <children>
-      <TableView fx:id="cart_orderTable" layoutX="81.0" layoutY="76.0" prefHeight="348.0" prefWidth="538.0" stylesheets="@../css/cart.css">
-        <columns>
-          <TableColumn fx:id="cart_productName" prefWidth="331.0" text="Name" />
-          <TableColumn fx:id="cart_productPrice" minWidth="0.0" prefWidth="105.0" text="Price" />
+      <!-- Üstteki AnchorPane -->
+      <AnchorPane layoutX="0.0" layoutY="0.0" prefHeight="50.0" prefWidth="700.0" style="-fx-background-color: #73567a;">
+         <children>
+            <Button fx:id="backButton" layoutX="-1.0" layoutY="-1.0" mnemonicParsing="false" onAction="#handleBackButton" prefHeight="23.0" prefWidth="24.0" styleClass="close-form" stylesheets="@../css/moviePage.css">
+               <graphic>
+                  <FontAwesomeIcon glyphName="ARROW_LEFT" size="1.2em" />
+               </graphic>
+            </Button>
+            <Button fx:id="movieSearch_windowMinimize_btn" layoutX="580.0" layoutY="-1.0" mnemonicParsing="false" onAction="#MovieSearch_windowMinimize" prefHeight="24.0" prefWidth="64.0" styleClass="close-form" stylesheets="@../css/moviePage.css">
+               <graphic>
+                  <FontAwesomeIcon glyphName="MINUS" />
+               </graphic>
+            </Button>
+            <Button fx:id="logoutButton" layoutX="138.0" layoutY="-1.0" mnemonicParsing="false" onAction="#handleLogoutButton" style="-fx-text-fill: #000000;" styleClass="close-form" stylesheets="@../css/moviePage.css" text="Logout">
+               <graphic>
+                  <FontAwesomeIcon glyphName="SIGN_OUT" size="1.5em" />
+               </graphic>
+            </Button>
+            <Label fx:id="movieSearch_profileName" layoutX="70.0" layoutY="-1.0" prefHeight="30.0" prefWidth="76.0" style="-fx-font-weight: bold; -fx-font-size: 15.0; -fx-text-fill: #000000;" text="NAME" />
+            <Label fx:id="movieSearch_profileRole" layoutX="70.0" layoutY="22.0" prefHeight="30.0" prefWidth="82.0" style="-fx-font-weight: bold; -fx-font-size: 15.0; -fx-text-fill: #000000;" text="ROLE" />
+            <FontAwesomeIcon glyphName="USER" layoutX="42.0" layoutY="35.0" size="2.3em" />
+            <Button fx:id="cartList_close_btn" layoutX="644.0" layoutY="2.0" mnemonicParsing="false" onAction="#movieSearch_windowClose_btn" prefHeight="24.0" prefWidth="56.0" styleClass="close-form" stylesheets="@../css/moviePage.css">
+               <graphic>
+                  <FontAwesomeIcon glyphName="CLOSE" />
+               </graphic>
+            </Button>
+         </children>
+      </AnchorPane>
+
+      <TableView fx:id="cart_orderTable" layoutX="81.0" layoutY="126.0" prefHeight="348.0" prefWidth="538.0" stylesheets="@../css/cart.css">
+         <columns>
+            <TableColumn fx:id="cart_productName" prefWidth="331.0" text="Name" />
+            <TableColumn fx:id="cart_productPrice" minWidth="0.0" prefWidth="105.0" text="Price" />
             <TableColumn fx:id="cart_productQuantity" prefWidth="101.0" text="Quantity" />
-        </columns>
+         </columns>
       </TableView>
-      <Label layoutX="81.0" layoutY="33.0" text="Cart list">
+      <Label layoutX="81.0" layoutY="83.0" style="-fx-text-fill: WHITE">
          <font>
             <Font name="System Bold" size="25.0" />
          </font>
       </Label>
-      <Label layoutX="447.0" layoutY="40.0" text="Order No:">
+      <Label layoutX="447.0" layoutY="90.0" style="-fx-text-fill: WHITE" text="Order No:">
          <font>
             <Font size="15.0" />
          </font>
       </Label>
-      <Label fx:id="cart_orderNo" layoutX="529.0" layoutY="42.0" text="9999" />
-      <Button fx:id="logoutButton" layoutX="130.0" layoutY="-1.0" mnemonicParsing="false" text="Logout" onAction="#handleLogoutButton" styleClass="close-form" stylesheets="@../css/moviePage.css">
-         <graphic>
-            <FontAwesomeIcon glyphName="SIGN_OUT" size="1.5em" />
-         </graphic>
-      </Button>
-      <Button fx:id="backButton" layoutX="-1.0" layoutY="-1.0" mnemonicParsing="false" onAction="#handleBackButton" prefHeight="23.0" prefWidth="24.0" styleClass="close-form" stylesheets="@../css/moviePage.css">
-         <graphic>
-            <FontAwesomeIcon glyphName="ARROW_LEFT" size="1.2em" />
-         </graphic>
-      </Button>
-      <Button layoutX="1033.0" mnemonicParsing="false" onAction="#movieSearch_windowClose_btn" prefHeight="24.0" prefWidth="64.0" styleClass="close-form" stylesheets="@../css/moviePage.css">
-         <graphic>
-            <FontAwesomeIcon glyphName="CLOSE" />
-         </graphic>
-      </Button>
-      <Button fx:id="movieSearch_windowMinimize_btn" layoutX="974.0" mnemonicParsing="false" onAction="#MovieSearch_windowMinimize" prefHeight="24.0" prefWidth="64.0" styleClass="close-form" stylesheets="@../css/moviePage.css">
-         <graphic>
-            <FontAwesomeIcon glyphName="MINUS" />
-         </graphic>
-      </Button>
-      <Label fx:id="movieSearch_profileName" layoutX="75.0" prefHeight="30.0" prefWidth="82.0" style="-fx-font-weight: bold; -fx-font-size: 15.0" text="NAME">
-      </Label>
-      <Label fx:id="movieSearch_profileRole" layoutX="75.0" layoutY="18.0" prefHeight="30.0" prefWidth="82.0" style="-fx-font-weight: bold; -fx-font-size: 15.0" text="ROLE" />
-      <FontAwesomeIcon glyphName="USER" layoutX="42.0" layoutY="35.0" size="2.3em" />
-      <Button fx:id="cartList_close_btn" layoutX="644.0" mnemonicParsing="false" onAction="#movieSearch_windowClose_btn" prefHeight="24.0" prefWidth="56.0" styleClass="close-form" stylesheets="@../css/moviePage.css">
-         <graphic>
-            <FontAwesomeIcon glyphName="CLOSE" />
-         </graphic>
-      </Button>
-      <Button fx:id="cartList_minimize_btn" layoutX="591.0" layoutY="2.0" mnemonicParsing="false" prefHeight="24.0" prefWidth="56.0" styleClass="close-form" stylesheets="@../css/moviePage.css">
-         <graphic>
-            <FontAwesomeIcon glyphName="MINUS" wrappingWidth="15.214285850524902" />
-         </graphic>
-      </Button>
+      <Label fx:id="cart_orderNo" style="-fx-text-fill: WHITE" layoutX="529.0" layoutY="92.0" text="9999" />
    </children>
 </AnchorPane>

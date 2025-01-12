@@ -388,6 +388,10 @@ public class payment {
         // Complete the order
         completeOrder(mainApp.getOrderNo(), tickets);
         System.out.println("Payment processed for order: " + mainApp.getOrderNo());
+
+        if (mainApp != null && currentUser != null) {
+            mainApp.showMoviePage(currentUser);
+        }
     }
 
     private int calculateAge(LocalDate birthdate) {

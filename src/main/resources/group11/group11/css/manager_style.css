@@ -7,7 +7,7 @@
 .title-label {
     -fx-font-size: 24px;
     -fx-font-weight: bold;
-    -fx-text-fill: #96a725; /* Yeşil renk */
+    -fx-text-fill: #ffffff; /* Yeşil renk */
     -fx-padding: 10px;
 }
 
@@ -18,7 +18,7 @@
     -fx-font-weight: bold;
     -fx-font-size: 16px;
     -fx-font-family: 'Arial Rounded MT Bold';
-    -fx-border-color: #96a725;
+    -fx-border-color: #ffffff;
     -fx-border-width: 2px;
     -fx-border-radius: 25px;
     -fx-background-radius: 25px;
@@ -31,8 +31,8 @@
 
 /* Hover (Üzerine gelindiğinde) */
 .custom-button:hover {
-    -fx-background-color: #96a725; /* Yeşil renk */
-    -fx-text-fill: black;
+    -fx-background-color: linear-gradient(to top right, #090906, #350d35);
+    -fx-text-fill: white;
     -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.5), 10, 0, 0, 0); /* Hafif gölge */
 }
 

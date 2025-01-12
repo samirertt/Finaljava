@@ -231,7 +231,7 @@
          <columns>
             <TableColumn fx:id="productColumn" prefWidth="92.0" style="-fx-border-color: #ccc; -fx-border-width: 0 0 1px 0; -fx-font-weight: bold;" text="Product" />
             <TableColumn fx:id="quantityColumn" prefWidth="107.20001220703125" text="Quantity" />
-            <TableColumn fx:id="totalColumn" prefWidth="90.4000244140625" text="Total" />
+            <TableColumn fx:id="totalColumn" prefWidth="127" text="Price Including VAT" />
          </columns>
       </TableView>
       <Label fx:id="totalAmountLabel" layoutX="790.0" layoutY="530.0" styleClass="label-total" text="Total: 0.00₺ " />

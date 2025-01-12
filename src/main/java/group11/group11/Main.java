@@ -315,12 +315,12 @@ public class Main extends Application {
             controller.setCurrentUser(currentUser);
             controller.setProfileDetails();
             controller.setMainApp(this);
-            primaryStage.setTitle("Day Selection Page");
+            primaryStage.setTitle("Product Management Page");
             primaryStage.setScene(new Scene(root));
             primaryStage.show();
         } catch (Exception e) {
             e.printStackTrace();
-            System.err.println("Error: Unable to load the Day Selection FXML file.");
+            System.err.println("Error: Unable to load the Product Management FXML file.");
         }
     }
     public void handleDiscountsButton() {

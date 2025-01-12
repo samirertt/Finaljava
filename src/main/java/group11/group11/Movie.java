@@ -18,7 +18,6 @@ public class Movie {
         this.movieImage = moviesImage;
     }
 
-
     // Constructor to initialize the movie object
     public Movie(int movie_id, String movieName, String movieSummary, String movieGenre,
                  String movieImage, String movieDuration, String movieReleaseYear) {

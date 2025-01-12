@@ -8,7 +8,7 @@
 
 /* Pressed Effect */
 .minus_btn:pressed {
-    -fx-background-color: #ff4081; /* Solid pink when pressed */
+    -fx-background-color: #350d35; /* Solid pink when pressed */
     -fx-text-fill: #ffffff;
     -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.2), 2, 0, 0, 1);
 }
@@ -23,7 +23,7 @@
 
 /* Pressed Effect */
 .add_btn:pressed {
-    -fx-background-color: #ff4081; /* Solid pink when pressed */
+    -fx-background-color: #350d35; /* Solid pink when pressed */
     -fx-text-fill: #ffffff;
     -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.2), 2, 0, 0, 1);
 }
@@ -39,12 +39,12 @@
 
 .table-view .column-header-background
 {
-    -fx-background-color: linear-gradient(to top right, #62aec5,#e64072);
+    -fx-background-color: linear-gradient(to top right, #73567a, #571657);
     -fx-background-insets: 0 0 0 0;
     -fx-background-radius: 10px 10px 0px 0px;
 }
 .table-view .column-header, .table-view .filter{
     -fx-background-color: transparent;
     -fx-size:50px;
-    -fx-fill:#fff;
+    -fx-fill: #070707;
 }
