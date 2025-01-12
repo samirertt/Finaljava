@@ -3,6 +3,7 @@ package group11.group11.Controller;
 import group11.group11.*;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -32,6 +33,38 @@ public class DiscountController {
     private Main mainApp;
     private Users currentUser;
 
+    @FXML
+    private Label movieSearch_profileName;
+
+    @FXML
+    private Label movieSearch_profileRole;
+
+    @FXML private Button movieSearch_windowMinimize_btn;
+
+    public void setProfileDetails() {
+        if (currentUser != null) {
+            movieSearch_profileName.setText(currentUser.getUsername());
+            movieSearch_profileRole.setText(currentUser.getrole());
+        }
+    }
+
+    public void movieSearch_windowClose_btn() {
+        System.exit(0);
+    }
+
+
+    public void MovieSearch_windowMinimize() {
+        Stage stage = (Stage) movieSearch_windowMinimize_btn.getScene().getWindow();
+        stage.setIconified(true);
+    }
+
+    @FXML
+    public void handleLogoutButton(ActionEvent event) {
+        if (mainApp != null) {
+            mainApp.logout();
+        }
+    }
+
     public void setMainApp(Main mainApp) {
         this.mainApp = mainApp;
     }
@@ -39,14 +72,6 @@ public class DiscountController {
         this.currentUser = user;
     }
 
-    /*
-    public void setProfileDetails() {
-        if (currentUser != null) {
-            movieSearch_profileName.setText(currentUser.getUsername());
-            movieSearch_profileRole.setText(currentUser.getrole());
-        }
-    }
-    */
 
     @FXML
     public void initialize() {
@@ -165,7 +190,7 @@ public class DiscountController {
                 loadDiscounts();
                 showAlert(Alert.AlertType.INFORMATION, "Success", "Discount deleted successfully!");
             }
-             catch (Exception e) {
+            catch (Exception e) {
                 e.printStackTrace();
                 showAlert(Alert.AlertType.ERROR, "Error", "Error deleting discount: " + e.getMessage());
             }

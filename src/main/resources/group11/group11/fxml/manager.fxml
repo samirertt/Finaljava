@@ -1,26 +1,75 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import java.lang.String?>
+<?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon?>
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="600" prefWidth="900" stylesheets="@../css/manager_style.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="group11.group11.Controller.managerController">
+<AnchorPane prefHeight="700.0" prefWidth="1100.0" style="-fx-background-color: linear-gradient(to top right, #571657 60%, #000000 100%)" stylesheets="@../css/manager_style.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="group11.group11.Controller.managerController">
 
 
     <!-- İçeriği Ortalamak için bir VBox -->
-    <VBox alignment="CENTER" spacing="20" styleClass="main-background" stylesheets="@../css/manager_style.css" AnchorPane.bottomAnchor="0" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0" AnchorPane.topAnchor="0">
+    <VBox alignment="TOP_CENTER" layoutY="-6.0" spacing="20" styleClass="main-background" style="-fx-background-color: linear-gradient(to top right, #571657 60%, #000000 100%)" stylesheets="@../css/manager_style.css" AnchorPane.bottomAnchor="6.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="-6.0">
+        <AnchorPane prefHeight="36.0" prefWidth="1100.0" style="-fx-background-color: #73567a;">
+            <children>
+                <Button fx:id="movieSearch_windowClose_btn" alignment="TOP_RIGHT" layoutX="1029.0" layoutY="2.0" mnemonicParsing="false" onAction="#movieSearch_windowClose_btn" prefHeight="24.0" prefWidth="71.0" styleClass="close-form" stylesheets="@../css/moviePage.css" AnchorPane.leftAnchor="1029.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="2.0">
+                    <graphic>
+                        <FontAwesomeIcon glyphName="CLOSE" size="1.2em" text="" wrappingWidth="33.25714302062988" />
+                    </graphic>
+                </Button>
+                <Button fx:id="movieSearch_windowMinimize_btn" layoutX="970.0" layoutY="2.0" mnemonicParsing="false" onAction="#MovieSearch_windowMinimize" prefHeight="24.0" prefWidth="59.0" styleClass="close-form" stylesheets="@../css/moviePage.css" AnchorPane.rightAnchor="71.0" AnchorPane.topAnchor="2.0">
+                    <graphic>
+                        <FontAwesomeIcon glyphName="MINUS" />
+                    </graphic>
+                </Button>
+                <Button fx:id="logoutButton" layoutX="130.0" layoutY="8.0" mnemonicParsing="false" onAction="#handleLogoutButton" prefHeight="25.0" prefWidth="82.0" style="-fx-text-fill: #000000;" styleClass="close-form" stylesheets="@../css/moviePage.css" text="Logout">
+                    <graphic>
+                        <FontAwesomeIcon glyphName="SIGN_OUT" size="1.5em" />
+                    </graphic>
+                </Button>
+                <FontAwesomeIcon glyphName="USER" layoutX="14.0" layoutY="35.0" size="2.3em" />
+                <AnchorPane layoutX="28.0" layoutY="1.0" prefHeight="53.0" prefWidth="75.0">
+                    <children>
+                        <Label fx:id="movieSearch_profileName" layoutX="20.0" layoutY="2.0" prefHeight="25.0" prefWidth="82.0" style="-fx-text-fill: #000000;" text="NAME">
+                            <font>
+                                <Font name="System Bold" size="15.0" />
+                            </font>
+                        </Label>
+                        <Label fx:id="movieSearch_profileRole" layoutX="20.0" layoutY="23.0" prefHeight="30.0" prefWidth="82.0" style="-fx-text-fill: #000000;" text="ROLE">
+                            <font>
+                                <Font name="System Bold" size="13.0" />
+                            </font>
+                        </Label>
+                    </children>
+                </AnchorPane>
+            </children>
+        </AnchorPane>
 
         <!-- Admin Panel Başlığı -->
-        <Label style="-fx-font-size: 24; -fx-font-weight: bold; -fx-text-fill: #96a725;" text="MANAGER PANEL" />
+        <Label prefHeight="91.0" prefWidth="232.0" style="-fx-font-size: 24; -fx-font-weight: bold; -fx-text-fill: #ffffff;" text="MANAGER PANEL">
+            <VBox.margin>
+                <Insets />
+            </VBox.margin>
+            <padding>
+                <Insets top="90.0" />
+            </padding></Label>
 
         <!-- Butonlar -->
         <VBox alignment="CENTER" spacing="15" styleClass="main-background" stylesheets="@../css/manager_style.css">
-            <Button fx:id="productButton" prefHeight="40" prefWidth="250" styleClass="custom-button" stylesheets="@../css/manager_style.css" text="PRODUCT" />
+            <Button fx:id="productButton" prefHeight="40" prefWidth="250" styleClass="custom-button" stylesheets="@../css/manager_style.css" text="PRODUCT">
+                <padding>
+                    <Insets top="20.0" />
+                </padding></Button>
             <Button fx:id="employeeButton" prefHeight="40" prefWidth="250" styleClass="custom-button" stylesheets="@../css/manager_style.css" text="EMPLOYEE" />
             <Button fx:id="discountsButton" prefHeight="40" prefWidth="250" styleClass="custom-button" stylesheets="@../css/manager_style.css" text="AGE-BASED DISCOUNTS" />
             <Button fx:id="revenueAndTaxButton" prefHeight="40" prefWidth="250" styleClass="custom-button" stylesheets="@../css/manager_style.css" text="REVENUE AND TAX" />
+            <VBox.margin>
+                <Insets top="50.0" />
+            </VBox.margin>
         </VBox>
     </VBox>
     <styleClass>

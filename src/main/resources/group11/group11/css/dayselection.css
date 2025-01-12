@@ -9,7 +9,7 @@
 }
 
 .combo-box .list-view {
-    -fx-background-color: #4f5728;
+    -fx-background-color: #8c358c;
 }
 
 .combo-box .combo-box-base {
@@ -24,14 +24,14 @@
 .combo-box .list-cell {
     -fx-font-size: 25px;
     -fx-font-family: "Arial";
-    -fx-text-fill: #6e7829;
+    -fx-text-fill: #000000;
     -fx-padding: 5px;
     -fx-border-width: 3px;
     -fx-border-color: #000000;
 }
 
 .combo-box .list-cell:hover {
-    -fx-background-color: #1e1e1e;
+    -fx-background-color: #5a155a;
 }
 
 .combo-box .arrow-button {
@@ -50,7 +50,7 @@
     -fx-font-size: 14px; /* Adjust font size */
     -fx-padding: 10px; /* Add more padding for larger text */
     -fx-font-weight: bold; /* Bold text for emphasis */
-    -fx-border-color: linear-gradient(to top right, #000000, #4f5728); /* Gradient border */
+    -fx-border-color: linear-gradient(to top right, #571657, #000000); /* Gradient border */
     -fx-border-radius: 5px; /* Slightly rounded corners */
     -fx-border-width: 1px; /* Thin border */
     -fx-wrap-text: true; /* Enable text wrapping for long text */
@@ -60,14 +60,14 @@
 
 /* Hover Effect */
 .label-information:hover {
-    -fx-background-color: linear-gradient(to top right, #000000, #4f5728); /* Soft gradient background */
-    -fx-text-fill: #ffffff; /* White text on hover */
+    -fx-background-color: linear-gradient(to top right, #000000, #350d35); /* Soft gradient background */
+    -fx-text-fill: #000000; /* White text on hover */
     -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.15), 4, 0, 0, 2); /* Subtle shadow effect */
 }
 
 /* Focus Effect */
 .label-information:focused {
-    -fx-border-color: #ff4081; /* Solid pink border when focused */
+    -fx-border-color: #8c358c; /* Solid pink border when focused */
     -fx-effect: dropshadow(gaussian, rgba(255, 64, 129, 0.4), 6, 0, 0, 2); /* Glow effect */
 }
 

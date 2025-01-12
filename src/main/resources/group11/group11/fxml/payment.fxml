@@ -15,18 +15,18 @@
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="1100.0" styleClass="anchor-pane" stylesheets="@../css/payment.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="group11.group11.Controller.payment">
     <children>
-        <AnchorPane layoutX="691.0" layoutY="93.0" prefHeight="514.0" prefWidth="384.0" style="-fx-background-color: #000000">
+        <AnchorPane layoutX="691.0" layoutY="93.0" prefHeight="514.0" prefWidth="384.0" style="-fx-background-color: transparent">
             <children>
-                <Text fill="WHITE" layoutX="100.0" layoutY="47.0" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-size: 30; -fx-text-alignment: center; -fx-text-fill: #6e7829;" text="RECEIPT" wrappingWidth="184.4132080078125" />
+                <Text fill="WHITE" layoutX="100.0" layoutY="47.0" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-size: 30; -fx-text-alignment: center; -fx-text-fill: #8c358c;" text="RECEIPT" wrappingWidth="184.4132080078125" />
                 <TableView fx:id="product_TableView" layoutX="-1.0" layoutY="76.0" prefHeight="382.0" prefWidth="384.0">
                     <columns>
                         <TableColumn fx:id="cartProduct" prefWidth="158.4000244140625" text="Product" />
                         <TableColumn fx:id="cartQuantity" prefWidth="81.5999755859375" text="Quantity" />
-                  <TableColumn fx:id="cartPrice" prefWidth="148.00006103515625" text="Price" />
+                        <TableColumn fx:id="cartPrice" prefWidth="148.00006103515625" text="Price" />
                     </columns>
                 </TableView>
                 <Label fx:id="totalLabel" layoutX="109.0" layoutY="454.0" prefHeight="60.0" prefWidth="166.0" style="-fx-font-size: 20; -fx-alignment: center;" text="TOTAL: 0 TL" textFill="WHITE" />
-            <Text fill="WHITE" layoutX="5.0" layoutY="65.0" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-size: 15; -fx-text-alignment: center; -fx-text-fill: #6e7829;" text="(Tax and discount are added to the price)" wrappingWidth="374.01324462890625" />
+                <Text fill="WHITE" layoutX="5.0" layoutY="65.0" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-size: 15; -fx-text-alignment: center; -fx-text-fill: #8c358c;" text="(Tax and discount are added to the price)" wrappingWidth="374.01324462890625" />
             </children>
         </AnchorPane>
         <Button fx:id="payButton" layoutX="783.0" layoutY="616.0" mnemonicParsing="false" onAction="#handlePayButton" style="-fx-font-size: 15;" styleClass="button-pay" text="PROCEED TO PAY" />
@@ -73,8 +73,7 @@
                 <Font size="30.0" />
             </font>
         </Label>
-        <FontAwesomeIcon glyphName="USER" layoutX="42.0" layoutY="35.0" size="2.3em" />
-        <AnchorPane layoutX="-5.0" layoutY="-11.0" prefHeight="50.0" prefWidth="1110.0" style="-fx-background-color: #4f5728;">
+        <AnchorPane layoutX="-5.0" layoutY="-11.0" prefHeight="50.0" prefWidth="1110.0" style="-fx-background-color: #73567a;">
             <children>
                 <Button fx:id="backButton" alignment="TOP_LEFT" layoutX="2.0" layoutY="11.0" mnemonicParsing="false" onAction="#handleBackButton" prefHeight="17.0" prefWidth="24.0" styleClass="close-form" stylesheets="@../css/moviePage.css">
                     <graphic>
@@ -104,6 +103,7 @@
                         <FontAwesomeIcon glyphName="ARCHIVE" size="2.2em" />
                     </graphic>
                 </Button>
+                <FontAwesomeIcon glyphName="USER" layoutX="42.0" layoutY="45.0" size="2.3em" />
             </children>
         </AnchorPane>
     </children>

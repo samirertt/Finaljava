@@ -231,13 +231,12 @@
          <columns>
             <TableColumn fx:id="productColumn" prefWidth="92.0" style="-fx-border-color: #ccc; -fx-border-width: 0 0 1px 0; -fx-font-weight: bold;" text="Product" />
             <TableColumn fx:id="quantityColumn" prefWidth="107.20001220703125" text="Quantity" />
-            <TableColumn fx:id="totalColumn" prefWidth="90.4000244140625" text="Total" />
+            <TableColumn fx:id="totalColumn" prefWidth="127" text="Price Including VAT" />
          </columns>
       </TableView>
       <Label fx:id="totalAmountLabel" layoutX="790.0" layoutY="530.0" styleClass="label-total" text="Total: 0.00₺ " />
       <Button fx:id="PayScreenBtn" layoutX="752.0" layoutY="605.0" mnemonicParsing="false" onAction="#btnPayScreen" prefHeight="60.0" prefWidth="150.0" styleClass="button-pay" text="PROCEED" textFill="WHITE" />
-      <FontAwesomeIcon glyphName="USER" layoutX="42.0" layoutY="35.0" size="2.3em" />
-      <AnchorPane layoutX="-10.0" prefHeight="50.0" prefWidth="1110.0" style="-fx-background-color: #4f5728;">
+      <AnchorPane layoutX="-10.0" prefHeight="50.0" prefWidth="1110.0" style="-fx-background-color: #73567a;">
          <children>
             <Button fx:id="movieSearch_windowMinimize_btn" layoutX="983.0" layoutY="-1.0" mnemonicParsing="false" onAction="#MovieSearch_windowMinimize" prefHeight="24.0" prefWidth="64.0" styleClass="close-form" stylesheets="@../css/moviePage.css">
                <graphic>
@@ -267,6 +266,7 @@
                   <FontAwesomeIcon glyphName="SIGN_OUT" size="1.5em" />
                </graphic>
             </Button>
+            <FontAwesomeIcon glyphName="USER" layoutX="42.0" layoutY="35.0" size="2.3em" />
          </children>
       </AnchorPane>
    </children>

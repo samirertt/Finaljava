@@ -62,12 +62,6 @@ public class CancelAndRefundController {
     private TableColumn<orderItem, Double> pricePerItemColumn;
 
     @FXML
-    private TextField orderNoField;
-
-    @FXML
-    private Button fetchOrderItemsButton;
-
-    @FXML
     private Button cancelAndRefundButton;
 
     @FXML
@@ -75,6 +69,8 @@ public class CancelAndRefundController {
 
     @FXML
     private Button menuButton;
+
+    private Order selectedOrder;
 
     public void setMainApp(Main mainApp) {
         this.mainApp = mainApp;
@@ -130,9 +126,15 @@ public class CancelAndRefundController {
 
         orderItemsContainer.setVisible(false);
 
-        fetchOrderItemsButton.setOnAction(event -> handleFetchOrderItemsButtonAction());
-        cancelAndRefundButton.setOnAction(event -> handleCancelAndRefundButtonAction());
+        // Add a listener to the orders table to handle row selection
+        ordersTable.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {
+            if (newSelection != null) {
+                selectedOrder = newSelection;
+                handleFetchOrderItemsButtonAction();
+            }
+        });
 
+        cancelAndRefundButton.setOnAction(event -> handleCancelAndRefundButtonAction());
 
         if (logoutButton != null) {
             logoutButton.setOnAction(this::handleLogoutButton);
@@ -143,7 +145,6 @@ public class CancelAndRefundController {
         }
     }
 
-
     private void fetchOrders() {
         List<Order> orders = Facade.fetchAllOrders();
         ordersTable.setItems(FXCollections.observableArrayList(orders));
@@ -151,53 +152,39 @@ public class CancelAndRefundController {
 
     @FXML
     private void handleFetchOrderItemsButtonAction() {
-        String orderNoText = orderNoField.getText();
-
-        if (orderNoText.isEmpty()) {
-            showAlert(Alert.AlertType.WARNING, "Warning", "Please enter an Order Number!");
+        if (selectedOrder == null) {
+            showAlert(Alert.AlertType.WARNING, "Warning", "Please select an order from the table!");
             return;
         }
 
-        try {
-            int orderNo = Integer.parseInt(orderNoText);
-            List<orderItem> orderItems = Facade.fetchOrderItemsByOrderId(orderNo);
+        int orderNo = selectedOrder.getOrderNo();
+        List<orderItem> orderItems = Facade.fetchOrderItemsByOrderId(orderNo);
 
-            orderItemsTable.setItems(FXCollections.observableArrayList(orderItems));
-            orderItemsContainer.setVisible(true);
-
-        } catch (NumberFormatException e) {
-            showAlert(Alert.AlertType.ERROR, "Error", "Invalid Order Number!");
-        }
+        orderItemsTable.setItems(FXCollections.observableArrayList(orderItems));
+        orderItemsContainer.setVisible(true);
     }
 
     @FXML
     private void handleCancelAndRefundButtonAction() {
-        String orderNoText = orderNoField.getText();
-
-        if (orderNoText.isEmpty()) {
-            showAlert(Alert.AlertType.WARNING, "Warning", "Please enter an Order Number!");
+        if (selectedOrder == null) {
+            showAlert(Alert.AlertType.WARNING, "Warning", "Please select an order from the table!");
             return;
         }
 
-        try {
-            int orderNo = Integer.parseInt(orderNoText);
-            boolean success = Facade.cancelAndRefundOrder(orderNo);
+        int orderNo = selectedOrder.getOrderNo();
+        boolean success = Facade.cancelAndRefundOrder(orderNo);
 
-            if (success) {
-                showAlert(Alert.AlertType.INFORMATION, "Success", "Order canceled and refund processed successfully!");
-                clearFields();
-                fetchOrders();
-            } else {
-                showAlert(Alert.AlertType.ERROR, "Error", "Failed to cancel order and process refund!");
-            }
-
-        } catch (NumberFormatException e) {
-            showAlert(Alert.AlertType.ERROR, "Error", "Invalid Order Number!");
+        if (success) {
+            showAlert(Alert.AlertType.INFORMATION, "Success", "Order canceled and refund processed successfully!");
+            clearFields();
+            fetchOrders();
+        } else {
+            showAlert(Alert.AlertType.ERROR, "Error", "Failed to cancel order and process refund!");
         }
     }
 
     private void clearFields() {
-        orderNoField.clear();
+        selectedOrder = null;
         orderItemsTable.getItems().clear();
         orderItemsContainer.setVisible(false);
     }

@@ -7,10 +7,10 @@
 <?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon?>
 <?import javafx.scene.layout.VBox?>
 
-<AnchorPane prefHeight="700" prefWidth="1100" style="-fx-background-color: black;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="group11.group11.Controller.MainpageController">
+<AnchorPane prefHeight="700" prefWidth="1100" style="-fx-background-color: linear-gradient(to top right, #571657 60%, #000000 100%)" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="group11.group11.Controller.MainpageController">
     <!-- Centered Content in VBox -->
-    <VBox alignment="TOP_CENTER" prefHeight="700.0" prefWidth="1112.0" spacing="20" style="-fx-background-color: linear-gradient(to bottom, black, #0A1A0A);" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-        <AnchorPane prefHeight="50.0" prefWidth="1100.0" style="-fx-background-color: #4f5728;">
+    <VBox alignment="TOP_CENTER" prefHeight="700.0" prefWidth="1112.0" spacing="20" style="-fx-background-color: linear-gradient(to top right, #571657 60%, #000000 100%)" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+        <AnchorPane prefHeight="50.0" prefWidth="1100.0" style="-fx-background-color: #73567a;">
             <children>
                 <Button fx:id="movieSearch_windowMinimize_btn1" layoutX="976.0" layoutY="-1.0" mnemonicParsing="false" onAction="#MovieSearch_windowMinimize" prefHeight="24.0" prefWidth="64.0" styleClass="close-form" stylesheets="@../css/moviePage.css">
                     <graphic>
@@ -22,9 +22,9 @@
                         <FontAwesomeIcon glyphName="SIGN_OUT" size="1.5em" />
                     </graphic>
                 </Button>
-                <Label fx:id="movieSearch_profileName" layoutX="74.0" layoutY="-1.0" prefHeight="30.0" prefWidth="82.0" style="-fx-font-weight: bold; -fx-font-size: 15.0; -fx-text-fill: #000000;" text="NAME" />
-                <Label fx:id="movieSearch_profileRole" layoutX="74.0" layoutY="17.0" prefHeight="30.0" prefWidth="82.0" style="-fx-font-weight: bold; -fx-font-size: 15.0; -fx-text-fill: #000000;" text="ROLE" />
-                <FontAwesomeIcon glyphName="USER" layoutX="42.0" layoutY="35.0" size="2.3em" />
+                <Label fx:id="movieSearch_profileName" layoutX="45.0" layoutY="-1.0" prefHeight="30.0" prefWidth="82.0" style="-fx-font-weight: bold; -fx-font-size: 15.0; -fx-text-fill: #000000;" text="NAME" />
+                <Label fx:id="movieSearch_profileRole" layoutX="45.0" layoutY="17.0" prefHeight="30.0" prefWidth="82.0" style="-fx-font-weight: bold; -fx-font-size: 15.0; -fx-text-fill: #000000;" text="ROLE" />
+                <FontAwesomeIcon glyphName="USER" layoutX="14.0" layoutY="35.0" size="2.3em" />
                 <Button layoutX="1040.0" layoutY="-1.0" mnemonicParsing="false" onAction="#movieSearch_windowClose_btn" prefHeight="24.0" prefWidth="62.0" styleClass="close-form" stylesheets="@../css/moviePage.css">
                     <graphic>
                         <FontAwesomeIcon glyphName="CLOSE" />

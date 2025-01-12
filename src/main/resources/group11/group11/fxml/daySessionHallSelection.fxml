@@ -10,7 +10,7 @@
 
 <AnchorPane prefHeight="700.0" prefWidth="1100.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="group11.group11.Controller.daySelectionController">
 
-    <AnchorPane layoutX="0.0" layoutY="0.0" prefHeight="50.0" prefWidth="1100.0" style="-fx-background-color: #4f5728;">
+    <AnchorPane layoutX="0.0" layoutY="0.0" prefHeight="50.0" prefWidth="1100.0" style="-fx-background-color: #73567a;">
         <children>
             <Button fx:id="backButton" layoutX="-1.0" layoutY="-1.0" mnemonicParsing="false" onAction="#handleBackButton" prefHeight="23.0" prefWidth="24.0" styleClass="close-form" stylesheets="@../css/moviePage.css">
                 <graphic>
@@ -46,24 +46,24 @@
         </children>
     </AnchorPane>
 
-    <AnchorPane fx:id="field" layoutX="0.0" layoutY="50.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="650.0" prefWidth="1100.0" style="-fx-background-color: #070707;" stylesheets="@../css/dayselection.css">
+    <AnchorPane fx:id="field" layoutX="0.0" layoutY="50.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="650.0" prefWidth="1100.0" style="-fx-background-color: linear-gradient(to top right, #571657, #000000);" stylesheets="@../css/dayselection.css">
         <children>
-            <Label fx:id="firstLabel" alignment="CENTER" layoutX="357.0" layoutY="-6.0" prefHeight="58.0" prefWidth="394.0" style="-fx-font-size: 22.0; -fx-font-family: Tahoma;" text="Select Date, Session and Hall" textAlignment="CENTER" textFill="#96a723"/>
-            <AnchorPane fx:id="dayAnchor" layoutX="52.0" layoutY="46.0" prefHeight="558.25" prefWidth="311.67" style="-fx-background-color: #000000; -fx-background-radius: 10px; -fx-border-color: #96a723; -fx-border-width: 2px; -fx-border-radius: 10px;">
+            <Label fx:id="firstLabel" alignment="CENTER" layoutX="357.0" layoutY="-6.0" prefHeight="58.0" prefWidth="394.0" style="-fx-font-size: 22.0; -fx-font-family: Tahoma;" text="Select Date, Session and Hall" textAlignment="CENTER" textFill="#ffffff"/>
+            <AnchorPane fx:id="dayAnchor" layoutX="52.0" layoutY="46.0" prefHeight="558.25" prefWidth="311.67" style="-fx-background-color: #73567a; -fx-background-radius: 10px; -fx-border-color: #090906; -fx-border-width: 2px; -fx-border-radius: 10px;">
                 <ComboBox fx:id="dayComboBox" layoutX="16.0" layoutY="14.0" prefHeight="33.0" prefWidth="280.0" promptText="Day" style="-fx-background-color: #f5f5f5; -fx-border-color: #cccccc;">
                     <stylesheets>
                         <URL value="@../css/dayselection.css" />
                     </stylesheets>
                 </ComboBox>
             </AnchorPane>
-            <AnchorPane fx:id="sessionAnchor" layoutX="398.0" layoutY="46.0" prefHeight="558.25" prefWidth="311.67" style="-fx-background-color: #000000; -fx-background-radius: 10px; -fx-border-color: #96a723; -fx-border-width: 2px; -fx-border-radius: 10px;">
+            <AnchorPane fx:id="sessionAnchor" layoutX="398.0" layoutY="46.0" prefHeight="558.25" prefWidth="311.67" style="-fx-background-color: #73567a; -fx-background-radius: 10px; -fx-border-color: #090906; -fx-border-width: 2px; -fx-border-radius: 10px;">
                 <ComboBox fx:id="sessionComboBox" layoutX="16.0" layoutY="14.0" nodeOrientation="LEFT_TO_RIGHT" prefHeight="38.0" prefWidth="280.0" promptText="Session" style="-fx-background-color: #f5f5f5; -fx-border-color: #cccccc;">
                     <stylesheets>
                         <URL value="@../css/dayselection.css" />
                     </stylesheets>
                 </ComboBox>
             </AnchorPane>
-            <AnchorPane fx:id="hallAnchor" layoutX="744.0" layoutY="46.0" prefHeight="558.25" prefWidth="311.67" style="-fx-background-color: #000000; -fx-background-radius: 10px; -fx-border-color: #96a723; -fx-border-width: 2px; -fx-border-radius: 10px;">
+            <AnchorPane fx:id="hallAnchor" layoutX="744.0" layoutY="46.0" prefHeight="558.25" prefWidth="311.67" style="-fx-background-color: #73567a; -fx-background-radius: 10px; -fx-border-color: #090906; -fx-border-width: 2px; -fx-border-radius: 10px;">
                 <ComboBox fx:id="hallComboBox" layoutX="19.0" layoutY="14.0" prefHeight="27.0" prefWidth="280.0" promptText="Hall" style="-fx-background-color: #f5f5f5; -fx-border-color: #cccccc;">
                     <stylesheets>
                         <URL value="@../css/dayselection.css" />

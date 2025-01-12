@@ -1,29 +1,30 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon?>
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="600" prefWidth="900" styleClass="root" stylesheets="@../css/manager_2_style.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="group11.group11.Controller.EmployeeController">
+<AnchorPane prefHeight="700.0" prefWidth="1100.0" style="-fx-background-color: linear-gradient(to top right, #571657 60%, #000000 100%)" styleClass="root" stylesheets="@../css/manager_2_style.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="group11.group11.Controller.EmployeeController">
 
     <!-- Sol Kısım-->
-    <VBox alignment="CENTER" layoutX="20" layoutY="20" spacing="20">
-        <Button styleClass="title-label" stylesheets="@../css/manager_2_style.css" text="EMPLOYEES" />
-    </VBox>
+    <VBox alignment="CENTER" layoutX="20" style="-fx-background-color: linear-gradient(to top right, #571657 60%, #000000 100%)" layoutY="20" spacing="20" />
 
     <!-- Üst Kısım: İşlem Butonları -->
-    <HBox layoutX="250" layoutY="20" spacing="10">
+    <HBox layoutX="250.0" layoutY="101.0" spacing="10">
         <Button fx:id="addEmployeeButton" styleClass="custom-button" stylesheets="@../css/manager_2_style.css" text="Add Employee" />
         <Button fx:id="deleteEmployeeButton" styleClass="custom-button" stylesheets="@../css/manager_2_style.css" text="Delete Employee" />
         <Button fx:id="updateEmployeeButton" styleClass="custom-button" stylesheets="@../css/manager_2_style.css" text="Update Employee" />
     </HBox>
 
     <!-- TextField'ler -->
-    <HBox alignment="CENTER" layoutX="250" layoutY="70" spacing="10">
+    <HBox alignment="CENTER" layoutX="250.0" layoutY="167.0" spacing="10">
         <TextField fx:id="idField" prefHeight="29.0" prefWidth="53.0" promptText="ID" />
         <TextField fx:id="firstNameField" prefHeight="29.0" prefWidth="133.0" promptText="First Name" />
         <TextField fx:id="lastNameField" prefHeight="29.0" prefWidth="145.0" promptText="Last Name" />
@@ -32,7 +33,7 @@
     </HBox>
 
     <!-- TableView: Çalışan Listesi -->
-    <TableView fx:id="employeeTable" layoutX="250" layoutY="120" prefHeight="400" prefWidth="700" stylesheets="@../css/manager_2_style.css">
+    <TableView fx:id="employeeTable" layoutX="250.0" layoutY="241.0" prefHeight="400" prefWidth="700" stylesheets="@../css/manager_2_style.css">
         <columns>
             <TableColumn fx:id="idColumn" prefWidth="50" text="ID" />
             <TableColumn fx:id="firstNameColumn" prefWidth="150" text="First Name" />
@@ -44,5 +45,40 @@
 
 
     <!-- Menü Butonu -->
-    <Button fx:id="menuButton" layoutX="20" layoutY="500" prefHeight="40" prefWidth="100" styleClass="menu-button" stylesheets="@../css/manager_2_style.css" text="MENU" />
+    <Button fx:id="menuButton" layoutX="20.0" layoutY="601.0" prefHeight="40" prefWidth="100" styleClass="menu-button" stylesheets="@../css/manager_2_style.css" text="MENU" />
+    <Button layoutX="14.0" layoutY="78.0" styleClass="title-label" stylesheets="@../css/manager_2_style.css" text="EMPLOYEES" />
+    <AnchorPane prefHeight="54.0" prefWidth="1103.0" style="-fx-background-color: #73567a;">
+        <children>
+            <Button fx:id="movieSearch_windowClose_btn" alignment="TOP_RIGHT" layoutX="1037.0" layoutY="-3.0" mnemonicParsing="false" onAction="#movieSearch_windowClose_btn" prefHeight="24.0" prefWidth="66.0" styleClass="close-form" stylesheets="@../css/moviePage.css" AnchorPane.leftAnchor="1037.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="-3.0">
+                <graphic>
+                    <FontAwesomeIcon glyphName="CLOSE" size="1.2em" text="" wrappingWidth="28.257143020629883" />
+                </graphic>
+            </Button>
+            <Button fx:id="movieSearch_windowMinimize_btn" layoutX="978.0" layoutY="-3.0" mnemonicParsing="false" onAction="#MovieSearch_windowMinimize" prefHeight="24.0" prefWidth="59.0" styleClass="close-form" stylesheets="@../css/moviePage.css" AnchorPane.rightAnchor="66.0" AnchorPane.topAnchor="-3.0">
+                <graphic>
+                    <FontAwesomeIcon glyphName="MINUS" />
+                </graphic>
+            </Button>
+            <Button fx:id="logoutButton" layoutX="130.0" layoutY="-1.0" mnemonicParsing="false" onAction="#handleLogoutButton" style="-fx-text-fill: #000000;" styleClass="close-form" stylesheets="@../css/moviePage.css" text="Logout">
+                <graphic>
+                    <FontAwesomeIcon glyphName="SIGN_OUT" size="1.5em" />
+                </graphic>
+            </Button>
+            <FontAwesomeIcon glyphName="USER" layoutX="14.0" layoutY="35.0" size="2.3em" />
+            <AnchorPane layoutX="28.0" layoutY="1.0" prefHeight="53.0" prefWidth="75.0">
+                <children>
+                    <Label fx:id="movieSearch_profileName" layoutX="20.0" prefHeight="25.0" prefWidth="82.0" style="-fx-text-fill: #000000;" text="NAME">
+                        <font>
+                            <Font name="System Bold" size="15.0" />
+                        </font>
+                    </Label>
+                    <Label fx:id="movieSearch_profileRole" layoutX="20.0" layoutY="23.0" prefHeight="30.0" prefWidth="82.0" style="-fx-text-fill: #000000;" text="ROLE">
+                        <font>
+                            <Font name="System Bold" size="13.0" />
+                        </font>
+                    </Label>
+                </children>
+            </AnchorPane>
+        </children>
+    </AnchorPane>
 </AnchorPane>

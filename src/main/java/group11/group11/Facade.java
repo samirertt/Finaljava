@@ -17,7 +17,7 @@ import java.sql.PreparedStatement;
 public class Facade {
     private static final String DB_URL = "jdbc:mysql://localhost:3306/cinema";
     private static final String DB_USER = "root"; // Replace with your username
-    private static final String DB_PASSWORD = "blodreina"; // Replace with your password
+    private static final String DB_PASSWORD = "addnone2013"; // Replace with your password
 
     private static Connection connect() throws Exception {
         Class.forName("com.mysql.cj.jdbc.Driver");

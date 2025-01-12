@@ -4,11 +4,12 @@ import group11.group11.Controller.*;
 import javafx.application.Application;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+
 import javafx.event.ActionEvent;
+
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
@@ -95,6 +96,7 @@ public class Main extends Application {
 
     public void setSelectedSeats(List<String> selectedSeats) { this.selectedSeats = selectedSeats;}
 
+
     public void setTicketList(ObservableList<Ticket> ticketList)
     { this.ticketList = ticketList;}
 
@@ -107,6 +109,7 @@ public class Main extends Application {
     {
         return this.selectedProducts;
     }
+
 
     @Override
     public void start(Stage stage) {
@@ -233,7 +236,7 @@ public class Main extends Application {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("fxml/UpdateMovie.fxml"));
             Parent root = loader.load();
 
-            MainpageController controller = loader.getController();
+            UpdateMovieController controller = loader.getController();
             controller.setCurrentUser(currentUser);
             controller.setProfileDetails();
             controller.setMainApp(this);
@@ -324,31 +327,27 @@ public class Main extends Application {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("fxml/manager_product.fxml"));
             Parent root = loader.load();
-            primaryStage.setTitle("Day Selection Page");
-            primaryStage.setScene(new Scene(root));
-            primaryStage.show();
-        } catch (Exception e) {
-            e.printStackTrace();
-            System.err.println("Error: Unable to load the Day Selection FXML file.");
-        }
-    }
-    public void handleCinemaPriceButton() {
-        try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("fxml/fxml"));
-            Parent root = loader.load();
-            primaryStage.setTitle("Day Selection Page");
-            primaryStage.setScene(new Scene(root));
-            primaryStage.show();
-        } catch (Exception e) {
-            e.printStackTrace();
-            System.err.println("Error: Unable to load the Day Selection FXML file.");
-        }
-    }
 
+            manager_productsController controller = loader.getController();
+            controller.setCurrentUser(currentUser);
+            controller.setProfileDetails();
+            controller.setMainApp(this);
+            primaryStage.setTitle("Product Management Page");
+            primaryStage.setScene(new Scene(root));
+            primaryStage.show();
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.err.println("Error: Unable to load the Product Management FXML file.");
+        }
+    }
     public void handleDiscountsButton() {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("fxml/manager_AgeDiscount.fxml"));
             Parent root = loader.load();
+            DiscountController controller = loader.getController();
+            controller.setCurrentUser(currentUser);
+            controller.setProfileDetails();
+            controller.setMainApp(this);
             primaryStage.setTitle("Day Selection Page");
             primaryStage.setScene(new Scene(root));
             primaryStage.show();
@@ -362,6 +361,10 @@ public class Main extends Application {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("fxml/manager_tax.fxml"));
             Parent root = loader.load();
+            RevenueAndTaxController controller = loader.getController();
+            controller.setCurrentUser(currentUser);
+            controller.setProfileDetails();
+            controller.setMainApp(this);
             primaryStage.setTitle("Day Selection Page");
             primaryStage.setScene(new Scene(root));
             primaryStage.show();
@@ -375,6 +378,10 @@ public class Main extends Application {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("fxml/employee.fxml"));
             Parent root = loader.load();
+            EmployeeController controller = loader.getController();
+            controller.setCurrentUser(currentUser);
+            controller.setProfileDetails();
+            controller.setMainApp(this);
             primaryStage.setTitle("Day Selection Page");
             primaryStage.setScene(new Scene(root));
             primaryStage.show();

@@ -4,6 +4,7 @@ package group11.group11.Controller;
 import group11.group11.*;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -24,10 +25,10 @@ public class manager_productsController
     @FXML private Button menuButton;
 
     @FXML private TableView<Product> productTable;
-    @FXML private TableColumn<?, ?> idColumn;
-    @FXML private TableColumn<?, ?> nameColumn;
-    @FXML private TableColumn<?, ?> priceColumn;
-    @FXML private TableColumn<?, ?> stockColumn;
+    @FXML private TableColumn<Product, Integer> idColumn;
+    @FXML private TableColumn<Product, String> nameColumn;
+    @FXML private TableColumn<Product, Double> priceColumn;
+    @FXML private TableColumn<Product, Integer> stockColumn;
 
 
     private Product selectedProduct;
@@ -45,14 +46,37 @@ public class manager_productsController
         this.currentUser = user;
     }
 
-    /*
+    @FXML
+    private Label movieSearch_profileName;
+
+    @FXML
+    private Label movieSearch_profileRole;
+
+    @FXML private Button movieSearch_windowMinimize_btn;
+
+    public void movieSearch_windowClose_btn() {
+        System.exit(0);
+    }
+
+
+    public void MovieSearch_windowMinimize() {
+        Stage stage = (Stage) movieSearch_windowMinimize_btn.getScene().getWindow();
+        stage.setIconified(true);
+    }
+
     public void setProfileDetails() {
         if (currentUser != null) {
             movieSearch_profileName.setText(currentUser.getUsername());
             movieSearch_profileRole.setText(currentUser.getrole());
         }
     }
-    */
+    @FXML
+    public void handleLogoutButton(ActionEvent event) {
+        if (mainApp != null) {
+            mainApp.logout();
+        }
+    }
+
 
     @FXML
     public void initialize() {

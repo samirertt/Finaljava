@@ -78,7 +78,7 @@ public class MoviePageController implements Initializable {
     private Label movieSearch_Genre;
 
     @FXML
-    private Spinner<Integer> movieSearch_spinner; // Spinner for selecting quantity
+    private Spinner<Integer> movieSearch_spinner;
 
     @FXML
     private Button movieSearch_windowMinimize_btn;
@@ -129,7 +129,6 @@ public class MoviePageController implements Initializable {
         Stage stage = (Stage) movieSearch_windowMinimize_btn.getScene().getWindow();
         stage.setIconified(true);
     }
-
 
     public void setProfileDetails() {
         if (currentUser != null) {
@@ -212,12 +211,13 @@ public class MoviePageController implements Initializable {
 
         movieList.addAll(facade.initializeMovieTable());
 
-        searchToggleGroup.selectedToggleProperty().addListener((observable, oldValue, newValue) -> {
-            if (newValue == movieSearch_searchByFullName) {
+        // Add a listener to the search TextField
+        movieSearch_searchMovie.textProperty().addListener((observable, oldValue, newValue) -> {
+            if (searchToggleGroup.getSelectedToggle() == movieSearch_searchByFullName) {
                 searchMovie("fullName");
-            } else if (newValue == movieSearch_searchByGenre) {
+            } else if (searchToggleGroup.getSelectedToggle() == movieSearch_searchByGenre) {
                 searchMovie("genre");
-            } else if (newValue == movieSearch_searchByPartialName) {
+            } else if (searchToggleGroup.getSelectedToggle() == movieSearch_searchByPartialName) {
                 searchMovie("partialName");
             }
         });
