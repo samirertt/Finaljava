@@ -1,37 +1,37 @@
 .combo-box {
     -fx-font-size: 14px;
     -fx-font-family: "Arial";
-    -fx-text-fill: #333333;
-    -fx-background-color: #f0f0f0;
+    -fx-text-fill: #1e1e1e;
+    -fx-background-color: rgba(255, 255, 255, 0);
     -fx-border-color: #aaaaaa;
     -fx-border-radius: 5px;
     -fx-padding: 5px;
 }
 
 .combo-box .list-view {
-    -fx-background-color: #8c358c;
+    -fx-background-color: #4f5728;
 }
 
 .combo-box .combo-box-base {
-    -fx-background-color: #f0f0f0;
+    -fx-background-color: #1e1e1e;
     -fx-text-fill: #333333;
 }
 
 .combo-box .combo-box-base:hover {
-    -fx-background-color: #f0f0f0;
+    -fx-background-color: rgba(0, 0, 0, 0);
 }
 
 .combo-box .list-cell {
     -fx-font-size: 25px;
     -fx-font-family: "Arial";
-    -fx-text-fill: #333333;
+    -fx-text-fill: #6e7829;
     -fx-padding: 5px;
     -fx-border-width: 3px;
     -fx-border-color: #000000;
 }
 
 .combo-box .list-cell:hover {
-    -fx-background-color: #ff4081;
+    -fx-background-color: #1e1e1e;
 }
 
 .combo-box .arrow-button {
@@ -45,12 +45,12 @@
 }
 
 .label-information {
-    -fx-background-color: transparent; /* Transparent background */
-    -fx-text-fill: #333; /* Dark text color */
+    -fx-background-color: rgba(0, 0, 0, 0); /* Transparent background */
+    -fx-text-fill: #000000; /* Dark text color */
     -fx-font-size: 14px; /* Adjust font size */
     -fx-padding: 10px; /* Add more padding for larger text */
     -fx-font-weight: bold; /* Bold text for emphasis */
-    -fx-border-color: linear-gradient(to top right, #62aec5, #e64072); /* Gradient border */
+    -fx-border-color: linear-gradient(to top right, #000000, #4f5728); /* Gradient border */
     -fx-border-radius: 5px; /* Slightly rounded corners */
     -fx-border-width: 1px; /* Thin border */
     -fx-wrap-text: true; /* Enable text wrapping for long text */
@@ -60,7 +60,7 @@
 
 /* Hover Effect */
 .label-information:hover {
-    -fx-background-color: linear-gradient(to top right, #ff80ab, #81d4fa); /* Soft gradient background */
+    -fx-background-color: linear-gradient(to top right, #000000, #4f5728); /* Soft gradient background */
     -fx-text-fill: #ffffff; /* White text on hover */
     -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.15), 4, 0, 0, 2); /* Subtle shadow effect */
 }

@@ -17,13 +17,12 @@ import java.util.List;
 import java.util.Map;
 
 public class customer_products {
-
+    Facade facade = new Facade();
     private Movie selectedMovie;
     private Users currentUser;
     private Time sessionTime;
     private String previousPage;
     private Cart cart;
-    private Facade facade;
     private Main mainApp;
 
     @FXML
@@ -256,7 +255,7 @@ public class customer_products {
         productTable.setItems(productList);
 
         // Fetch products from the database
-        products = Facade.getProductsFromDatabase();
+        products = facade.getProductsFromDatabase();
 
         // Initialize product quantities and prices directly from the products list
         for (Product product : products) {

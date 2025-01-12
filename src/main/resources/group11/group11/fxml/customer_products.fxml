@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.Button?>
-<?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TableColumn?>
+<?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
@@ -229,7 +229,7 @@
       </AnchorPane>
       <TableView fx:id="productTable" layoutX="706.0" layoutY="81.0" prefHeight="433.0" prefWidth="290.0" style="-fx-background-color: #f9f9f9; -fx-border-color: #ccc;" stylesheets="@../css/products.css">
          <columns>
-            <TableColumn fx:id="productColumn" style="-fx-background-color: linear-gradient(to bottom, #ff7f7f, #ffb27f); -fx-border-color: #ccc; -fx-border-width: 0 0 1px 0; -fx-font-weight: bold; -fx-text-fill: white;" text="Product" />
+            <TableColumn fx:id="productColumn" style="-fx-background-color: linear-gradient(to bottom, #6e7829, #ffffff); -fx-border-color: #ccc; -fx-border-width: 0 0 1px 0; -fx-font-weight: bold; -fx-text-fill: white;" text="Product" />
             <TableColumn fx:id="quantityColumn" text="Quantity" />
             <TableColumn fx:id="totalColumn" text="Total" />
          </columns>
@@ -237,34 +237,38 @@
       <Label fx:id="totalAmountLabel" layoutX="790.0" layoutY="530.0" styleClass="label-total" text="Total: 0.00₺ " />
       <Button fx:id="PayScreenBtn" layoutX="861.0" layoutY="605.0" mnemonicParsing="false" onAction="#btnPayScreen" prefHeight="60.0" prefWidth="150.0" styleClass="button-pay" text="PROCEED TO PAY" />
       <Button layoutX="642.0" layoutY="605.0" mnemonicParsing="false" prefHeight="60.0" prefWidth="150.0" styleClass="button-pay" text="GO BACK" />
-      <Button fx:id="backButton" layoutX="-1.0" layoutY="-1.0" mnemonicParsing="false" onAction="#handleBackButton" prefHeight="23.0" prefWidth="24.0" styleClass="close-form" stylesheets="@../css/moviePage.css">
-         <graphic>
-            <FontAwesomeIcon glyphName="ARROW_LEFT" size="1.2em" />
-         </graphic>
-      </Button>
-      <Button layoutX="1033.0" mnemonicParsing="false" onAction="#movieSearch_windowClose_btn" prefHeight="24.0" prefWidth="64.0" styleClass="close-form" stylesheets="@../css/moviePage.css">
-         <graphic>
-            <FontAwesomeIcon glyphName="CLOSE" />
-         </graphic>
-      </Button>
-      <Button fx:id="movieSearch_windowMinimize_btn" layoutX="974.0" mnemonicParsing="false" onAction="#MovieSearch_windowMinimize" prefHeight="24.0" prefWidth="64.0" styleClass="close-form" stylesheets="@../css/moviePage.css">
-         <graphic>
-            <FontAwesomeIcon glyphName="MINUS" />
-         </graphic>
-      </Button>
-      <Button fx:id="logoutButton" layoutX="130.0" layoutY="-1.0" mnemonicParsing="false" text="Logout" onAction="#handleLogoutButton" styleClass="close-form" stylesheets="@../css/moviePage.css">
-         <graphic>
-            <FontAwesomeIcon glyphName="SIGN_OUT" size="1.5em" />
-         </graphic>
-      </Button>
-      <Button fx:id="searchMovie_cart" layoutX="916.0" layoutY="-1.0" mnemonicParsing="false" onAction="#handleOpenCartPage" prefHeight="35.0" prefWidth="55.0" styleClass="close-form" stylesheets="@../css/moviePage.css">
-         <graphic>
-            <FontAwesomeIcon glyphName="ARCHIVE" size="2.2em" />
-         </graphic>
-      </Button>
-      <Label fx:id="movieSearch_profileName" layoutX="75.0" prefHeight="30.0" prefWidth="82.0" style="-fx-font-weight: bold; -fx-font-size: 15.0" text="NAME">
-      </Label>
-      <Label fx:id="movieSearch_profileRole" layoutX="75.0" layoutY="28.0" prefHeight="30.0" prefWidth="82.0" style="-fx-font-weight: bold; -fx-font-size: 15.0" text="ROLE" />
       <FontAwesomeIcon glyphName="USER" layoutX="42.0" layoutY="35.0" size="2.3em" />
+      <AnchorPane layoutX="-10.0" prefHeight="50.0" prefWidth="1110.0" style="-fx-background-color: #4f5728;">
+         <children>
+            <Button fx:id="movieSearch_windowMinimize_btn" layoutX="983.0" layoutY="-1.0" mnemonicParsing="false" onAction="#MovieSearch_windowMinimize" prefHeight="24.0" prefWidth="64.0" styleClass="close-form" stylesheets="@../css/moviePage.css">
+               <graphic>
+                  <FontAwesomeIcon glyphName="MINUS" />
+               </graphic>
+            </Button>
+            <Button layoutX="1047.0" layoutY="-1.0" mnemonicParsing="false" onAction="#movieSearch_windowClose_btn" prefHeight="24.0" prefWidth="64.0" styleClass="close-form" stylesheets="@../css/moviePage.css">
+               <graphic>
+                  <FontAwesomeIcon glyphName="CLOSE" />
+               </graphic>
+            </Button>
+            <Button fx:id="searchMovie_cart" layoutX="928.0" layoutY="-3.0" mnemonicParsing="false" onAction="#handleOpenCartPage" prefHeight="35.0" prefWidth="55.0" styleClass="close-form" stylesheets="@../css/moviePage.css">
+               <graphic>
+                  <FontAwesomeIcon glyphName="ARCHIVE" size="2.2em" />
+               </graphic>
+            </Button>
+            <Button fx:id="backButton" layoutX="9.0" layoutY="-2.0" mnemonicParsing="false" onAction="#handleBackButton" prefHeight="23.0" prefWidth="24.0" styleClass="close-form" stylesheets="@../css/moviePage.css">
+               <graphic>
+                  <FontAwesomeIcon glyphName="ARROW_LEFT" size="1.2em" />
+               </graphic>
+            </Button>
+            <Label fx:id="movieSearch_profileName" layoutX="74.0" layoutY="-3.0" prefHeight="30.0" prefWidth="82.0" style="-fx-font-weight: bold; -fx-font-size: 15.0; -fx-text-fill: #000000;" text="NAME">
+            </Label>
+            <Label fx:id="movieSearch_profileRole" layoutX="74.0" layoutY="26.0" prefHeight="21.0" prefWidth="54.0" style="-fx-font-weight: bold; -fx-font-size: 15.0; -fx-text-fill: #000000;" text="ROLE" />
+            <Button fx:id="logoutButton" layoutX="129.0" layoutY="-2.0" mnemonicParsing="false" onAction="#handleLogoutButton" style="-fx-text-fill: #000000;" styleClass="close-form" stylesheets="@../css/moviePage.css" text="Logout">
+               <graphic>
+                  <FontAwesomeIcon glyphName="SIGN_OUT" size="1.5em" />
+               </graphic>
+            </Button>
+         </children>
+      </AnchorPane>
    </children>
 </AnchorPane>

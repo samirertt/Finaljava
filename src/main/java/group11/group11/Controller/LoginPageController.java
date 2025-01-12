@@ -42,19 +42,19 @@ public class LoginPageController {
                 mainApp.showMoviePage(user);
                 errorLabel.setDisable(false);
             }
-            /*
+
             else if (Objects.equals(user.getrole(), "manager")){
                 // Proceed with successful login actions
                 errorLabel.setText("Login successful!");
-                mainApp.showManagerPage(user);
+                mainApp.showManagerPage();
                 errorLabel.setDisable(false);
             }
             else {
                 // Proceed with successful login actions
                 errorLabel.setText("Login successful!");
-                mainApp.showAdminPage(user);
+                mainApp.showAdminPage();
                 errorLabel.setDisable(false);
-            }*/
+            }
         } else {
             // Display error message for invalid credentials
             errorLabel.setText("Invalid username or password. Please try again.");

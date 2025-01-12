@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.RadioButton?>
 <?import javafx.scene.control.Spinner?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
+<?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
@@ -14,23 +14,53 @@
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="1100.0" styleClass="bg-form" stylesheets="@../css/moviePage.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="group11.group11.Controller.MoviePageController">
    <children>
-      <Button fx:id="movieSearch_windowClose_btn" layoutX="1033.0" layoutY="2.0" mnemonicParsing="false" onAction="#movieSearch_windowClose_btn" prefHeight="24.0" prefWidth="66.0" styleClass="close-form" stylesheets="@../css/moviePage.css" AnchorPane.leftAnchor="1033.0" AnchorPane.rightAnchor="1.0" AnchorPane.topAnchor="2.0">
-         <graphic>
-            <FontAwesomeIcon glyphName="CLOSE" size="1.2em" text="" wrappingWidth="7.257143020629883" />
-         </graphic>
-      </Button>
-      <Button fx:id="movieSearch_windowMinimize_btn" layoutX="974.0" layoutY="2.0" mnemonicParsing="false" onAction="#MovieSearch_windowMinimize" prefHeight="24.0" prefWidth="59.0" styleClass="close-form" stylesheets="@../css/moviePage.css" AnchorPane.rightAnchor="67.0" AnchorPane.topAnchor="2.0">
-         <graphic>
-            <FontAwesomeIcon glyphName="MINUS" />
-         </graphic>
-      </Button>
-      <FontAwesomeIcon glyphName="USER" layoutX="14.0" layoutY="35.0" size="2.3em" />
-      <AnchorPane layoutX="24.0" layoutY="53.0" prefHeight="293.0" prefWidth="259.0" styleClass="search-movie-container" stylesheets="@../css/moviePage.css">
+      <AnchorPane layoutX="0.0" layoutY="0.0" prefHeight="36.0" prefWidth="1100.0" style="-fx-background-color: #4f5728;">
          <children>
-            <RadioButton fx:id="movieSearch_searchByGenre" layoutX="14.0" layoutY="21.0" mnemonicParsing="false" text="Search by genre" />
-            <RadioButton fx:id="movieSearch_searchByPartialName" layoutX="14.0" layoutY="55.0" mnemonicParsing="false" text="Search by partial name" />
-            <RadioButton fx:id="movieSearch_searchByFullName" layoutX="14.0" layoutY="94.0" mnemonicParsing="false" text="Search by fullname" />
-            <TextField fx:id="movieSearch_searchMovie" layoutX="9.0" layoutY="144.0" prefHeight="21.0" prefWidth="218.0" promptText="Search movie...">
+            <Button fx:id="movieSearch_windowClose_btn" layoutX="1033.0" layoutY="2.0" mnemonicParsing="false" onAction="#movieSearch_windowClose_btn" prefHeight="24.0" prefWidth="66.0" styleClass="close-form" stylesheets="@../css/moviePage.css" AnchorPane.leftAnchor="1033.0" AnchorPane.rightAnchor="1.0" AnchorPane.topAnchor="2.0">
+               <graphic>
+                  <FontAwesomeIcon glyphName="CLOSE" size="1.2em" text="" wrappingWidth="7.257143020629883" />
+               </graphic>
+            </Button>
+            <Button fx:id="movieSearch_windowMinimize_btn" layoutX="974.0" layoutY="2.0" mnemonicParsing="false" onAction="#MovieSearch_windowMinimize" prefHeight="24.0" prefWidth="59.0" styleClass="close-form" stylesheets="@../css/moviePage.css" AnchorPane.rightAnchor="67.0" AnchorPane.topAnchor="2.0">
+               <graphic>
+                  <FontAwesomeIcon glyphName="MINUS" />
+               </graphic>
+            </Button>
+            <Button fx:id="searchMovie_cart" layoutX="916.0" layoutY="-1.0" mnemonicParsing="false" onAction="#handleOpenCartPage" prefHeight="35.0" prefWidth="55.0" styleClass="close-form" stylesheets="@../css/moviePage.css">
+               <graphic>
+                  <FontAwesomeIcon glyphName="ARCHIVE" size="2.2em" />
+               </graphic>
+            </Button>
+            <Button fx:id="logoutButton" layoutX="100.0" layoutY="-1.0" mnemonicParsing="false" onAction="#handleLogoutButton" style="-fx-text-fill: #000000;" styleClass="close-form" stylesheets="@../css/moviePage.css" text="Logout">
+               <graphic>
+                  <FontAwesomeIcon glyphName="SIGN_OUT" size="1.5em" />
+               </graphic>
+            </Button>
+            <FontAwesomeIcon glyphName="USER" layoutX="14.0" layoutY="35.0" size="2.3em" />
+            <AnchorPane layoutX="30.0" layoutY="1.0" prefHeight="36.0" prefWidth="195.0">
+               <children>
+                  <Label fx:id="movieSearch_profileName" layoutX="20.0" prefHeight="25.0" prefWidth="82.0" style="-fx-text-fill: #000000;" text="NAME">
+                     <font>
+                        <Font name="System Bold" size="15.0" />
+                     </font>
+                  </Label>
+                  <Label fx:id="movieSearch_profileRole" layoutX="20.0" layoutY="23.0" prefHeight="30.0" prefWidth="82.0" style="-fx-text-fill: #000000;" text="ROLE">
+                     <font>
+                        <Font name="System Bold" size="13.0" />
+                     </font>
+                  </Label>
+               </children>
+            </AnchorPane>
+         </children>
+      </AnchorPane>
+
+      <!-- Diğer içerikler -->
+      <AnchorPane layoutX="21.0" layoutY="67.0" prefHeight="286.0" prefWidth="259.0" styleClass="search-movie-container" stylesheets="@../css/moviePage.css">
+         <children>
+            <RadioButton fx:id="movieSearch_searchByGenre" layoutX="14.0" layoutY="21.0" mnemonicParsing="false" style="-fx-text-fill: #ffffff;" text="Search by genre" />
+            <RadioButton fx:id="movieSearch_searchByPartialName" layoutX="14.0" layoutY="55.0" mnemonicParsing="false" style="-fx-text-fill: #ffffff;" text="Search by partial name" />
+            <RadioButton fx:id="movieSearch_searchByFullName" layoutX="14.0" layoutY="94.0" mnemonicParsing="false" style="-fx-text-fill: #ffffff;" text="Search by fullname" />
+            <TextField fx:id="movieSearch_searchMovie" layoutX="9.0" layoutY="144.0" prefHeight="21.0" prefWidth="218.0" promptText="Search movie..." style="-fx-text-fill: #ffffff;">
                <font>
                   <Font size="14.0" />
                </font>
@@ -38,76 +68,53 @@
             <Button fx:id="movieSearch_movieSearch_btn" layoutX="155.0" layoutY="192.0" mnemonicParsing="false" prefHeight="28.0" prefWidth="66.0" styleClass="button-info" stylesheets="@../css/moviePage.css" text="Search" />
          </children>
       </AnchorPane>
-      <AnchorPane layoutX="291.0" layoutY="53.0" prefHeight="293.0" prefWidth="622.0">
+      <AnchorPane layoutX="295.0" layoutY="67.0" prefHeight="293.0" prefWidth="622.0">
          <children>
-            <TableView fx:id="movieSearchTableView" layoutX="29.0" prefHeight="293.0" prefWidth="701.0" stylesheets="@../css/moviePage.css">
-              <columns>
-                <TableColumn fx:id="movieSearch_tableViewMovieTitle" prefWidth="201.0" text="Movie Title" />
-                <TableColumn fx:id="movieSearch_tableViewMovieGenre" prefWidth="121.0" text="Genre" />
-                  <TableColumn fx:id="movieSearch_tableViewMovieDuration" prefWidth="178.0" text="Duration" />
-                  <TableColumn fx:id="movieSearch_tableViewMovieShowingDate" minWidth="0.0" prefWidth="196.0" text="Showing Date" />
-              </columns>
+            <TableView fx:id="movieSearchTableView" layoutX="23.0" prefHeight="293.0" prefWidth="701.0" stylesheets="@../css/moviePage.css">
+               <columns>
+                  <TableColumn fx:id="movieSearch_tableViewMovieTitle" prefWidth="201.0" style="-fx-text-fill: #000000;" text="Movie Title" />
+                  <TableColumn fx:id="movieSearch_tableViewMovieGenre" prefWidth="121.0" style="-fx-text-fill: #000000;" text="Genre" />
+                  <TableColumn fx:id="movieSearch_tableViewMovieDuration" prefWidth="178.0" style="-fx-text-fill: #000000;" text="Duration" />
+                  <TableColumn fx:id="movieSearch_tableViewMovieShowingDate" minWidth="0.0" prefWidth="196.0" style="-fx-text-fill: #000000;" text="Showing Date" />
+               </columns>
             </TableView>
          </children>
       </AnchorPane>
-      <AnchorPane layoutX="64.0" layoutY="346.0" prefHeight="354.0" prefWidth="902.0">
+      <AnchorPane layoutX="61.0" layoutY="346.0" prefHeight="354.0" prefWidth="902.0">
          <children>
             <AnchorPane layoutX="-41.0" layoutY="6.0" prefHeight="342.0" prefWidth="259.0" styleClass="movie-image-container" stylesheets="@../css/moviePage.css">
                <children>
-                  <ImageView fx:id="movieSearch_Image" fitHeight="326.0" fitWidth="226.0" layoutX="17.0" layoutY="8.0" pickOnBounds="true" preserveRatio="true" />
+                  <ImageView fx:id="movieSearch_Image" fitHeight="318.0" fitWidth="227.0" layoutX="16.0" layoutY="8.0" pickOnBounds="true" preserveRatio="true" />
                </children>
             </AnchorPane>
-            <AnchorPane layoutX="283.0" layoutY="10.0" prefHeight="334.0" prefWidth="763.0">
+            <AnchorPane layoutX="283.0" layoutY="20.0" prefHeight="334.0" prefWidth="763.0">
                <children>
-                  <Label layoutX="-32.0" text="Movie Information">
+                  <Label layoutX="-32.0" style="-fx-text-fill: #96a723;" styleClass="custom-label" text="Movie Information">
                      <font>
                         <Font size="32.0" />
                      </font>
                   </Label>
                   <Button fx:id="movieSearch_ticketBuy_btn" layoutX="646.0" layoutY="292.0" mnemonicParsing="false" onAction="#btnSelect" prefHeight="28.0" prefWidth="95.0" styleClass="button-info" stylesheets="@../css/moviePage.css" text="Select" />
-                  <Label fx:id="movieSearch_movieInformation" layoutX="-32.0" layoutY="103.0" prefHeight="128.0" prefWidth="734.0" styleClass="label-information" stylesheets="@../css/moviePage.css" text="Movie Description" />
-                  <Label fx:id="movieSearch_Name" layoutX="-32.0" layoutY="51.0" text="Movie name">
+                  <Label fx:id="movieSearch_movieInformation" layoutX="-32.0" layoutY="103.0" prefHeight="128.0" prefWidth="734.0" style="-fx-text-fill: #96a723;" styleClass="label-information" stylesheets="@../css/moviePage.css" text="Movie Description" />
+                  <Label fx:id="movieSearch_Name" layoutX="-32.0" layoutY="51.0" style="-fx-text-fill: #96a723;" text="Movie name">
                      <font>
                         <Font name="System Bold" size="25.0" />
                      </font>
                   </Label>
-                  <Label fx:id="movieSearch_Genre" layoutX="154.0" layoutY="56.0" text="Genre">
+                  <Label fx:id="movieSearch_Genre" layoutX="600.0" layoutY="56.0" style="-fx-text-fill: #96a723;" text="Genre">
                      <font>
                         <Font size="18.0" />
                      </font>
                   </Label>
-                  <Label layoutX="88.0" layoutY="279.0" text="Number of tickets">
+                  <Label layoutX="99.0" layoutY="287.0" style="-fx-text-fill: #96a723;" text="Number of tickets">
                      <font>
                         <Font size="21.0" />
                      </font>
                   </Label>
-                  <Spinner fx:id="movieSearch_spinner" editable="true" layoutX="299.0" layoutY="280.0" prefHeight="24.0" prefWidth="59.0" />
+                  <Spinner fx:id="movieSearch_spinner" editable="true" layoutX="299.0" layoutY="290.0" prefHeight="24.0" prefWidth="59.0" />
                </children>
             </AnchorPane>
          </children>
       </AnchorPane>
-      <AnchorPane layoutX="34.0" layoutY="2.0" prefHeight="56.0" prefWidth="195.0">
-         <children>
-            <Label fx:id="movieSearch_profileName" layoutX="20.0" prefHeight="25.0" prefWidth="82.0" text="NAME">
-               <font>
-                  <Font name="System Bold" size="15.0" />
-               </font>
-            </Label>
-            <Label fx:id="movieSearch_profileRole" layoutX="20.0" layoutY="23.0" prefHeight="30.0" prefWidth="82.0" text="ROLE">
-               <font>
-                  <Font name="System Bold" size="13.0" />
-               </font></Label>
-         </children>
-      </AnchorPane>
-      <Button fx:id="searchMovie_cart" layoutX="916.0" layoutY="-1.0" mnemonicParsing="false" onAction="#handleOpenCartPage" prefHeight="35.0" prefWidth="55.0" styleClass="close-form" stylesheets="@../css/moviePage.css">
-         <graphic>
-            <FontAwesomeIcon glyphName="ARCHIVE" size="2.2em" />
-         </graphic>
-      </Button>
-      <Button fx:id="logoutButton" layoutX="100.0" layoutY="-1.0" mnemonicParsing="false" text="Logout" onAction="#handleLogoutButton" styleClass="close-form" stylesheets="@../css/moviePage.css">
-         <graphic>
-            <FontAwesomeIcon glyphName="SIGN_OUT" size="1.5em" />
-         </graphic>
-      </Button>
    </children>
 </AnchorPane>
