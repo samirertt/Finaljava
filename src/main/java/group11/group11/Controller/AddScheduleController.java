@@ -3,8 +3,10 @@ package group11.group11.Controller;
 import group11.group11.Facade;
 import group11.group11.Main;
 import group11.group11.Users;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
+import javafx.stage.Stage;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -33,15 +35,52 @@ import java.time.format.DateTimeFormatter;
         private TextField timeField;
 
         @FXML
-        private Button addScheduleButton;
+        private Button backButton;
 
         @FXML
-        private Button menuButton;
+        private Button logoutButton;
+
+        @FXML
+        private Button movieSearch_windowMinimize_btn;
+
+        @FXML
+        private Button addScheduleButton;
+
 
         @FXML
         public void initialize() {
             addScheduleButton.setOnAction(event -> handleAddScheduleButtonAction());
-            menuButton.setOnAction(event -> handleMenuButtonAction());
+
+            if (logoutButton != null) {
+                logoutButton.setOnAction(this::handleLogoutButton);
+            }
+
+            if (backButton != null) {
+                backButton.setOnAction(this::handleBackButton);
+            }
+        }
+
+        public void movieSearch_windowClose_btn() {
+            System.exit(0);
+        }
+
+        public void MovieSearch_windowMinimize() {
+            Stage stage = (Stage) movieSearch_windowMinimize_btn.getScene().getWindow();
+            stage.setIconified(true);
+        }
+
+        @FXML
+        public void handleLogoutButton(ActionEvent event) {
+            if (mainApp != null) {
+                mainApp.logout();
+            }
+        }
+
+        @FXML
+        public void handleBackButton(ActionEvent event) {
+            if (mainApp != null && currentUser != null) {
+                mainApp.showAdminPage(currentUser);
+            }
         }
 
         public void setMainApp(Main mainApp) {
@@ -94,11 +133,7 @@ import java.time.format.DateTimeFormatter;
             }
         }
 
-        @FXML
-        private void handleMenuButtonAction() {
-            // Navigate back to the main page
-            MainpageController.navigateToMainPage(menuButton);
-        }
+
 
         private void clearFields() {
             movieIdField.clear();

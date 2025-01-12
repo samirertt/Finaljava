@@ -1,17 +1,55 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.DatePicker?>
 <?import javafx.scene.control.Label?>
+<?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.VBox?>
 
-<AnchorPane prefHeight="600" prefWidth="900" style="-fx-background-color: black;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="group11.group11.Controller.AddScheduleController">
+<AnchorPane prefHeight="700" prefWidth="1100" style="-fx-background-color: black;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="group11.group11.Controller.AddScheduleController">
 
     <!-- Centered Form -->
     <VBox alignment="CENTER" spacing="20" AnchorPane.bottomAnchor="0" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0" AnchorPane.topAnchor="0">
-        <Label style="-fx-font-size: 32; -fx-font-weight: bold; -fx-text-fill: white; -fx-font-family: 'Arial Rounded MT Bold';" text="ADD SCHEDULE" />
+        <AnchorPane prefHeight="74.0" prefWidth="1102.0" style="-fx-background-color: #4f5728;">
+            <children>
+                <Button fx:id="backButton" layoutX="-1.0" layoutY="-1.0" mnemonicParsing="false" onAction="#handleBackButton" prefHeight="23.0" prefWidth="24.0" styleClass="close-form" stylesheets="@../css/moviePage.css">
+                    <graphic>
+                        <FontAwesomeIcon glyphName="ARROW_LEFT" size="1.2em" />
+                    </graphic>
+                </Button>
+                <Button fx:id="movieSearch_windowMinimize_btn" layoutX="976.0" layoutY="-1.0" mnemonicParsing="false" onAction="#MovieSearch_windowMinimize" prefHeight="24.0" prefWidth="64.0" styleClass="close-form" stylesheets="@../css/moviePage.css">
+                    <graphic>
+                        <FontAwesomeIcon glyphName="MINUS" />
+                    </graphic>
+                </Button>
+                <Button fx:id="logoutButton" layoutX="130.0" layoutY="-1.0" mnemonicParsing="false" onAction="#handleLogoutButton" style="-fx-text-fill: #000000;" styleClass="close-form" stylesheets="@../css/moviePage.css" text="Logout">
+                    <graphic>
+                        <FontAwesomeIcon glyphName="SIGN_OUT" size="1.5em" />
+                    </graphic>
+                </Button>
+                <Label fx:id="movieSearch_profileName" layoutX="75.0" layoutY="-2.0" prefHeight="30.0" prefWidth="82.0" style="-fx-font-weight: bold; -fx-font-size: 15.0; -fx-text-fill: #000000;" text="NAME" />
+                <Label fx:id="movieSearch_profileRole" layoutX="75.0" layoutY="19.0" prefHeight="30.0" prefWidth="82.0" style="-fx-font-weight: bold; -fx-font-size: 15.0; -fx-text-fill: #000000;" text="ROLE" />
+                <FontAwesomeIcon glyphName="USER" layoutX="42.0" layoutY="35.0" size="2.3em" />
+                <Button layoutX="1040.0" layoutY="-1.0" mnemonicParsing="false" onAction="#movieSearch_windowClose_btn" prefHeight="24.0" prefWidth="62.0" styleClass="close-form" stylesheets="@../css/moviePage.css">
+                    <graphic>
+                        <FontAwesomeIcon glyphName="CLOSE" />
+                    </graphic>
+                </Button>
+            </children>
+            <padding>
+                <Insets bottom="-25.0" top="30.0" />
+            </padding>
+            <VBox.margin>
+                <Insets bottom="200.0" top="-120.0" />
+            </VBox.margin>
+        </AnchorPane>
+        <Label style="-fx-font-size: 32; -fx-font-weight: bold; -fx-text-fill: white; -fx-font-family: 'Arial Rounded MT Bold';" text="ADD SCHEDULE">
+            <VBox.margin>
+                <Insets top="-60.0" />
+            </VBox.margin></Label>
 
         <!-- Form Fields -->
         <TextField fx:id="movieIdField" promptText="Movie ID" style="-fx-background-color: black; -fx-text-fill: white; -fx-font-weight: bold; -fx-font-size: 16; -fx-font-family: 'Arial Rounded MT Bold'; -fx-border-color: #96a725; -fx-border-width: 2; -fx-border-radius: 25; -fx-background-radius: 25; -fx-padding: 10;" />
@@ -22,7 +60,4 @@
         <!-- Buttons -->
         <Button fx:id="addScheduleButton" styleClass="custom-button" stylesheets="@../css/admin.css" text="Add Schedule" />
     </VBox>
-
-    <!-- Menu Button (Positioned at the bottom right with some distance from the border) -->
-    <Button fx:id="menuButton" styleClass="custom-button" stylesheets="@../css/admin.css" text="Menu" AnchorPane.bottomAnchor="20" AnchorPane.rightAnchor="20" />
 </AnchorPane>

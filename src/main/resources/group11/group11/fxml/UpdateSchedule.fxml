@@ -1,19 +1,58 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.DatePicker?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextField?>
+
+<?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.VBox?>
 
-<AnchorPane prefHeight="600" prefWidth="900" style="-fx-background-color: black;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="group11.group11.Controller.UpdateScheduleController">
+<AnchorPane prefHeight="700" prefWidth="1110" style="-fx-background-color: black;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="group11.group11.Controller.UpdateScheduleController">
 
     <!-- Centered Form -->
-    <VBox alignment="CENTER" spacing="20" AnchorPane.bottomAnchor="0" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0" AnchorPane.topAnchor="0">
-        <Label style="-fx-font-size: 32; -fx-font-weight: bold; -fx-text-fill: white; -fx-font-family: 'Arial Rounded MT Bold';" text="UPDATE SCHEDULE" />
+    <VBox alignment="TOP_CENTER" spacing="20" AnchorPane.bottomAnchor="0" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0" AnchorPane.topAnchor="0">
+        <AnchorPane prefHeight="36.0" prefWidth="1110.0" style="-fx-background-color: #4f5728;">
+            <children>
+                <Button fx:id="backButton" layoutX="-1.0" layoutY="-1.0" mnemonicParsing="false" onAction="#handleBackButton" prefHeight="23.0" prefWidth="24.0" styleClass="close-form" stylesheets="@../css/moviePage.css">
+                    <graphic>
+                        <FontAwesomeIcon glyphName="ARROW_LEFT" size="1.2em" />
+                    </graphic>
+                </Button>
+                <Button fx:id="movieSearch_windowMinimize_btn" layoutX="984.0" layoutY="-1.0" mnemonicParsing="false" onAction="#MovieSearch_windowMinimize" prefHeight="24.0" prefWidth="64.0" styleClass="close-form" stylesheets="@../css/moviePage.css">
+                    <graphic>
+                        <FontAwesomeIcon glyphName="MINUS" />
+                    </graphic>
+                </Button>
+                <Button fx:id="logoutButton" layoutX="130.0" layoutY="-1.0" mnemonicParsing="false" onAction="#handleLogoutButton" style="-fx-text-fill: #000000;" styleClass="close-form" stylesheets="@../css/moviePage.css" text="Logout">
+                    <graphic>
+                        <FontAwesomeIcon glyphName="SIGN_OUT" size="1.5em" />
+                    </graphic>
+                </Button>
+                <Label fx:id="movieSearch_profileName" layoutX="75.0" layoutY="-2.0" prefHeight="30.0" prefWidth="82.0" style="-fx-font-weight: bold; -fx-font-size: 15.0; -fx-text-fill: #000000;" text="NAME" />
+                <Label fx:id="movieSearch_profileRole" layoutX="75.0" layoutY="19.0" prefHeight="30.0" prefWidth="82.0" style="-fx-font-weight: bold; -fx-font-size: 15.0; -fx-text-fill: #000000;" text="ROLE" />
+                <FontAwesomeIcon glyphName="USER" layoutX="42.0" layoutY="35.0" size="2.3em" />
+                <Button layoutX="1048.0" layoutY="-1.0" mnemonicParsing="false" onAction="#movieSearch_windowClose_btn" prefHeight="24.0" prefWidth="62.0" styleClass="close-form" stylesheets="@../css/moviePage.css">
+                    <graphic>
+                        <FontAwesomeIcon glyphName="CLOSE" />
+                    </graphic>
+                </Button>
+            </children>
+            <padding>
+                <Insets bottom="-70.0" top="70.0" />
+            </padding>
+            <VBox.margin>
+                <Insets bottom="200.0" />
+            </VBox.margin>
+        </AnchorPane>
+        <Label style="-fx-font-size: 32; -fx-font-weight: bold; -fx-text-fill: white; -fx-font-family: 'Arial Rounded MT Bold';" text="UPDATE SCHEDULE">
+            <VBox.margin>
+                <Insets top="-50.0" />
+            </VBox.margin></Label>
 
         <!-- Table to display schedules -->
         <TableView fx:id="scheduleTable" prefHeight="200" prefWidth="800" style="-fx-background-color: black; -fx-text-fill: white;">
@@ -24,11 +63,20 @@
                 <TableColumn fx:id="dayColumn" style="-fx-text-fill: white;" text="Day" />
                 <TableColumn fx:id="timeColumn" style="-fx-text-fill: white;" text="Time" />
             </columns>
+            <VBox.margin>
+                <Insets />
+            </VBox.margin>
         </TableView>
 
         <!-- Fetch Schedule Section -->
-        <TextField fx:id="sessionIdField" editable="false" promptText="Enter Session ID" style="-fx-background-color: black; -fx-text-fill: white; -fx-font-weight: bold; -fx-font-size: 16; -fx-font-family: 'Arial Rounded MT Bold'; -fx-border-color: #96a725; -fx-border-width: 2; -fx-border-radius: 25; -fx-background-radius: 25; -fx-padding: 10;" />
-        <Button fx:id="fetchScheduleButton" styleClass="custom-button" stylesheets="@../css/admin.css" text="Find Schedule" />
+        <TextField fx:id="sessionIdField" editable="false" promptText="Enter Session ID" style="-fx-background-color: black; -fx-text-fill: white; -fx-font-weight: bold; -fx-font-size: 16; -fx-font-family: 'Arial Rounded MT Bold'; -fx-border-color: #96a725; -fx-border-width: 2; -fx-border-radius: 25; -fx-background-radius: 25; -fx-padding: 10;">
+            <VBox.margin>
+                <Insets />
+            </VBox.margin></TextField>
+        <Button fx:id="fetchScheduleButton" styleClass="custom-button" stylesheets="@../css/admin.css" text="Find Schedule">
+            <VBox.margin>
+                <Insets bottom="-200.0" />
+            </VBox.margin></Button>
 
         <!-- Update Fields (Hidden Initially) -->
         <VBox fx:id="updateFieldsContainer" spacing="10" visible="false">
@@ -39,7 +87,4 @@
             <Button fx:id="updateScheduleButton" styleClass="custom-button" stylesheets="@../css/admin.css" text="Update Schedule" />
         </VBox>
     </VBox>
-
-    <!-- Menu Button (Positioned at the bottom right with some distance from the border) -->
-    <Button fx:id="menuButton" styleClass="custom-button" stylesheets="@../css/admin.css" text="Menu" AnchorPane.bottomAnchor="20" AnchorPane.rightAnchor="20" />
 </AnchorPane>

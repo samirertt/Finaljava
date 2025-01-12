@@ -116,14 +116,14 @@ public class Main extends Application {
 
             FXMLLoader loader = new FXMLLoader(getClass().getResource("fxml/loginPage.fxml"));
             Parent root = loader.load();
+            LoginPageController controller = loader.getController();
+            controller.setMainApp(this);
             primaryStage.setTitle("Login Page");
             primaryStage.setScene(new Scene(root));
             primaryStage.initStyle(StageStyle.TRANSPARENT);
             primaryStage.show();
             this.orderNo = generateRandomOrderNo();
             // Pass reference of this class to the controller
-            LoginPageController controller = loader.getController();
-            controller.setMainApp(this);
             Facade.clearCart();
         } catch (Exception e) {
             e.printStackTrace();
@@ -178,8 +178,8 @@ public class Main extends Application {
             Parent root = loader.load();
 
             managerController controller = loader.getController();
-            //controller.setCurrentUser(currentUser);
-            //controller.setProfileDetails();
+            controller.setCurrentUser(currentUser);
+            controller.setProfileDetails();
             controller.setMainApp(this);
             primaryStage.setTitle("manager Page");
             primaryStage.setScene(new Scene(root));
@@ -292,6 +292,7 @@ public class Main extends Application {
             AddMovieController controller = loader.getController();
             controller.setCurrentUser(currentUser);
             controller.setProfileDetails();
+            controller.setMainApp(this);
             primaryStage.setTitle("Add Movie Page");
             primaryStage.setScene(new Scene(root));
             primaryStage.show();
@@ -436,7 +437,6 @@ public class Main extends Application {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("fxml/customer_products.fxml"));
             Parent root = loader.load();
-            // Get the controller and set the mainApp reference
             customer_products controller = loader.getController();
 
             controller.setSessionId(session_id);

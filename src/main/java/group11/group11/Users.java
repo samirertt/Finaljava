@@ -21,9 +21,7 @@ public class Users
     }
 
     public Users()
-    {
-
-    }
+    {     }
 
     //getters and setters
     public int getuserId()

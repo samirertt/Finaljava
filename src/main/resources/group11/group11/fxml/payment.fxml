@@ -4,8 +4,8 @@
 <?import java.net.URL?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.DatePicker?>
-<?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon?>
 <?import javafx.scene.control.Label?>
+<?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextField?>
@@ -17,22 +17,23 @@
     <children>
         <AnchorPane layoutX="691.0" layoutY="93.0" prefHeight="514.0" prefWidth="384.0" style="-fx-background-color: #000000">
             <children>
-                <Text fill="WHITE" layoutX="116.0" layoutY="47.0" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-size: 30; -fx-text-fill: #6e7829;" text="RECEIPT" wrappingWidth="184.4132080078125" />
-                <TableView fx:id="product_TableView" layoutX="-1.0" layoutY="63.0" prefHeight="363.0" prefWidth="384.0">
+                <Text fill="WHITE" layoutX="100.0" layoutY="47.0" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-size: 30; -fx-text-alignment: center; -fx-text-fill: #6e7829;" text="RECEIPT" wrappingWidth="184.4132080078125" />
+                <TableView fx:id="product_TableView" layoutX="-1.0" layoutY="76.0" prefHeight="382.0" prefWidth="384.0">
                     <columns>
                         <TableColumn fx:id="cartProduct" prefWidth="158.4000244140625" text="Product" />
                         <TableColumn fx:id="cartQuantity" prefWidth="81.5999755859375" text="Quantity" />
                   <TableColumn fx:id="cartPrice" prefWidth="148.00006103515625" text="Price" />
                     </columns>
                 </TableView>
-                <Label fx:id="totalLabel" layoutX="108.0" layoutY="440.0" prefHeight="60.0" prefWidth="166.0" style="-fx-font-size: 20; -fx-alignment: center;" text="TOTAL: 0 TL" textFill="WHITE" />
+                <Label fx:id="totalLabel" layoutX="109.0" layoutY="454.0" prefHeight="60.0" prefWidth="166.0" style="-fx-font-size: 20; -fx-alignment: center;" text="TOTAL: 0 TL" textFill="WHITE" />
+            <Text fill="WHITE" layoutX="5.0" layoutY="65.0" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-size: 15; -fx-text-alignment: center; -fx-text-fill: #6e7829;" text="(Tax and discount are added to the price)" wrappingWidth="374.01324462890625" />
             </children>
         </AnchorPane>
         <Button fx:id="payButton" layoutX="783.0" layoutY="616.0" mnemonicParsing="false" onAction="#handlePayButton" style="-fx-font-size: 15;" styleClass="button-pay" text="PROCEED TO PAY" />
         <TableView fx:id="payment_TableView" layoutX="38.0" layoutY="93.0" prefHeight="244.0" prefWidth="632.0">
             <columns>
-                <TableColumn fx:id="payment_tableView_itemName" prefWidth="75.0" text="Item Name" />
-                <TableColumn fx:id="payment_tableView_Quantity" prefWidth="75.0" text="Quantity" />
+                <TableColumn fx:id="payment_tableView_itemName" prefWidth="75.0" text="Movie Name" />
+                <TableColumn fx:id="payment_tableView_Quantity" prefWidth="75.0" text="Seat" />
                 <TableColumn fx:id="payment_tableView_price" prefWidth="75.0" text="Price" />
             </columns>
             <columnResizePolicy>

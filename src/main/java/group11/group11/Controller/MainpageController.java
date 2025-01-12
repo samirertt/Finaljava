@@ -54,12 +54,14 @@ public class MainpageController {
         System.exit(0);
     }
 
+
     public void setProfileDetails() {
         if (currentUser != null) {
             movieSearch_profileName.setText(currentUser.getUsername());
             movieSearch_profileRole.setText(currentUser.getrole());
         }
     }
+
 
     public void MovieSearch_windowMinimize() {
         Stage stage = (Stage) movieSearch_windowMinimize_btn.getScene().getWindow();

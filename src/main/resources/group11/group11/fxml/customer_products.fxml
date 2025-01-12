@@ -2,8 +2,8 @@
 
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
-<?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon?>
 <?import javafx.scene.control.TableColumn?>
+<?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
@@ -128,7 +128,7 @@
                   <Button fx:id="dec_food3" alignment="CENTER" ellipsisString="" layoutY="68.0" mnemonicParsing="false" onAction="#decrement" prefHeight="30.0" prefWidth="40.0" styleClass="button-dec" text="-" textAlignment="CENTER" />
                </children>
             </AnchorPane>
-            <Label layoutY="112.0" prefHeight="18.0" prefWidth="78.0" style="-fx-alignment: center;" styleClass="label-text" text="FALIM" textAlignment="CENTER" />
+            <Label layoutX="-18.0" layoutY="112.0" prefHeight="18.0" prefWidth="114.0" style="-fx-alignment: center;" styleClass="label-text" text="HANIMELLER" textAlignment="CENTER" />
             <Label fx:id="price_food3" layoutX="75.0" layoutY="112.0" prefHeight="18.0" prefWidth="78.0" style="-fx-alignment: center;" styleClass="label-text" text="15₺ " textAlignment="CENTER" />
             <ImageView fitHeight="89.0" fitWidth="81.0" layoutX="-1.0" layoutY="9.0" pickOnBounds="true" preserveRatio="true" rotate="-47.8">
                <image>
@@ -146,7 +146,7 @@
                   <Button fx:id="dec_food4" alignment="CENTER" ellipsisString="" layoutY="68.0" mnemonicParsing="false" onAction="#decrement" prefHeight="30.0" prefWidth="40.0" styleClass="button-dec" text="-" textAlignment="CENTER" />
                </children>
             </AnchorPane>
-            <Label layoutY="112.0" prefHeight="18.0" prefWidth="94.0" style="-fx-alignment: center;" styleClass="label-text" text="HANIMELLER" textAlignment="CENTER" />
+            <Label layoutY="112.0" prefHeight="18.0" prefWidth="94.0" style="-fx-alignment: center;" styleClass="label-text" text="FALIM" textAlignment="CENTER" />
             <Label fx:id="price_food4" layoutX="75.0" layoutY="112.0" prefHeight="18.0" prefWidth="78.0" style="-fx-alignment: center;" styleClass="label-text" text="35₺ " textAlignment="CENTER" />
             <ImageView fitHeight="113.0" fitWidth="105.0" layoutX="-9.0" pickOnBounds="true" preserveRatio="true" rotate="-53.5">
                <image>

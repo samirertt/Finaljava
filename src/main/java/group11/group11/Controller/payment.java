@@ -164,6 +164,19 @@ public class payment {
         initializeData(); // Load data after mainApp is set
     }
 
+    public void initialize_product_table()
+    {
+        product_TableView.getItems().clear();
+        cartProduct.setCellValueFactory(new PropertyValueFactory<>("name")); // Example property
+        cartQuantity.setCellValueFactory(new PropertyValueFactory<>("quantity")); // Example property
+        cartPrice.setCellValueFactory(cellData -> new SimpleDoubleProperty(cellData.getValue().getTaxedPrice() * cellData.getValue().getQuantity()).asObject());
+        ObservableList<Product> ProductsList = FXCollections.observableArrayList();
+        product_TableView.setItems(ProductsList);
+        ProductsList.addAll(facade.getItemsFromDb(mainApp.getOrderNo()));
+
+        double totalPrice = Facade.calculateOrderPrice(mainApp.getOrderNo());
+        totalLabel.setText(String.format("TOTAL: %.2f TL", totalPrice));
+    }
     @FXML
     private void initialize()
     {
@@ -186,6 +199,7 @@ public class payment {
     private void initializeData() {
         if (mainApp != null) {
             try {
+                initialize_product_table();
                 // Debugging: Print the session_id before creating tickets
                 System.out.println("Session ID in initializeData: " + session_id);
 
@@ -329,7 +343,8 @@ public class payment {
 
         // Refresh the TableView to reflect the changes
         payment_TableView.refresh();
-
+        initialize_product_table();
+        product_TableView.refresh();
         // Debugging: Print ticket details
         System.out.println("Updated Ticket: " + selectedTicket.getName() + " " + selectedTicket.getSurname() + ", Age: " + selectedTicket.getAge());
     }

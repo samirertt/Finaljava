@@ -33,13 +33,14 @@ public class RevenueAndTaxController {
         this.currentUser = user;
     }
 
+    /*
     public void setProfileDetails() {
         if (currentUser != null) {
             movieSearch_profileName.setText(currentUser.getUsername());
             movieSearch_profileRole.setText(currentUser.getrole());
         }
     }
-
+*/
     @FXML
     public void initialize() {
         menuButton.setOnAction(event -> {

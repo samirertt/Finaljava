@@ -4,11 +4,13 @@ import group11.group11.Facade;
 import group11.group11.Main;
 import group11.group11.Schedule;
 import group11.group11.Users;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.collections.FXCollections;
 import javafx.scene.layout.VBox;
+import javafx.stage.Stage;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -47,6 +49,15 @@ public class UpdateScheduleController {
     private TextField sessionIdField;
 
     @FXML
+    private Button backButton;
+
+    @FXML
+    private Button movieSearch_windowMinimize_btn;
+
+    @FXML
+    private Button logoutButton;
+
+    @FXML
     private TextField movieIdField;
 
     @FXML
@@ -67,9 +78,6 @@ public class UpdateScheduleController {
     @FXML
     private VBox updateFieldsContainer;
 
-    @FXML
-    private Button menuButton;
-
     public void setMainApp(Main mainApp) {
         this.mainApp = mainApp;
     }
@@ -82,6 +90,29 @@ public class UpdateScheduleController {
         if (currentUser != null) {
             movieSearch_profileName.setText(currentUser.getUsername());
             movieSearch_profileRole.setText(currentUser.getrole());
+        }
+    }
+
+    public void movieSearch_windowClose_btn() {
+        System.exit(0);
+    }
+
+    public void MovieSearch_windowMinimize() {
+        Stage stage = (Stage) movieSearch_windowMinimize_btn.getScene().getWindow();
+        stage.setIconified(true);
+    }
+
+    @FXML
+    public void handleLogoutButton(ActionEvent event) {
+        if (mainApp != null) {
+            mainApp.logout();
+        }
+    }
+
+    @FXML
+    public void handleBackButton(ActionEvent event) {
+        if (mainApp != null && currentUser != null) {
+            mainApp.showAdminPage(currentUser);
         }
     }
 
@@ -100,12 +131,14 @@ public class UpdateScheduleController {
 
         fetchScheduleButton.setOnAction(event -> handleFetchScheduleButtonAction());
         updateScheduleButton.setOnAction(event -> handleUpdateScheduleButtonAction());
-        menuButton.setOnAction(event -> handleMenuButtonAction());
-    }
 
-    @FXML
-    private void handleMenuButtonAction() {
-        MainpageController.navigateToMainPage(menuButton);
+        if (logoutButton != null) {
+            logoutButton.setOnAction(this::handleLogoutButton);
+        }
+
+        if (backButton != null) {
+            backButton.setOnAction(this::handleBackButton);
+        }
     }
 
     private void fetchSchedules() {

@@ -1,11 +1,13 @@
 package group11.group11.Controller;
 
 import group11.group11.*;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.collections.FXCollections;
 import javafx.scene.layout.VBox;
+import javafx.stage.Stage;
 
 import java.util.List;
 
@@ -13,6 +15,15 @@ public class CancelAndRefundController {
 
     private Main mainApp;
     private Users currentUser;
+
+    @FXML
+    private Button backButton;
+
+    @FXML
+    private Button logoutButton;
+
+    @FXML
+    private Button movieSearch_windowMinimize_btn;
 
     @FXML
     private Label movieSearch_profileName;
@@ -80,6 +91,29 @@ public class CancelAndRefundController {
         }
     }
 
+    public void movieSearch_windowClose_btn() {
+        System.exit(0);
+    }
+
+    public void MovieSearch_windowMinimize() {
+        Stage stage = (Stage) movieSearch_windowMinimize_btn.getScene().getWindow();
+        stage.setIconified(true);
+    }
+
+    @FXML
+    public void handleLogoutButton(ActionEvent event) {
+        if (mainApp != null) {
+            mainApp.logout();
+        }
+    }
+
+    @FXML
+    public void handleBackButton(ActionEvent event) {
+        if (mainApp != null && currentUser != null) {
+            mainApp.showAdminPage(currentUser);
+        }
+    }
+
     @FXML
     public void initialize() {
         orderNoColumn.setCellValueFactory(new PropertyValueFactory<>("orderNo"));
@@ -98,14 +132,17 @@ public class CancelAndRefundController {
 
         fetchOrderItemsButton.setOnAction(event -> handleFetchOrderItemsButtonAction());
         cancelAndRefundButton.setOnAction(event -> handleCancelAndRefundButtonAction());
-        menuButton.setOnAction(event -> handleMenuButtonAction());
+
+
+        if (logoutButton != null) {
+            logoutButton.setOnAction(this::handleLogoutButton);
+        }
+
+        if (backButton != null) {
+            backButton.setOnAction(this::handleBackButton);
+        }
     }
 
-    @FXML
-    private void handleMenuButtonAction() {
-        // Navigate back to the main page
-        MainpageController.navigateToMainPage(menuButton);
-    }
 
     private void fetchOrders() {
         List<Order> orders = Facade.fetchAllOrders();

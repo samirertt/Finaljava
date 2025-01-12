@@ -39,8 +39,6 @@ public class AddMovieController {
     @FXML
     private Button addMovieButton;
 
-    @FXML
-    private Button menuButton;
 
     @FXML
     private Button backButton;
@@ -92,13 +90,21 @@ public class AddMovieController {
         if (mainApp != null && currentUser != null) {
             mainApp.showAdminPage(currentUser);
         }
+
     }
 
     @FXML
     public void initialize() {
         choosePosterButton.setOnAction(event -> handleChoosePosterButtonAction());
         addMovieButton.setOnAction(event -> handleAddMovieButtonAction());
-        menuButton.setOnAction(event -> handleMenuButtonAction());
+
+        if (logoutButton != null) {
+            logoutButton.setOnAction(this::handleLogoutButton);
+        }
+
+        if (backButton != null) {
+            backButton.setOnAction(this::handleBackButton);
+        }
     }
 
     @FXML
@@ -153,11 +159,6 @@ public class AddMovieController {
         }
     }
 
-    @FXML
-    private void handleMenuButtonAction() {
-        // Navigate back to the main page
-        MainpageController.navigateToMainPage(menuButton);
-    }
 
     private void clearFields() {
         movieNameField.clear();

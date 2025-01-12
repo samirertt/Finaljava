@@ -35,17 +35,18 @@ public class DiscountController {
     public void setMainApp(Main mainApp) {
         this.mainApp = mainApp;
     }
-    private Users currentUser;
     public void setCurrentUser(Users user) {
         this.currentUser = user;
     }
 
+    /*
     public void setProfileDetails() {
         if (currentUser != null) {
             movieSearch_profileName.setText(currentUser.getUsername());
             movieSearch_profileRole.setText(currentUser.getrole());
         }
     }
+    */
 
     @FXML
     public void initialize() {

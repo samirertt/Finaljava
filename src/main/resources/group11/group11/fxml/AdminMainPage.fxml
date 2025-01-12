@@ -22,8 +22,8 @@
                         <FontAwesomeIcon glyphName="SIGN_OUT" size="1.5em" />
                     </graphic>
                 </Button>
-                <Label fx:id="movieSearch_profileName1" layoutX="58.0" layoutY="-1.0" prefHeight="30.0" prefWidth="82.0" style="-fx-font-weight: bold; -fx-font-size: 15.0; -fx-text-fill: #000000;" text="NAME" />
-                <Label fx:id="movieSearch_profileRole1" layoutX="58.0" layoutY="17.0" prefHeight="30.0" prefWidth="82.0" style="-fx-font-weight: bold; -fx-font-size: 15.0; -fx-text-fill: #000000;" text="ROLE" />
+                <Label fx:id="movieSearch_profileName" layoutX="74.0" layoutY="-1.0" prefHeight="30.0" prefWidth="82.0" style="-fx-font-weight: bold; -fx-font-size: 15.0; -fx-text-fill: #000000;" text="NAME" />
+                <Label fx:id="movieSearch_profileRole" layoutX="74.0" layoutY="17.0" prefHeight="30.0" prefWidth="82.0" style="-fx-font-weight: bold; -fx-font-size: 15.0; -fx-text-fill: #000000;" text="ROLE" />
                 <FontAwesomeIcon glyphName="USER" layoutX="42.0" layoutY="35.0" size="2.3em" />
                 <Button layoutX="1040.0" layoutY="-1.0" mnemonicParsing="false" onAction="#movieSearch_windowClose_btn" prefHeight="24.0" prefWidth="62.0" styleClass="close-form" stylesheets="@../css/moviePage.css">
                     <graphic>

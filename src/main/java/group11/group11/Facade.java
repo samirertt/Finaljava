@@ -55,7 +55,7 @@ public class Facade {
         return null;
     }
 
-    public void addEmployee(String firstName, String lastName, String password, String role )
+    public void addEmployee(String fullname, String username, String password, String role )
     {
         String query = "INSERT INTO users (fullname, username, password, role) VALUES (?, ?, ?, ?)";
         try (Connection conn = connect();

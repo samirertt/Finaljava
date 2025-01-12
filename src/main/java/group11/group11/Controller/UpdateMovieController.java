@@ -4,6 +4,7 @@ import group11.group11.Facade;
 import group11.group11.Main;
 import group11.group11.Movie;
 import group11.group11.Users;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
@@ -12,6 +13,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.stage.FileChooser;
 import javafx.scene.layout.VBox;
+import javafx.stage.Stage;
 
 import java.io.File;
 import java.util.List;
@@ -81,6 +83,38 @@ public class UpdateMovieController {
         private String posterFilePath;
 
         @FXML
+        private Button backButton;
+
+        @FXML
+        private Button logoutButton;
+
+        @FXML
+        private Button movieSearch_windowMinimize_btn;
+
+        public void movieSearch_windowClose_btn() {
+            System.exit(0);
+        }
+
+        public void MovieSearch_windowMinimize() {
+            Stage stage = (Stage) movieSearch_windowMinimize_btn.getScene().getWindow();
+            stage.setIconified(true);
+        }
+
+        @FXML
+        public void handleLogoutButton(ActionEvent event) {
+            if (mainApp != null) {
+                mainApp.logout();
+            }
+        }
+
+        @FXML
+        public void handleBackButton(ActionEvent event) {
+            if (mainApp != null && currentUser != null) {
+                mainApp.showAdminPage(currentUser);
+            }
+        }
+
+        @FXML
         public void initialize() {
             movieIdColumn.setCellValueFactory(new PropertyValueFactory<>("movieId"));
             moviesNameColumn.setCellValueFactory(new PropertyValueFactory<>("moviesName"));
@@ -96,7 +130,15 @@ public class UpdateMovieController {
             fetchMovieButton.setOnAction(event -> handleFetchMovieButtonAction());
             choosePosterButton.setOnAction(event -> handleChoosePosterButtonAction());
             updateMovieButton.setOnAction(event -> handleUpdateMovieButtonAction());
-            menuButton.setOnAction(event -> handleMenuButtonAction());
+
+
+            if (logoutButton != null) {
+                logoutButton.setOnAction(this::handleLogoutButton);
+            }
+
+            if (backButton != null) {
+                backButton.setOnAction(this::handleBackButton);
+            }
         }
 
         public void setMainApp(Main mainApp) {
@@ -114,11 +156,6 @@ public class UpdateMovieController {
             }
         }
 
-        @FXML
-        private void handleMenuButtonAction() {
-            // Navigate back to the main page
-            MainpageController.navigateToMainPage(menuButton);
-        }
 
         private void fetchMovies() {
             List<Movie> moviesList = Facade.fetchAllMovies();
@@ -226,6 +263,7 @@ public class UpdateMovieController {
             moviesNameField.clear();
             moviesGenreField.clear();
             moviesSummaryField.clear();
+
             posterImageView.setImage(null);
             posterFilePath = null;
             updateFieldsContainer.setVisible(false);
