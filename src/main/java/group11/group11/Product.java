@@ -24,6 +24,11 @@ public class Product {
         this.quantity = quantity;
     }
 
+    public Product(int orderItemId, int orderNo, String itemType, int itemId, int quantity, double pricePerItem) {
+
+
+    }
+
     // Getters and Setters
     public int getProductId() {
         return productId;

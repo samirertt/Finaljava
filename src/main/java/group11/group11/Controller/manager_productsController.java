@@ -1,12 +1,8 @@
 package group11.group11.Controller;
 
 
-import group11.group11.Employee;
-import group11.group11.Facade;
-import group11.group11.Main;
-import group11.group11.Product;
+import group11.group11.*;
 import javafx.collections.FXCollections;
-
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -33,12 +29,27 @@ public class manager_productsController
     @FXML private TableColumn<?, ?> priceColumn;
     @FXML private TableColumn<?, ?> stockColumn;
 
+
     private Product selectedProduct;
 
+
     private Main mainApp;
+    private Users currentUser;
 
     public void setMainApp(Main mainApp) {
         this.mainApp = mainApp;
+    }
+
+
+    public void setCurrentUser(Users user) {
+        this.currentUser = user;
+    }
+
+    public void setProfileDetails() {
+        if (currentUser != null) {
+            movieSearch_profileName.setText(currentUser.getUsername());
+            movieSearch_profileRole.setText(currentUser.getrole());
+        }
     }
 
     @FXML
@@ -47,7 +58,7 @@ public class manager_productsController
         loadProducts();
         productTable.setOnMouseClicked(this::selectRow);
         updateProductButton.setOnAction(event -> updateProduct());
-        menuButton.setOnAction(event -> mainApp.showManagerPage());
+        menuButton.setOnAction(event -> mainApp.showManagerPage(mainApp.getCurrentUser()));
     }
 
     private void selectRow(javafx.scene.input.MouseEvent mouseEvent) {

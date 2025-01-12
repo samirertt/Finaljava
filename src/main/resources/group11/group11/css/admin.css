@@ -1,0 +1,18 @@
+.custom-button {
+    -fx-background-color: black;
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-font-size: 16;
+    -fx-font-family: 'Arial Rounded MT Bold';
+    -fx-border-color: #96a725;
+    -fx-border-width: 2;
+    -fx-border-radius: 25;
+    -fx-background-radius: 25;
+    -fx-padding: 10;
+}
+
+.custom-button:hover {
+    -fx-background-color: #96a725;
+    -fx-text-fill: black;
+    -fx-cursor: hand;
+}

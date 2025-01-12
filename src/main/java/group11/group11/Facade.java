@@ -1,11 +1,15 @@
 package group11.group11;
 
-import javafx.scene.control.Alert;
-
 import java.sql.*;
+
 import java.sql.Date;
 import java.util.*;
 import java.time.LocalDate;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
+
 import java.sql.PreparedStatement;
 
 public class Facade {
@@ -50,7 +54,8 @@ public class Facade {
         }
         return null;
     }
-    public void addEmployee(int id, String fullname, String username, String password, String role )
+
+    public void addEmployee(String firstName, String lastName, String password, String role )
     {
         String query = "INSERT INTO users (fullname, username, password, role) VALUES (?, ?, ?, ?)";
         try (Connection conn = connect();
@@ -357,6 +362,52 @@ public class Facade {
         return movieList; // Return the list of movies (can be empty if no results)
     }
 
+    public static boolean cancelAndRefundOrder(int orderNo) {
+        try (Connection conn = connect()) {
+            connect().setAutoCommit(false);
+
+            String deleteTicketsQuery = "DELETE FROM Tickets WHERE order_no = ?";
+            try (PreparedStatement deleteTicketsPs = conn.prepareStatement(deleteTicketsQuery)) {
+                deleteTicketsPs.setInt(1, orderNo);
+                deleteTicketsPs.executeUpdate();
+            }
+
+            List<orderItem> orderItems = fetchOrderItemsByOrderId(orderNo);
+
+            String updateProductStockQuery = "UPDATE Products SET stock = stock + ? WHERE product_id = ?";
+            for (orderItem item : orderItems) {
+                if ("product".equalsIgnoreCase(item.getItemType())) {
+                    try (PreparedStatement updateProductStockPs = connect().prepareStatement(updateProductStockQuery)) {
+                        updateProductStockPs.setInt(1, item.getQuantity());
+                        updateProductStockPs.setInt(2, item.getItemId());
+                        updateProductStockPs.executeUpdate();
+                    } catch (Exception e) {
+                        throw new RuntimeException(e);
+                    }
+                }
+            }
+
+            String deleteOrderItemsQuery = "DELETE FROM OrderItems WHERE order_no = ?";
+            try (PreparedStatement deleteOrderItemsPs = connect().prepareStatement(deleteOrderItemsQuery)) {
+                deleteOrderItemsPs.setInt(1, orderNo);
+                deleteOrderItemsPs.executeUpdate();
+            }
+
+            String deleteOrderQuery = "DELETE FROM Orders WHERE order_no = ?";
+            try (PreparedStatement deleteOrderPs = connect().prepareStatement(deleteOrderQuery)) {
+                deleteOrderPs.setInt(1, orderNo);
+                deleteOrderPs.executeUpdate();
+            }
+
+            connect().commit();
+            return true;
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
     public List<Product> getProductsFromDatabase() {
         List<Product> products = new ArrayList<>();
         String query = "SELECT product_id, name, price, taxed_price, stock FROM products";
@@ -487,6 +538,58 @@ public class Facade {
             e.printStackTrace();
         }
         return 0;
+    }
+
+    public static Movie fetchMovieById(int movieId) {
+        String query = "SELECT * FROM movies WHERE movie_id = ?";
+        try (Connection conn = connect();
+             PreparedStatement ps = conn.prepareStatement(query)) {
+
+            ps.setInt(1, movieId);
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    return new Movie(
+                            rs.getInt("movie_id"),
+                            rs.getString("moviesName"),
+                            rs.getString("moviesGenre"),
+                            rs.getString("moviesSummary"),
+                            rs.getString("moviesImage")
+                    );
+                }
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return null;
+    }
+
+    public static List<orderItem> fetchOrderItemsByOrderId(int orderNo) {
+        List<orderItem> orderItems = new ArrayList<>();
+        String query = "SELECT * FROM OrderItems WHERE order_no = ?";
+
+        try (Connection conn = connect();
+             PreparedStatement ps = conn.prepareStatement(query)) {
+
+            ps.setInt(1, orderNo);
+            try (ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+                    int orderItemId = rs.getInt("order_item_id");
+                    String itemType = rs.getString("item_type");
+                    int itemId = rs.getInt("item_id");
+                    int quantity = rs.getInt("quantity");
+                    double pricePerItem = rs.getDouble("price_per_item");
+
+                    orderItems.add(new orderItem(orderItemId, orderNo, itemType, itemId, quantity, pricePerItem));
+                }
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return orderItems;
     }
 
     public static int getMovieIdByName(String movieName) {
@@ -931,8 +1034,8 @@ public class Facade {
 
     public static boolean addMovie(String name, String genre, String summary, String posterFilePath) {
         String query = "INSERT INTO movies (moviesName, moviesGenre, moviesSummary, moviesImage) VALUES (?, ?, ?, ?)";
-        try (Connection connection = connect();
-             PreparedStatement ps = connection.prepareStatement(query)) {
+        try (Connection conn = connect();
+             PreparedStatement ps = conn.prepareStatement(query)) {
 
             ps.setString(1, name);
             ps.setString(2, genre);
@@ -952,8 +1055,8 @@ public class Facade {
         List<Movie> moviesList = new ArrayList<>();
         String query = "SELECT * FROM movies";
 
-        try (Connection connection = connect();
-             PreparedStatement ps = connection.prepareStatement(query);
+        try (Connection conn = connect();
+             PreparedStatement ps = conn.prepareStatement(query);
              ResultSet rs = ps.executeQuery()) {
 
             while (rs.next()) {
@@ -970,6 +1073,100 @@ public class Facade {
             e.printStackTrace();
         }
         return moviesList;
+    }
+
+    public static Schedule fetchScheduleById(int sessionId) {
+        String query = "SELECT * FROM Sessions WHERE session_id = ?";
+        try (Connection conn = connect();
+             PreparedStatement ps = conn.prepareStatement(query)) {
+
+            ps.setInt(1, sessionId);
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    return new Schedule(
+                            rs.getInt("session_id"),
+                            rs.getInt("movie_id"),
+                            rs.getString("hall"),
+                            rs.getString("day"),
+                            rs.getString("time")
+                    );
+                }
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return null;
+    }
+
+    public static boolean updateSchedule(int sessionId, int movieId, String hall, String day, String time) {
+        String query = "UPDATE Sessions SET movie_id = ?, hall = ?, day = ?, time = ? WHERE session_id = ?";
+        try (Connection conn = connect();
+             PreparedStatement ps = conn.prepareStatement(query)) {
+
+            ps.setInt(1, movieId);
+            ps.setString(2, hall);
+            ps.setString(3, day);
+            ps.setString(4, time);
+            ps.setInt(5, sessionId);
+
+            int rowsUpdated = ps.executeUpdate();
+            return rowsUpdated > 0;
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    public static List<Schedule> fetchAllSchedules() {
+        List<Schedule> schedules = new ArrayList<>();
+        String query = "SELECT * FROM Sessions";
+
+        try (Connection conn = connect();
+             PreparedStatement ps = conn.prepareStatement(query);
+             ResultSet rs = ps.executeQuery()) {
+
+            while (rs.next()) {
+                int sessionId = rs.getInt("session_id");
+                int movieId = rs.getInt("movie_id");
+                String hall = rs.getString("hall");
+                String day = rs.getString("day");
+                String time = rs.getString("time");
+
+                schedules.add(new Schedule(sessionId, movieId, hall, day, time));
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return schedules;
+    }
+
+    public static List<Order> fetchAllOrders() {
+        List<Order> orders = new ArrayList<>();
+        String query = "SELECT * FROM Orders";
+
+        try (Connection conn = connect();
+             PreparedStatement ps = conn.prepareStatement(query);
+             ResultSet rs = ps.executeQuery())
+        {
+
+            while (rs.next()) {
+                int orderNo = rs.getInt("order_no");
+                String orderDate = rs.getString("order_date");
+                double totalPrice = rs.getDouble("total_price");
+
+                orders.add(new Order(orderNo, orderDate, totalPrice));
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return orders;
     }
 
     public static boolean updateMovie(int movieId, String name, String genre, String summary, String posterFilePath) {

@@ -1,9 +1,6 @@
 package group11.group11.Controller;
 
-import group11.group11.Discount;
-import group11.group11.Employee;
-import group11.group11.Facade;
-import group11.group11.Main;
+import group11.group11.*;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -33,9 +30,21 @@ public class DiscountController {
     @FXML private Button menuButton;
 
     private Main mainApp;
+    private Users currentUser;
 
     public void setMainApp(Main mainApp) {
         this.mainApp = mainApp;
+    }
+    private Users currentUser;
+    public void setCurrentUser(Users user) {
+        this.currentUser = user;
+    }
+
+    public void setProfileDetails() {
+        if (currentUser != null) {
+            movieSearch_profileName.setText(currentUser.getUsername());
+            movieSearch_profileRole.setText(currentUser.getrole());
+        }
     }
 
     @FXML
@@ -46,7 +55,7 @@ public class DiscountController {
         addDiscountButton.setOnAction(event -> addDiscount());
         deleteDiscountButton.setOnAction(event -> deleteDiscount());
         updateDiscountButton.setOnAction(event -> updateDiscount());
-        menuButton.setOnAction(event -> mainApp.showManagerPage());
+        menuButton.setOnAction(event -> mainApp.showManagerPage(currentUser));
         discountTable.setOnMouseClicked(event -> selectRow());
     }
 

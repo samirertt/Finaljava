@@ -46,13 +46,14 @@ public class LoginPageController {
             else if (Objects.equals(user.getrole(), "manager")){
                 // Proceed with successful login actions
                 errorLabel.setText("Login successful!");
-                mainApp.showManagerPage();
+                mainApp.showManagerPage(user);
                 errorLabel.setDisable(false);
             }
+
             else {
                 // Proceed with successful login actions
                 errorLabel.setText("Login successful!");
-                mainApp.showAdminPage();
+                mainApp.showAdminPage(user);
                 errorLabel.setDisable(false);
             }
         } else {
