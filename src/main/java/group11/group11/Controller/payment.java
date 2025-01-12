@@ -92,27 +92,16 @@ public class payment {
     @FXML
     private Label totalLabel;
 
-    private List<Ticket> tickets;
+    public void setPreviousPage(String previousPage) {
+        this.previousPage = previousPage;
+    }
 
     private Main mainApp;
     private Facade facade;
-    private Movie selectedMovie;
     private Users currentUser;
-    private Time sessionTime;
     private String previousPage;
     private Cart cart;
-    private int session_id;
     private Ticket selectedTicket;
-
-    public void setSelectedMovie(Movie selectedMovie)
-    {
-        this.selectedMovie = selectedMovie;
-    }
-
-    public void setSession_Id(int session_id) {
-        this.session_id = session_id;
-        System.out.println("Session ID set to: " + session_id); // Debugging
-    }
 
 
     public void movieSearch_windowClose_btn() {
@@ -134,7 +123,7 @@ public class payment {
     @FXML
     public void handleBackButton(ActionEvent event) {
         if (mainApp != null && currentUser != null) {
-            mainApp.ProductPurchase(session_id, selectedMovie, currentUser,"seatSelection");
+            mainApp.ProductPurchase(mainApp.getSelectedSession(), mainApp.getSelectedMovie(), currentUser,previousPage);
         }
     }
 
@@ -143,7 +132,7 @@ public class payment {
         System.out.println("Cart button clicked! movie");
         if (mainApp != null) {
             System.out.println("is not null");
-            mainApp.showCartPage(session_id, selectedMovie, currentUser, "payment");
+            mainApp.showCartPage(mainApp.getSelectedSession(), mainApp.getSelectedMovie(), currentUser, "payment");
         }
     }
 
@@ -166,74 +155,39 @@ public class payment {
 
     public void initialize_product_table()
     {
-        product_TableView.getItems().clear();
-        cartProduct.setCellValueFactory(new PropertyValueFactory<>("name")); // Example property
-        cartQuantity.setCellValueFactory(new PropertyValueFactory<>("quantity")); // Example property
-        cartPrice.setCellValueFactory(cellData -> new SimpleDoubleProperty(cellData.getValue().getTaxedPrice() * cellData.getValue().getQuantity()).asObject());
-        ObservableList<Product> ProductsList = FXCollections.observableArrayList();
-        product_TableView.setItems(ProductsList);
-        ProductsList.addAll(facade.getItemsFromDb(mainApp.getOrderNo()));
+        if (mainApp != null)
+        {
+            cartProduct.setCellValueFactory(new PropertyValueFactory<>("name")); // Example property
+            cartQuantity.setCellValueFactory(new PropertyValueFactory<>("quantity")); // Example property
+            cartPrice.setCellValueFactory(cellData -> new SimpleDoubleProperty(cellData.getValue().getTaxedPrice() * cellData.getValue().getQuantity()).asObject());
+            product_TableView.setItems(mainApp.getSelectedProducts());
+        }
+        else
+        {
+            System.out.println("mainApp or selectedProducts is null!");
+        }
 
-        double totalPrice = Facade.calculateOrderPrice(mainApp.getOrderNo());
+        double totalPrice = calculateTotalPrice(mainApp.getSelectedProducts());
         totalLabel.setText(String.format("TOTAL: %.2f TL", totalPrice));
     }
-    @FXML
-    private void initialize()
+
+    private void initializeData()
     {
-        // Initialize TableView columns for Ticket
-        payment_tableView_itemName.setCellValueFactory(new PropertyValueFactory<>("movieName")); // Example property
-        payment_tableView_Quantity.setCellValueFactory(new PropertyValueFactory<>("seatNumber")); // Example property
-        payment_tableView_price.setCellValueFactory(new PropertyValueFactory<>("ticketPrice")); // Example property
-
-        payment_TableView.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {
-            if (newSelection != null) {
-                selectedTicket = newSelection;
-            }
-        });
-
-
-
-    }
-
-
-    private void initializeData() {
-        if (mainApp != null) {
+        if (mainApp != null)
+        {
             try {
                 initialize_product_table();
-                // Debugging: Print the session_id before creating tickets
-                System.out.println("Session ID in initializeData: " + session_id);
 
-                tickets = new ArrayList<>();
-                order_ID.setText("Order ID: " + mainApp.getOrderNo());
+                payment_tableView_itemName.setCellValueFactory(new PropertyValueFactory<>("movieName")); // Example property
+                payment_tableView_Quantity.setCellValueFactory(new PropertyValueFactory<>("seatNumber")); // Example property
+                payment_tableView_price.setCellValueFactory(new PropertyValueFactory<>("ticketPrice")); // Example property
+                payment_TableView.setItems(mainApp.getTicketList());
 
-                int ticketCount = mainApp.getNumOfTicket();
-                for (int i = 0; i < ticketCount; i++) {
-
-                    Ticket ticket = new Ticket(
-                            i+1, // Ticket index
-                            session_id, // Session ID
-                            mainApp.getSelectedHall(),
-                            mainApp.getSelectedSeats().get(i),
-                            "name",
-                            "surname",
-                            0,
-                            mainApp.getOrderNo(),
-                            mainApp.getSelectedMovie().getMovieName()
-                    );
-                    tickets.add(ticket);
-
-                    // Debugging: Print the session_id from the created Ticket
-                    System.out.println("Ticket session_id: " + ticket.getSessionId());
-                }
-
-                if (tickets != null && !tickets.isEmpty()) {
-                    payment_TableView.getItems().addAll(tickets);
-                } else {
-                    System.out.println("No tickets found for the order.");
-                }
-
-
-
+                payment_TableView.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {
+                    if (newSelection != null) {
+                        selectedTicket = newSelection;
+                    }
+                });
 
                 // Set movie details
                 Movie selectedMovie = mainApp.getSelectedMovie();
@@ -332,13 +286,11 @@ public class payment {
         selectedTicket.setAge(calculateAge(birthdate));
         selectedTicket.calculateTicketPrice();
 
-        Facade.deleteTicketsFromCart(mainApp.getOrderNo());
-        Facade.addTicketToCart(mainApp.getOrderNo(), selectedTicket.getMovieName(), selectedTicket.getTicketPrice(),1);
 
         // Update the ticket in the tickets list
         int selectedIndex = payment_TableView.getSelectionModel().getSelectedIndex();
-        if (selectedIndex >= 0 && selectedIndex < tickets.size()) {
-            tickets.set(selectedIndex, selectedTicket);
+        if (selectedIndex >= 0 && selectedIndex < mainApp.getTicketList().size()) {
+            mainApp.getTicketList().set(selectedIndex, selectedTicket);
         }
 
         // Refresh the TableView to reflect the changes
@@ -351,15 +303,13 @@ public class payment {
 
     @FXML
     private void handlePayButton() {
-        if (!areAllTicketsValid(tickets)) {
+        if (!areAllTicketsValid(mainApp.getTicketList())) {
             showAlert("Please fill in all ticket information before proceeding with payment.");
             return;
         }
 
-        // Get the list of products from the cart
-        List<Product> products = facade.getItemsFromDb(mainApp.getOrderNo());
 
-        for(Product product : products)
+        for(Product product : mainApp.getSelectedProducts())
         {
             facade.decrementStock(product.getName(), product.getQuantity());
         }
@@ -367,16 +317,16 @@ public class payment {
         // Generate tickets and invoice
         try {
             // Generate an HTML file for each ticket
-            for (int i = 0; i < tickets.size(); i++) {
+            for (int i = 0; i < mainApp.getTicketList().size(); i++) {
                 String ticketFilePath = "Ticket_" + mainApp.getOrderNo() + "_" + (i + 1) + ".html";
-                HTMLGenerator.generateTicketHTML(tickets.get(i), ticketFilePath);
+                HTMLGenerator.generateTicketHTML( mainApp.getTicketList().get(i), ticketFilePath);
                 System.out.println("Generated ticket: " + ticketFilePath);
             }
 
             // Generate an HTML invoice for the entire order
             String invoiceFilePath = "Invoice_" + mainApp.getOrderNo() + ".html";
-            double totalPrice = Facade.calculateOrderPrice(mainApp.getOrderNo());
-            HTMLGenerator.generateInvoiceHTML(mainApp.getOrderNo(), totalPrice, tickets, products, invoiceFilePath);
+            //double totalPrice = Facade.calculateOrderPrice(mainApp.getOrderNo());
+            //HTMLGenerator.generateInvoiceHTML(mainApp.getOrderNo(), totalPrice,  mainApp.getTicketList(),  mainApp.getSelectedProducts(), invoiceFilePath);
             System.out.println("Generated invoice: " + invoiceFilePath);
 
             showAlert("Payment processed successfully! Tickets and invoice generated.");
@@ -386,7 +336,7 @@ public class payment {
         }
 
         // Complete the order
-        completeOrder(mainApp.getOrderNo(), tickets);
+        completeOrder(mainApp.getOrderNo());
         System.out.println("Payment processed for order: " + mainApp.getOrderNo());
     }
 
@@ -396,31 +346,52 @@ public class payment {
     }
 
 
-    public static void completeOrder(String orderNo, List<Ticket> tickets)
+    public void completeOrder(String orderNo)
     {
-        double price = Facade.calculateOrderPrice(orderNo);
-        Facade.createOrder(orderNo,price);
-        Facade.buySeats(tickets);
-        Facade.addCartItemsToOrderItems(orderNo);
-        Facade.addTicketsToTicketsTable(orderNo, tickets);
-        Facade.clearCart();
+
+        //price ı düzelt
+        Facade.createOrder(orderNo,200);
+
+        for(Product add : mainApp.getSelectedProducts())
+        {
+            Facade.addOrderItems(orderNo, add);
+        }
+
+        for(Ticket add : mainApp.getTicketList())
+        {
+            Facade.addTicketItems(orderNo,add);
+            Facade.addTickets(orderNo, add);
+        }
+
+        mainApp.getTicketList().clear();
+        mainApp.getSelectedProducts().clear();
+
     }
 
     private boolean areAllTicketsValid(List<Ticket> tickets) {
         if (tickets == null || tickets.isEmpty()) {
-            return false; // No tickets to validate
+            return false;
         }
 
         for (Ticket ticket : tickets) {
-            // Check if name, surname, and age are filled in
+
             if (ticket.getName() == null || ticket.getName().trim().isEmpty() ||
                     ticket.getSurname() == null || ticket.getSurname().trim().isEmpty() ||
                     ticket.getAge() <= 0) {
-                return false; // At least one ticket is missing required information
+                return false;
             }
         }
+        return true;
+    }
 
-        return true; // All tickets are valid
+    private double calculateTotalPrice(List<Product> products) {
+        double total = 0.0;
+        if (products != null) {
+            for (Product product : products) {
+                total += product.getTaxedPrice() * product.getQuantity();
+            }
+        }
+        return total;
     }
 
     private void showAlert(String message) {

@@ -13,15 +13,11 @@ import java.sql.Time;
 import java.util.*;
 import java.sql.Date;
 
-public class daySelectionController {
+public class daySelectionController
+{
 
-    private Movie selectedMovie;
     private Users currentUser;
-    private Time sessionTime;
     private Main mainApp;
-
-    // List to store selected seats
-    private List<String> selectedSeats = new ArrayList<>();
 
     @FXML
     private Label movieSearch_profileName;
@@ -68,14 +64,11 @@ public class daySelectionController {
     @FXML
     private Button movieSearch_windowMinimize_btn;
 
-    public void setSessionTime(Time sessionTime) {
-        this.sessionTime = sessionTime;
-    }
-
-    public void setMainApp(Main mainApp) {
+    public void setMainApp(Main mainApp)
+    {
         this.mainApp = mainApp;
+        loadSessionTimes();
     }
-
     public void movieSearch_windowClose_btn() {
         System.exit(0);
     }
@@ -99,7 +92,7 @@ public class daySelectionController {
         System.out.println("Cart button clicked! movie");
         if (mainApp != null) {
             System.out.println("is not null");
-            mainApp.showCartPage(mainApp.getSession_id(), selectedMovie, currentUser, "daySelection");
+            //mainApp.showCartPage(mainApp.getSession_id(), selectedMovie, currentUser, "daySelection");
         }
     }
 
@@ -134,10 +127,11 @@ public class daySelectionController {
             System.err.println("CSS file not found!");
         }
 
-        dayComboBox.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {
+        dayComboBox.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) ->
+        {
             if (newSelection != null) {
                 Date selectedDay = Date.valueOf(newSelection); // Convert String to SQL Date
-                List<Time> sessionTimes = Facade.getSessionTimes(selectedDay);
+                List<Time> sessionTimes = Facade.getSessionTimes(selectedDay,mainApp.getSelectedMovie().getMovie_id());
                 sessionComboBox.getItems().clear();
                 for (Time time : sessionTimes) {
                     sessionComboBox.getItems().add(time.toString());
@@ -149,11 +143,10 @@ public class daySelectionController {
         sessionComboBox.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {
             if (newSelection != null) {
                 Time selectedTime = Time.valueOf(newSelection); // Convert String to SQL Time
-                setSessionTime(selectedTime);
-                List<String> halls = Facade.getSessionHalls(selectedTime);
+                mainApp.setSelectedTime(selectedTime);
+                List<String> halls = Facade.getSessionHalls(selectedTime, mainApp.getSelectedMovie().getMovie_id());
                 hallComboBox.getItems().clear();
                 hallComboBox.getItems().addAll(halls);
-                mainApp.setSelectedTime(selectedTime);
             }
         });
 
@@ -168,22 +161,22 @@ public class daySelectionController {
 
     @FXML
     public void btnSelectedMoveOn() {
-        if (sessionTime == null) {
+        if (mainApp.getSelectedTime() == null) {
             showAlert("Please select a session!");
             return;
         }
 
         String selectedHall = hallComboBox.getValue();
         mainApp.setSelectedHall(selectedHall);
-        int session_id = Facade.getSessionId(sessionTime, selectedMovie.getMovie_id());
+        mainApp.setSelectedSession(Facade.getSessionId(mainApp.getSelectedTime(), mainApp.getSelectedMovie().getMovie_id()));
 
         if (selectedHall != null) {
             switch (selectedHall) {
                 case "A":
-                    mainApp.openHallAPage(session_id, selectedMovie, currentUser);
+                    mainApp.openHallAPage(mainApp.getSelectedSession(), mainApp.getSelectedMovie(),currentUser);
                     break;
                 case "B":
-                    mainApp.openHallBPage(session_id, selectedMovie, currentUser);
+                    mainApp.openHallBPage(mainApp.getSelectedSession(), mainApp.getSelectedMovie(),currentUser);
                     break;
                 default:
                     showAlert("Invalid selection!");
@@ -202,14 +195,9 @@ public class daySelectionController {
         alert.showAndWait();
     }
 
-    public void setSelectedMovie(Movie selectedMovie) {
-        this.selectedMovie = selectedMovie;
-        loadSessionTimes();
-    }
-
     private void loadSessionTimes() {
-        if (selectedMovie != null) {
-            List<Date> sessionDays = Facade.getSessionDays(Facade.getMovieIdByName(selectedMovie.getMovieName()));
+        if (mainApp.getSelectedMovie()!= null) {
+            List<Date> sessionDays = Facade.getSessionDays(Facade.getMovieIdByName(mainApp.getSelectedMovie().getMovieName()));
             for (Date day : sessionDays) {
                 dayComboBox.getItems().add(day.toString());
             }

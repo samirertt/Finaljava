@@ -104,8 +104,7 @@ public class CartPageController {
     @FXML
     public void initialize()
     {
-        Facade.fixCart();
-        // Set up the TableView columns
+
         cart_productName.setCellValueFactory(new PropertyValueFactory<>("name"));
         cart_productPrice.setCellValueFactory(new PropertyValueFactory<>("taxedPrice"));
         cart_productQuantity.setCellValueFactory(new PropertyValueFactory<>("quantity"));
@@ -152,7 +151,8 @@ public class CartPageController {
                     mainApp.showDaySelectionPage(currentUser, selectedMovie);
                     break;
                 case "payment":
-                    mainApp.btnPayScreen(session_id, currentUser, selectedMovie);
+                    //might not be correct previouspage
+                    mainApp.btnPayScreen(session_id, currentUser, selectedMovie, previousPage);
                     break;
                 default:
                     System.out.println("No specific page to go back to!"); // Debug
