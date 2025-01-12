@@ -43,7 +43,7 @@ public class EmployeeController
     public void setMainApp(Main mainApp) {
         this.mainApp = mainApp;
     }
-    private Users currentUser;
+
 
     public void setCurrentUser(Users user) {
         this.currentUser = user;
@@ -85,17 +85,6 @@ public class EmployeeController
 
     }
     private void addEmployee() {
-
-        try
-        {
-            int id;
-            try
-            {
-                id = Integer.parseInt(idField.getText());
-            } catch (NumberFormatException e) {
-                showAlert(Alert.AlertType.WARNING, "Warning", "Please enter a valid employee ID!");
-                return;
-            }
 
 
         try {
@@ -178,7 +167,7 @@ public class EmployeeController
                 return;
             }
 
-            facade.addEmployee(id,firstName,username,password,role);
+            facade.addEmployee(firstName,username,password,role);
 
             loadEmployee();
             clearFields();
