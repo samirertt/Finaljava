@@ -16,7 +16,7 @@
             <Image url="@../images/cinema.jpeg" />
          </image>
       </ImageView>
-      <Label alignment="CENTER" layoutX="267.0" layoutY="210.0" prefHeight="66.0" prefWidth="372.0" text="Cinema Center" textFill="linear-gradient(to top right, #571657 60%, #000000 100%)">
+      <Label alignment="CENTER" layoutX="218.0" layoutY="210.0" prefHeight="66.0" prefWidth="478.0" text="Cinema Center" textFill="linear-gradient(to top right, #571657 60%, #000000 100%)">
          <font>
             <Font name="SansSerif Bold" size="50.0" />
          </font>
@@ -41,5 +41,10 @@
       </Label>
       <!-- Add the errorLabel here -->
       <Label fx:id="errorLabel" layoutX="319.0" layoutY="630.0" prefHeight="30.0" prefWidth="265.0" textFill="RED" />
+      <Label layoutX="354.0" layoutY="21.0" text="Group 11" textFill="WHITE">
+         <font>
+            <Font name="System Bold" size="40.0" />
+         </font>
+      </Label>
    </children>
 </AnchorPane>

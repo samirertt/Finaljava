@@ -20,12 +20,14 @@ public class EmployeeController
     @FXML private TextField idField;
     @FXML private TextField firstNameField;
     @FXML private TextField lastNameField;
+    @FXML private TextField userNameField;
     @FXML private TextField passwordField;
     @FXML private TextField roleField;
     @FXML private TableView<Employee> employeeTable;
     @FXML private TableColumn<Employee, Integer> idColumn;
     @FXML private TableColumn<Employee, String> firstNameColumn;
     @FXML private TableColumn<Employee, String> lastNameColumn;
+    @FXML private TableColumn<Employee,String>  usernameColumn;
     @FXML private TableColumn<Employee, String> passwordColumn;
     @FXML private TableColumn<Employee, String> roleColumn;
 
@@ -93,8 +95,9 @@ public class EmployeeController
 
     private void setupTable() {
         idColumn.setCellValueFactory(new PropertyValueFactory<>("id"));
-        firstNameColumn.setCellValueFactory(new PropertyValueFactory<>("fullname"));
-        lastNameColumn.setCellValueFactory(new PropertyValueFactory<>("username"));
+        firstNameColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
+        lastNameColumn.setCellValueFactory(new PropertyValueFactory<>("surname"));
+        usernameColumn.setCellValueFactory(new PropertyValueFactory<>("username"));
         passwordColumn.setCellValueFactory(new PropertyValueFactory<>("password"));
         roleColumn.setCellValueFactory(new PropertyValueFactory<>("role"));
     }
@@ -108,6 +111,7 @@ public class EmployeeController
         employeeList.addAll(facade.loadEmployees());
 
     }
+
     private void addEmployee() {
 
 
@@ -191,19 +195,19 @@ public class EmployeeController
                 return;
             }
 
-            facade.addEmployee(firstName,username,password,role);
 
-            loadEmployee();
-            clearFields();
 
-            if (!role.matches("admin|employee|manager")) {
+            if (!role.matches("admin|cashier|manager")) {
                 showAlert(Alert.AlertType.WARNING, "Warning", "Role must be one of: admin, employee, manager!");
                 return;
             }
 
+
             // If all validations pass, add the employee
-            facade.addEmployee(firstName, lastName, password, role);
+            facade.addEmployee(firstName, lastName,username, password, role);
             showAlert(Alert.AlertType.INFORMATION, "Success", "Employee added successfully!");
+            loadEmployee();
+            clearFields();
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -242,6 +246,11 @@ public class EmployeeController
                 return;
             }
 
+            String username = userNameField.getText();
+            if (username == null || username.trim().isEmpty()) {
+                showAlert(Alert.AlertType.WARNING, "Warning", "Username cannot be empty!");
+                return;
+            }
 
             String lastName = lastNameField.getText();
             if (lastName == null || lastName.trim().isEmpty()) {
@@ -267,7 +276,7 @@ public class EmployeeController
                 return;
             }
 
-            facade.UpdateEmployee(firstName,lastName,password,role,id);
+            facade.UpdateEmployee(firstName,lastName,username,password,role,id);
             loadEmployee();
             clearFields();
 
@@ -282,8 +291,9 @@ public class EmployeeController
         Employee selectedEmployee = employeeTable.getSelectionModel().getSelectedItem();
         if (selectedEmployee != null) {
             idField.setText(String.valueOf(selectedEmployee.getId()));
-            firstNameField.setText(selectedEmployee.getFullname());
-            lastNameField.setText(selectedEmployee.getUsername());
+            firstNameField.setText(selectedEmployee.getName());
+            lastNameField.setText(selectedEmployee.getSurname());
+            userNameField.setText(selectedEmployee.getUsername());
             passwordField.setText(selectedEmployee.getPassword());
             roleField.setText(selectedEmployee.getRole());
         }
@@ -294,24 +304,6 @@ public class EmployeeController
         lastNameField.clear();
         passwordField.clear();
         roleField.clear();
-    }
-
-    private void openPage(String pageName) {
-        try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/javafx1/" + pageName + ".fxml"));
-            Parent root = loader.load();
-
-            Stage stage = new Stage();
-            stage.setTitle(pageName + " Page");
-            stage.setScene(new Scene(root));
-            stage.show();
-
-            Stage currentStage = (Stage) menuButton.getScene().getWindow();
-            currentStage.close();
-        } catch (Exception e) {
-            e.printStackTrace();
-            System.out.println(pageName + " sayfası yüklenirken hata oluştu: " + e.getMessage());
-        }
     }
 
 

@@ -62,13 +62,10 @@ public class CancelAndRefundController {
     private TableColumn<orderItem, Double> pricePerItemColumn;
 
     @FXML
-    private Button cancelAndRefundButton;
+    private Button confirmCancelAndRefundButton;
 
     @FXML
     private VBox orderItemsContainer;
-
-    @FXML
-    private Button menuButton;
 
     private Order selectedOrder;
 
@@ -126,7 +123,6 @@ public class CancelAndRefundController {
 
         orderItemsContainer.setVisible(false);
 
-        // Add a listener to the orders table to handle row selection
         ordersTable.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {
             if (newSelection != null) {
                 selectedOrder = newSelection;
@@ -134,7 +130,7 @@ public class CancelAndRefundController {
             }
         });
 
-        cancelAndRefundButton.setOnAction(event -> handleCancelAndRefundButtonAction());
+        confirmCancelAndRefundButton.setOnAction(event -> handleConfirmCancelAndRefundButtonAction());
 
         if (logoutButton != null) {
             logoutButton.setOnAction(this::handleLogoutButton);
@@ -165,13 +161,14 @@ public class CancelAndRefundController {
     }
 
     @FXML
-    private void handleCancelAndRefundButtonAction() {
+    private void handleConfirmCancelAndRefundButtonAction() {
         if (selectedOrder == null) {
             showAlert(Alert.AlertType.WARNING, "Warning", "Please select an order from the table!");
             return;
         }
 
         int orderNo = selectedOrder.getOrderNo();
+
         boolean success = Facade.cancelAndRefundOrder(orderNo);
 
         if (success) {

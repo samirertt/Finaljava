@@ -13,33 +13,31 @@
 
 <AnchorPane prefHeight="700.0" prefWidth="1100.0" style="-fx-background-color: linear-gradient(to top right, #571657 60%, #000000 100%)" styleClass="root" stylesheets="@../css/manager_2_style.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="group11.group11.Controller.EmployeeController">
 
-    <!-- Sol Kısım-->
-    <VBox alignment="CENTER" layoutX="20" style="-fx-background-color: linear-gradient(to top right, #571657 60%, #000000 100%)" layoutY="20" spacing="20" />
+    <VBox alignment="CENTER" layoutX="20" layoutY="20" spacing="20" style="-fx-background-color: linear-gradient(to top right, #571657 60%, #000000 100%)" />
 
-    <!-- Üst Kısım: İşlem Butonları -->
     <HBox layoutX="250.0" layoutY="101.0" spacing="10">
         <Button fx:id="addEmployeeButton" styleClass="custom-button" stylesheets="@../css/manager_2_style.css" text="Add Employee" />
         <Button fx:id="deleteEmployeeButton" styleClass="custom-button" stylesheets="@../css/manager_2_style.css" text="Delete Employee" />
         <Button fx:id="updateEmployeeButton" styleClass="custom-button" stylesheets="@../css/manager_2_style.css" text="Update Employee" />
     </HBox>
 
-    <!-- TextField'ler -->
     <HBox alignment="CENTER" layoutX="250.0" layoutY="167.0" spacing="10">
-        <TextField fx:id="idField" prefHeight="29.0" prefWidth="53.0" promptText="ID" />
+        <TextField fx:id="idField" editable="false" prefHeight="29.0" prefWidth="53.0" promptText="ID" />
         <TextField fx:id="firstNameField" prefHeight="29.0" prefWidth="133.0" promptText="First Name" />
         <TextField fx:id="lastNameField" prefHeight="29.0" prefWidth="145.0" promptText="Last Name" />
+      <TextField fx:id="userNameField" prefHeight="29.0" prefWidth="133.0" promptText="Username" />
         <TextField fx:id="passwordField" prefHeight="29.0" prefWidth="138.0" promptText="Password" />
         <TextField fx:id="roleField" prefWidth="150" promptText="Role" />
     </HBox>
 
-    <!-- TableView: Çalışan Listesi -->
-    <TableView fx:id="employeeTable" layoutX="250.0" layoutY="241.0" prefHeight="400" prefWidth="700" stylesheets="@../css/manager_2_style.css">
+    <TableView fx:id="employeeTable" layoutX="201.0" layoutY="241.0" prefHeight="400" prefWidth="830.0" stylesheets="@../css/manager_2_style.css">
         <columns>
             <TableColumn fx:id="idColumn" prefWidth="50" text="ID" />
-            <TableColumn fx:id="firstNameColumn" prefWidth="150" text="First Name" />
-            <TableColumn fx:id="lastNameColumn" prefWidth="150" text="Last Name" />
-            <TableColumn fx:id="passwordColumn" prefWidth="150" text="Password" />
-            <TableColumn fx:id="roleColumn" prefWidth="150" text="Role" />
+            <TableColumn fx:id="firstNameColumn" prefWidth="150" text="Name" />
+            <TableColumn fx:id="lastNameColumn" prefWidth="150" text="Surname" />
+         <TableColumn fx:id="usernameColumn" prefWidth="222.0" text="Username" />
+            <TableColumn fx:id="passwordColumn" prefWidth="164.0" text="Password" />
+            <TableColumn fx:id="roleColumn" prefWidth="89.0" text="Role" />
         </columns>
     </TableView>
 

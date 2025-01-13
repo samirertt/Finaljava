@@ -57,16 +57,17 @@ public class Facade {
         return null;
     }
 
-    public void addEmployee(String fullname, String username, String password, String role )
+    public void addEmployee(String name,String surname, String username, String password, String role )
     {
-        String query = "INSERT INTO users (fullname, username, password, role) VALUES (?, ?, ?, ?)";
+        String query = "INSERT INTO users (name,surname, username, password, role) VALUES (?, ?, ?, ?, ?)";
         try (Connection conn = connect();
              PreparedStatement ps = conn.prepareStatement(query)) {
 
-            ps.setString(1, fullname);
-            ps.setString(2, username);
-            ps.setString(3, password);
-            ps.setString(4, role);
+            ps.setString(1, name);
+            ps.setString(2, surname);
+            ps.setString(3, username);
+            ps.setString(4, password);
+            ps.setString(5, role);
 
             ps.executeUpdate();
 
@@ -102,7 +103,8 @@ public class Facade {
             while (rs.next()) {
                 Employee employee = new Employee(
                         rs.getInt("id"),
-                        rs.getString("fullname"),
+                        rs.getString("name"),
+                        rs.getString("surname"),
                         rs.getString("username"),
                         rs.getString("password"),
                         rs.getString("role")
@@ -117,17 +119,18 @@ public class Facade {
     }
 
 
-    public void UpdateEmployee(String fullname,String username, String password, String role, int id)
+    public void UpdateEmployee(String name,String surname, String username, String password, String role , int id)
     {
-        String query = "UPDATE users SET fullname = ?, username = ?, password = ?, role = ? WHERE id = ?";
+        String query = "UPDATE users SET name = ?,surname = ?, username = ?, password = ?, role = ? WHERE id = ?";
         try (Connection connection = connect();
              PreparedStatement ps = connection.prepareStatement(query)) {
 
-            ps.setString(1, fullname);
-            ps.setString(2, username);
-            ps.setString(3, password);
-            ps.setString(4, role);
-            ps.setInt(5, id);
+            ps.setString(1, name);
+            ps.setString(2, surname);
+            ps.setString(3, username);
+            ps.setString(4, password);
+            ps.setString(5, role);
+            ps.setInt(6, id);
 
             ps.executeUpdate();
 
