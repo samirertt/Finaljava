@@ -33,7 +33,7 @@ public class payment {
     private TextField surnameField;
 
     @FXML
-    private DatePicker birthdatePicker;
+    private TextField birthdateField;
 
     @FXML
     private Label payment_movieDay;
@@ -167,7 +167,7 @@ public class payment {
             System.out.println("mainApp or selectedProducts is null!");
         }
 
-        double totalPrice = calculateTotalPrice(mainApp.getSelectedProducts());
+        double totalPrice = calculateTotalPrice();
         totalLabel.setText(String.format("TOTAL: %.2f TL", totalPrice));
     }
 
@@ -246,7 +246,7 @@ public class payment {
 
         String name = nameField.getText();
         String surname = surnameField.getText();
-        LocalDate birthdate = birthdatePicker.getValue();
+        String age = birthdateField.getText();
 
         // Validate input fields
         if (name == null || name.trim().isEmpty()) {
@@ -269,21 +269,28 @@ public class payment {
             return;
         }
 
-        if (birthdate == null) {
-            showAlert("Birthdate cannot be empty!");
+        if (age == null || age.trim().isEmpty()) {
+            showAlert("Age cannot be empty!");
             return;
         }
 
-        LocalDate today = LocalDate.now();
-        if (birthdate.isAfter(today)) {
-            showAlert("Birthdate cannot be in the future!");
+        int ageValue = -1;
+        try {
+            ageValue = Integer.parseInt(age.trim());
+            if (ageValue < 0) {
+                showAlert("Age cannot be negative!");
+                return;
+            }
+        } catch (NumberFormatException e) {
+            showAlert("Age must be a valid number!");
             return;
         }
+
 
         // Update the selected ticket
         selectedTicket.setName(name);
         selectedTicket.setSurname(surname);
-        selectedTicket.setAge(calculateAge(birthdate));
+        selectedTicket.setAge(ageValue);
         selectedTicket.calculateTicketPrice();
 
 
@@ -297,36 +304,36 @@ public class payment {
         payment_TableView.refresh();
         initialize_product_table();
         product_TableView.refresh();
-        // Debugging: Print ticket details
+
         System.out.println("Updated Ticket: " + selectedTicket.getName() + " " + selectedTicket.getSurname() + ", Age: " + selectedTicket.getAge());
     }
 
     @FXML
-    private void handlePayButton() {
+    private void handlePayButton()
+    {
+        double totalPrice = calculateTotalPrice();
+
         if (!areAllTicketsValid(mainApp.getTicketList())) {
             showAlert("Please fill in all ticket information before proceeding with payment.");
             return;
         }
-
 
         for(Product product : mainApp.getSelectedProducts())
         {
             facade.decrementStock(product.getName(), product.getQuantity());
         }
 
-        // Generate tickets and invoice
         try {
-            // Generate an HTML file for each ticket
+
             for (int i = 0; i < mainApp.getTicketList().size(); i++) {
                 String ticketFilePath = "Ticket_" + mainApp.getOrderNo() + "_" + (i + 1) + ".html";
-                HTMLGenerator.generateTicketHTML( mainApp.getTicketList().get(i), ticketFilePath);
+                HTMLGenerator.generateTicketHTML(mainApp.getTicketList().get(i), mainApp.getSelectedDate(), mainApp.getSelectedTime(), mainApp.getSelectedHall(), ticketFilePath);
                 System.out.println("Generated ticket: " + ticketFilePath);
             }
 
-            // Generate an HTML invoice for the entire order
             String invoiceFilePath = "Invoice_" + mainApp.getOrderNo() + ".html";
-            //double totalPrice = Facade.calculateOrderPrice(mainApp.getOrderNo());
-            //HTMLGenerator.generateInvoiceHTML(mainApp.getOrderNo(), totalPrice,  mainApp.getTicketList(),  mainApp.getSelectedProducts(), invoiceFilePath);
+
+            HTMLGenerator.generateInvoiceHTML(mainApp.getOrderNo(), totalPrice,  mainApp.getTicketList(),  mainApp.getSelectedProducts(), invoiceFilePath);
             System.out.println("Generated invoice: " + invoiceFilePath);
 
             showAlert("Payment processed successfully! Tickets and invoice generated.");
@@ -335,7 +342,7 @@ public class payment {
             showAlert("Error generating tickets or invoice. Please contact support.");
         }
 
-        // Complete the order
+
         completeOrder(mainApp.getOrderNo());
         System.out.println("Payment processed for order: " + mainApp.getOrderNo());
 
@@ -344,17 +351,13 @@ public class payment {
         }
     }
 
-    private int calculateAge(LocalDate birthdate) {
-        LocalDate today = LocalDate.now();
-        return Period.between(birthdate, today).getYears();
-    }
 
 
     public void completeOrder(String orderNo)
     {
 
-        //price ı düzelt
-        Facade.createOrder(orderNo,200);
+        double total = calculateTotalPrice();
+        Facade.createOrder(orderNo,total);
 
         for(Product add : mainApp.getSelectedProducts())
         {
@@ -388,12 +391,15 @@ public class payment {
         return true;
     }
 
-    private double calculateTotalPrice(List<Product> products) {
+    private double calculateTotalPrice() {
         double total = 0.0;
-        if (products != null) {
-            for (Product product : products) {
-                total += product.getTaxedPrice() * product.getQuantity();
-            }
+
+        for (Product product : mainApp.getSelectedProducts()) {
+            total += product.getTaxedPrice() * product.getQuantity();
+        }
+        for(Ticket ticket : mainApp.getTicketList())
+        {
+            total += ticket.getTicketPrice();
         }
         return total;
     }

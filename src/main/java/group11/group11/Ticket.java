@@ -264,9 +264,8 @@ public class Ticket
     public void calculateTicketPrice()
     {
         double discountRate = Facade.getDiscountRateByAge(this.age);
-        this.ticketPrice = this.basePrice * (1 - discountRate); // Subtract discount from the original price
+        this.ticketPrice = this.basePrice * (1 - discountRate);
 
-        // Add 20% tax or fee (if applicable)
         this.ticketPrice += this.ticketPrice * 0.20;
     }
 }

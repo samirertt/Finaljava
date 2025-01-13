@@ -43,6 +43,21 @@
     -fx-padding: 5px 15px;
     -fx-transition: all 0.3s ease-in-out;
 }
+.button-enter{
+    -fx-pref-width: 100px;
+    -fx-pref-height: 30px;
+    -fx-background-color: linear-gradient(to right, #000000, #350d35);
+    -fx-text-fill: #ffffff; /* Vibrant pink text */
+    -fx-font-size: 14px;
+    -fx-font-family: "Arial";
+    -fx-font-weight: bold;
+    -fx-border-radius: 2px;
+    -fx-background-radius: 2px;
+    -fx-cursor: hand;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.15), 4, 0, 0, 2);
+    -fx-padding: 5px 15px;
+    -fx-transition: all 0.3s ease-in-out;
+}
 
 /* Hover Effect */
 .button-pay:hover {
@@ -106,7 +121,7 @@
 
 .anchor-pane-ticket-info {
     -fx-background-color: linear-gradient(to top right, #571657 60%, #000000 100%);
-    -fx-padding: 10px; /* Padding inside the pane */
+    -fx-padding: 1px; /* Padding inside the pane */
     -fx-border-color: #ccc; /* Light grey border */
     -fx-border-width: 2px;
     -fx-border-radius: 2px;
@@ -131,7 +146,7 @@
 /* Label Styles for the DAY, TIME, HALL, MOVIE */
 .label-ticket-info {
     -fx-text-fill: #ffffff; /* Vibrant pink text */
-    -fx-font-size: 16px;
+    -fx-font-size: 14px;
     -fx-font-family: "Arial";
     -fx-font-weight: bold;
     -fx-pref-height: 60px;

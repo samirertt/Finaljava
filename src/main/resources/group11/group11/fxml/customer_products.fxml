@@ -227,11 +227,11 @@
             <Label fx:id="price_toy4" layoutX="75.0" layoutY="112.0" prefHeight="18.0" prefWidth="78.0" style="-fx-alignment: center;" styleClass="label-text" text="35₺ " textAlignment="CENTER" />
          </children>
       </AnchorPane>
-      <TableView fx:id="productTable" layoutX="706.0" layoutY="81.0" prefHeight="433.0" prefWidth="290.0" style="-fx-background-color: #f9f9f9; -fx-border-color: #ccc;" stylesheets="@../css/products.css">
+      <TableView fx:id="productTable" layoutX="675.0" layoutY="81.0" prefHeight="434.0" prefWidth="370.0" style="-fx-background-color: #f9f9f9; -fx-border-color: #ccc;" stylesheets="@../css/products.css">
          <columns>
-            <TableColumn fx:id="productColumn" prefWidth="92.0" style="-fx-border-color: #ccc; -fx-border-width: 0 0 1px 0; -fx-font-weight: bold;" text="Product" />
-            <TableColumn fx:id="quantityColumn" prefWidth="107.20001220703125" text="Quantity" />
-            <TableColumn fx:id="totalColumn" prefWidth="127" text="Price Including VAT" />
+            <TableColumn fx:id="productColumn" prefWidth="123.20001220703125" style="-fx-border-color: #ccc; -fx-border-width: 0 0 1px 0; -fx-font-weight: bold;" text="Product" />
+            <TableColumn fx:id="quantityColumn" prefWidth="117.5999755859375" text="Quantity" />
+            <TableColumn fx:id="totalColumn" prefWidth="128.0" text="Price (VAT inc)" />
          </columns>
       </TableView>
       <Label fx:id="totalAmountLabel" layoutX="790.0" layoutY="530.0" styleClass="label-total" text="Total: 0.00₺ " />

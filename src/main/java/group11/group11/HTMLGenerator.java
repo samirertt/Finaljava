@@ -2,11 +2,13 @@ package group11.group11;
 
 import java.io.FileWriter;
 import java.io.IOException;
+import java.sql.Date;
+import java.sql.Time;
 import java.util.List;
 
 public class HTMLGenerator
 {
-    public static void generateTicketHTML(Ticket ticket, String filePath) {
+    public static void generateTicketHTML(Ticket ticket, Date date, Time time, String Hall, String filePath) {
         String htmlContent = "<!DOCTYPE html>\n" +
                 "<html>\n" +
                 "<head>\n" +
@@ -22,6 +24,9 @@ public class HTMLGenerator
                 "    <div class=\"ticket\">\n" +
                 "        <h1>Event Ticket</h1>\n" +
                 "        <p><strong>Movie:</strong> " + ticket.getMovieName() + "</p>\n" +
+                "        <p><strong>Date:</strong> " + date + "</p>\n" +
+                "        <p><strong>Time:</strong> " + time + "</p>\n" +
+                "        <p><strong>Hall:</strong> " + Hall + "</p>\n" +
                 "        <p><strong>Seat:</strong> " + ticket.getSeatNumber() + "</p>\n" +
                 "        <p><strong>Price:</strong> $" + ticket.getTicketPrice() + "</p>\n" +
                 "        <p><strong>Name:</strong> " + ticket.getName() + " " + ticket.getSurname() + "</p>\n" +
@@ -47,7 +52,7 @@ public class HTMLGenerator
                     .append(ticket.getMovieName())
                     .append(", Seat: ")
                     .append(ticket.getSeatNumber())
-                    .append(", Price: $")
+                    .append(", Price: TL")
                     .append(ticket.getTicketPrice())
                     .append("</li>\n");
         }
@@ -58,7 +63,7 @@ public class HTMLGenerator
                     .append(product.getName())
                     .append(", Quantity: ")
                     .append(product.getQuantity())
-                    .append(", Price: $")
+                    .append(", Price: TL")
                     .append(product.getTaxedPrice() * product.getQuantity())
                     .append("</li>\n");
         }
