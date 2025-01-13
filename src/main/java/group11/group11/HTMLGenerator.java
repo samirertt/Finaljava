@@ -1,3 +1,7 @@
+/**
+ * The HTMLGenerator class provides utility methods to generate HTML content for tickets and invoices.
+ * It allows creating HTML files for individual tickets and invoices for entire orders.
+ */
 package group11.group11;
 
 import java.io.FileWriter;
@@ -8,6 +12,15 @@ import java.util.List;
 
 public class HTMLGenerator
 {
+    /**
+     * Generates an HTML ticket for a given movie ticket and saves it to the specified file path.
+     *
+     * @param ticket   The ticket object containing details like movie name, seat number, price, etc.
+     * @param date     The date of the event.
+     * @param time     The time of the event.
+     * @param Hall     The hall where the event will take place.
+     * @param filePath The file path where the HTML ticket will be saved.
+     */
     public static void generateTicketHTML(Ticket ticket, Date date, Time time, String Hall, String filePath) {
         String htmlContent = "<!DOCTYPE html>\n" +
                 "<html>\n" +
@@ -44,7 +57,15 @@ public class HTMLGenerator
         }
     }
 
-    // Generate an HTML invoice for the entire order
+    /**
+     * Generates an HTML invoice for an entire order, including all tickets and products, and saves it to the specified file path.
+     *
+     * @param orderNo    The order number associated with the invoice.
+     * @param totalPrice The total price of the order.
+     * @param tickets    A list of tickets included in the order.
+     * @param products   A list of products included in the order.
+     * @param filePath   The file path where the HTML invoice will be saved.
+     */
     public static void generateInvoiceHTML(String orderNo, double totalPrice, List<Ticket> tickets, List<Product> products, String filePath) {
         StringBuilder ticketsList = new StringBuilder();
         for (Ticket ticket : tickets) {
