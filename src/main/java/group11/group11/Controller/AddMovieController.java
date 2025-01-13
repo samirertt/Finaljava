@@ -54,14 +54,27 @@ public class AddMovieController {
 
     private String posterFilePath;
 
+    /**
+     * Sets the main application instance.
+     *
+     * @param mainApp The main application instance.
+     */
     public void setMainApp(Main mainApp) {
         this.mainApp = mainApp;
     }
 
+    /**
+     * Sets the current logged-in user.
+     *
+     * @param user The current logged-in user.
+     */
     public void setCurrentUser(Users user) {
         this.currentUser = user;
     }
 
+    /**
+     * Displays the profile details of the current user.
+     */
     public void setProfileDetails() {
         if (currentUser != null) {
             movieSearch_profileName.setText(currentUser.getUsername());
@@ -69,15 +82,26 @@ public class AddMovieController {
         }
     }
 
+    /**
+     * Closes the application.
+     */
     public void movieSearch_windowClose_btn() {
         System.exit(0);
     }
 
+    /**
+     * Minimizes the application window.
+     */
     public void MovieSearch_windowMinimize() {
         Stage stage = (Stage) movieSearch_windowMinimize_btn.getScene().getWindow();
         stage.setIconified(true);
     }
 
+    /**
+     * Handles the logout button action.
+     *
+     * @param event The action event triggered by the logout button.
+     */
     @FXML
     public void handleLogoutButton(ActionEvent event) {
         if (mainApp != null) {
@@ -85,6 +109,11 @@ public class AddMovieController {
         }
     }
 
+    /**
+     * Handles the back button action.
+     *
+     * @param event The action event triggered by the back button.
+     */
     @FXML
     public void handleBackButton(ActionEvent event) {
         if (mainApp != null && currentUser != null) {
@@ -93,6 +122,9 @@ public class AddMovieController {
 
     }
 
+    /**
+     * Initializes the controller and sets up event handlers for buttons.
+     */
     @FXML
     public void initialize() {
         choosePosterButton.setOnAction(event -> handleChoosePosterButtonAction());
@@ -107,6 +139,9 @@ public class AddMovieController {
         }
     }
 
+    /**
+     * Handles the action for choosing a poster image.
+     */
     @FXML
     private void handleChoosePosterButtonAction() {
         File baseDirectory = new File(getClass().getResource("/group11/group11/images").getFile());
@@ -134,6 +169,9 @@ public class AddMovieController {
         }
     }
 
+    /**
+     * Handles the action for adding a movie.
+     */
     @FXML
     private void handleAddMovieButtonAction() {
         String name = movieNameField.getText();
@@ -156,6 +194,9 @@ public class AddMovieController {
     }
 
 
+    /**
+     * Clears all input fields and resets the poster image.
+     */
     private void clearFields() {
         movieNameField.clear();
         movieGenreField.clear();
@@ -164,6 +205,13 @@ public class AddMovieController {
         posterFilePath = null;
     }
 
+    /**
+     * Displays an alert dialog with the specified type, title, and message.
+     *
+     * @param alertType The type of alert (e.g., ERROR, WARNING, INFORMATION).
+     * @param title     The title of the alert dialog.
+     * @param message   The message to display in the alert dialog.
+     */
     private void showAlert(Alert.AlertType alertType, String title, String message) {
         Alert alert = new Alert(alertType);
         alert.setTitle(title);
