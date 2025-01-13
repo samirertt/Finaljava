@@ -17,7 +17,7 @@ import java.sql.PreparedStatement;
 public class Facade {
     private static final String DB_URL = "jdbc:mysql://localhost:3306/cinema";
     private static final String DB_USER = "root"; // Replace with your username
-    private static final String DB_PASSWORD = "addnone2013"; // Replace with your password
+    private static final String DB_PASSWORD = "blodreina"; // Replace with your password
 
     private static Connection connect() throws Exception {
         Class.forName("com.mysql.cj.jdbc.Driver");
@@ -853,7 +853,7 @@ public class Facade {
     {
         double totalTax = 0;
         double revenue = 0;
-        String query = "SELECT price_per_item, item_type FROM orderitems ";
+        String query = "SELECT price_per_item, item_type, quantity FROM orderitems ";
         try (Connection conn = connect();
              PreparedStatement pstmt = conn.prepareStatement(query);
              ResultSet rs = pstmt.executeQuery()) {
@@ -861,8 +861,8 @@ public class Facade {
             while (rs.next()) {
                 double pricePerItem = rs.getDouble("price_per_item");
                 String itemType = rs.getString("item_type");
+                double quantity = rs.getInt("quantity");
 
-                // Calculate tax amount based on item type
                 double taxRate;
                 if ("product".equalsIgnoreCase(itemType)) {
                     taxRate = 0.10; // 10% tax for products
@@ -872,7 +872,7 @@ public class Facade {
                     throw new IllegalArgumentException("Invalid item type: " + itemType);
                 }
 
-                revenue += pricePerItem;
+                revenue += pricePerItem * quantity;
                 // Calculate the original price (before tax)
                 double originalPrice = pricePerItem / (1 + taxRate);
 
@@ -880,7 +880,7 @@ public class Facade {
                 double taxAmount = pricePerItem - originalPrice;
 
                 // Add it to the total tax amount
-                totalTax += taxAmount;
+                totalTax += taxAmount*quantity;
             }
         }
         catch (Exception e) {
