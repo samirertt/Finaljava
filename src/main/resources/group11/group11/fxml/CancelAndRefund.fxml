@@ -13,17 +13,17 @@
 
     <AnchorPane prefHeight="55.0" prefWidth="1102.0" style="-fx-background-color: #73567a;">
         <children>
-            <Button fx:id="backButton" layoutX="-1.0" layoutY="-1.0" mnemonicParsing="false" onAction="#handleBackButton" prefHeight="23.0" prefWidth="24.0" styleClass="close-form" stylesheets="@/cinema/css/moviePage.css">
+            <Button fx:id="backButton" layoutX="-1.0" layoutY="-1.0" mnemonicParsing="false" onAction="#handleBackButton" prefHeight="23.0" prefWidth="24.0" styleClass="close-form" stylesheets="@../css/moviePage.css">
                 <graphic>
                     <FontAwesomeIcon glyphName="ARROW_LEFT" size="1.2em" />
                 </graphic>
             </Button>
-            <Button fx:id="movieSearch_windowMinimize_btn" layoutX="976.0" layoutY="-1.0" mnemonicParsing="false" onAction="#MovieSearch_windowMinimize" prefHeight="24.0" prefWidth="64.0" styleClass="close-form" stylesheets="@/cinema/css/moviePage.css">
+            <Button fx:id="movieSearch_windowMinimize_btn" layoutX="976.0" layoutY="-1.0" mnemonicParsing="false" onAction="#MovieSearch_windowMinimize" prefHeight="24.0" prefWidth="64.0" styleClass="close-form" stylesheets="@../css/moviePage.css">
                 <graphic>
                     <FontAwesomeIcon glyphName="MINUS" />
                 </graphic>
             </Button>
-            <Button fx:id="logoutButton" layoutX="130.0" layoutY="-1.0" mnemonicParsing="false" onAction="#handleLogoutButton" style="-fx-text-fill: #000000;" styleClass="close-form" stylesheets="@/cinema/css/moviePage.css" text="Logout">
+            <Button fx:id="logoutButton" layoutX="130.0" layoutY="-1.0" mnemonicParsing="false" onAction="#handleLogoutButton" style="-fx-text-fill: #000000;" styleClass="close-form" stylesheets="@../css/moviePage.css" text="Logout">
                 <graphic>
                     <FontAwesomeIcon glyphName="SIGN_OUT" size="1.5em" />
                 </graphic>
@@ -32,7 +32,7 @@
             <Label layoutX="399.0" layoutY="5.0" prefHeight="38.0" prefWidth="398.0" style="-fx-font-size: 32; -fx-font-weight: bold; -fx-text-fill: white; -fx-font-family: 'Arial Rounded MT Bold';" text="CANCEL AND REFUND" />
             <Label fx:id="movieSearch_profileRole" layoutX="75.0" layoutY="19.0" prefHeight="30.0" prefWidth="82.0" style="-fx-font-weight: bold; -fx-font-size: 15.0; -fx-text-fill: #000000;" text="ROLE" />
             <FontAwesomeIcon glyphName="USER" layoutX="42.0" layoutY="35.0" size="2.3em" />
-            <Button layoutX="1040.0" layoutY="-1.0" mnemonicParsing="false" onAction="#movieSearch_windowClose_btn" prefHeight="24.0" prefWidth="62.0" styleClass="close-form" stylesheets="@/cinema/css/moviePage.css">
+            <Button layoutX="1040.0" layoutY="-1.0" mnemonicParsing="false" onAction="#movieSearch_windowClose_btn" prefHeight="24.0" prefWidth="62.0" styleClass="close-form" stylesheets="@../css/moviePage.css">
                 <graphic>
                     <FontAwesomeIcon glyphName="CLOSE" />
                 </graphic>
@@ -45,11 +45,11 @@
 
     <VBox alignment="TOP_CENTER" spacing="20" style="-fx-background-color: linear-gradient(to top right, #571657 60%, #000000 100%);" AnchorPane.bottomAnchor="0" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0" AnchorPane.topAnchor="55.0">
 
-        <TableView fx:id="ordersTable" prefHeight="200" prefWidth="1100" style="-fx-background-color: black; -fx-text-fill: white;">
+        <TableView fx:id="ordersTable" prefHeight="200" prefWidth="1100" style="-fx-background-color: black;">
             <columns>
-                <TableColumn fx:id="orderNoColumn" style="-fx-text-fill: white;" text="Order No" prefWidth="366.6666666666667" />
-                <TableColumn fx:id="orderDateColumn" style="-fx-text-fill: white;" text="Order Date" prefWidth="366.6666666666667" />
-                <TableColumn fx:id="totalPriceColumn" style="-fx-text-fill: white;" text="Total Price" prefWidth="366.6666666666667" />
+                <TableColumn fx:id="orderNoColumn" style="-fx-text-fill: black;" text="Order No" prefWidth="366.6666666666667" />
+                <TableColumn fx:id="orderDateColumn" style="-fx-text-fill: black;" text="Order Date" prefWidth="366.6666666666667" />
+                <TableColumn fx:id="totalPriceColumn" style="-fx-text-fill: black;" text="Total Price" prefWidth="366.6666666666667" />
             </columns>
             <columnResizePolicy>
                 <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
@@ -57,19 +57,19 @@
         </TableView>
 
         <VBox fx:id="orderItemsContainer" spacing="10" visible="false">
-            <TableView fx:id="orderItemsTable" prefHeight="200" prefWidth="1100" style="-fx-background-color: black; -fx-text-fill: white;">
+            <TableView fx:id="orderItemsTable" prefHeight="200" prefWidth="1100" style="-fx-background-color: black;">
                 <columns>
-                    <TableColumn fx:id="orderItemIdColumn" style="-fx-text-fill: white;" text="Order Item ID" prefWidth="220.0" />
-                    <TableColumn fx:id="itemTypeColumn" style="-fx-text-fill: white;" text="Item Type" prefWidth="220.0" />
-                    <TableColumn fx:id="itemIdColumn" style="-fx-text-fill: white;" text="Item ID" prefWidth="220.0" />
-                    <TableColumn fx:id="quantityColumn" style="-fx-text-fill: white;" text="Quantity" prefWidth="220.0" />
-                    <TableColumn fx:id="pricePerItemColumn" style="-fx-text-fill: white;" text="Price Per Item" prefWidth="220.0" />
+                    <TableColumn fx:id="orderItemIdColumn" style="-fx-text-fill: black;" text="Order Item ID" prefWidth="220.0" />
+                    <TableColumn fx:id="itemTypeColumn" style="-fx-text-fill: black;" text="Item Type" prefWidth="220.0" />
+                    <TableColumn fx:id="itemIdColumn" style="-fx-text-fill: black;" text="Item ID" prefWidth="220.0" />
+                    <TableColumn fx:id="quantityColumn" style="-fx-text-fill: black;" text="Quantity" prefWidth="220.0" />
+                    <TableColumn fx:id="pricePerItemColumn" style="-fx-text-fill: black;" text="Price Per Item" prefWidth="220.0" />
                 </columns>
                 <columnResizePolicy>
                     <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
                 </columnResizePolicy>
             </TableView>
-            <Button fx:id="confirmCancelAndRefundButton" styleClass="custom-button" stylesheets="@/css/admin.css" text="Confirm Cancel and Refund" />
+            <Button fx:id="confirmCancelAndRefundButton" styleClass="custom-button" stylesheets="@../css/admin.css" text="Confirm Cancel and Refund" />
         </VBox>
     </VBox>
 </AnchorPane>

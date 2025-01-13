@@ -499,9 +499,9 @@ public class Facade {
             ps.setInt(1, orderNo);
             try (ResultSet rs = ps.executeQuery()) {
                 while (rs.next()) {
-                    int orderItemId = rs.getInt("order_item_id");
+                    int orderItemId = rs.getInt("orderitem_id");
                     String itemType = rs.getString("item_type");
-                    int itemId = rs.getInt("item_id");
+                    int itemId = rs.getInt("orderitem_id");
                     int quantity = rs.getInt("quantity");
                     double pricePerItem = rs.getDouble("price_per_item");
 
