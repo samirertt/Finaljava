@@ -1,0 +1,1 @@
+This project is an application developed for managing a local cinema center. It includes features such as ticket sales, movie scheduling, and role-based access control for Cashier, Admin, and Manager roles.
